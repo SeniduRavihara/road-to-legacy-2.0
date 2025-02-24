@@ -1,7 +1,5 @@
-import LoginForm from "@/components/login-form";
 import Social from "@/components/Social";
 import { Card, CardContent } from "@/components/ui/card";
-import Image from "next/image";
 
 const LoginPage = () => {
   return (
