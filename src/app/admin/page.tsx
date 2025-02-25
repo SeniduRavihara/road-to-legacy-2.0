@@ -1,6 +1,8 @@
+import DelegatesDetails from "@/components/DelegatesDetails"
+
 const Users = () => {
   return (
-    <div>Users</div>
+    <div className="p-10"><DelegatesDetails /></div>
   )
 }
 export default Users
