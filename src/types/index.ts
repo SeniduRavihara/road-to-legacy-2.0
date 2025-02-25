@@ -1,11 +1,33 @@
+import { User } from "firebase/auth";
+
+export type DataContextType = {
+  currentUserData: AdminDataType | null;
+  setCurrentUserData: React.Dispatch<
+    React.SetStateAction<AdminDataType | null>
+  >;
+};
+
+export type AuthContextType = {
+  currentUser: User | null;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
+};
+
 export type DelegatesType = {
   id: string;
   name: string;
   email: string;
   arrived: boolean;
+  role?: "ADMIN" | "USER";
 };
 
 export type DelegatesTableType = {
   name: string;
   email: string;
 };
+
+export type AdminDataType = {
+  id: string;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+}

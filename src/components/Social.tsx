@@ -1,9 +1,9 @@
 "use client"; // ✅ Ensure this is at the top
 
-import { FaGoogle } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
-import { getUserRole, googleSignIn } from "@/firebase/api";
+import { getIsAdmin, googleSignIn } from "@/firebase/api";
 import { useRouter } from "next/navigation"; // ✅ Correct for App Router
+import { FaGoogle } from "react-icons/fa";
 
 const Social = () => {
   const router = useRouter(); // ✅ Ensure this is inside a Client Component
@@ -13,8 +13,11 @@ const Social = () => {
       const user = await googleSignIn();
       if (!user) return;
 
-      const roles = await getUserRole(user.uid);
-      if (roles === "ADMIN") {
+      console.log("SENU");
+
+      const isAdmin = await getIsAdmin(user.uid);
+
+      if (isAdmin) {
         router.push("/admin");
       } else {
         router.push("/"); // Redirect non-admin users

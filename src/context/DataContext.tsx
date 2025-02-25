@@ -1,12 +1,13 @@
+"use client";
+
 import { INITIAL_DATA_CONTEXT } from "@/constants";
-import { UserDataType, DataContextType } from "@/types";
+import { AdminDataType, DataContextType } from "@/types";
 import { createContext, useState } from "react";
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const DataContext = createContext<DataContextType>(INITIAL_DATA_CONTEXT);
 
 const DataContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [currentUserData, setCurrentUserData] = useState<UserDataType | null>(
+  const [currentUserData, setCurrentUserData] = useState<AdminDataType | null>(
     null
   );
 

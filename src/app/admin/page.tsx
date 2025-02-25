@@ -1,8 +1,8 @@
 import DelegatesDetails from "@/components/DelegatesDetails"
 
-const Users = () => {
+const UsersPage = () => {
   return (
     <div className="p-10"><DelegatesDetails /></div>
   )
 }
-export default Users
+export default UsersPage

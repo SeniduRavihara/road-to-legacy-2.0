@@ -1,6 +1,18 @@
-import { signInWithPopup } from "firebase/auth";
+import { DelegatesType } from "@/types";
+import { signInWithPopup, signOut, User } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db, provider } from "./config";
+
+export const logout = async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+// ------------------------------------------------------------------
 
 export const googleSignIn = async () => {
   try {
@@ -8,18 +20,15 @@ export const googleSignIn = async () => {
     console.log(userCredential);
 
     const user = userCredential.user;
-    const userDocRef = doc(db, "users", user.uid);
+    const userDocRef = doc(db, "admins", user.uid);
     const userDoc = await getDoc(userDocRef);
 
     if (!userDoc.exists()) {
       const payload = {
-        uid: user.uid,
-        userName: user.displayName || "",
-        regNo: null,
+        id: user.uid,
+        name: user.displayName || "",
         email: user.email || "",
-        roles: "USER",
-        registered: false,
-        lastResult: null,
+        isAdmin: false,
       };
 
       await setDoc(userDocRef, payload);
@@ -34,9 +43,44 @@ export const googleSignIn = async () => {
 
 // ------------------------------------------------------------
 
-export const getUserRole = async (uid: string) => {
-  const documentRef = doc(db, "users", uid);
+export const getIsAdmin = async (uid: string) => {
+  const documentRef = doc(db, "admins", uid);
   const userData = await getDoc(documentRef);
 
-  return userData?.data()?.roles ?? null;
+  return userData?.data()?.isAdmin;
+};
+
+// ---------------------------------------------------------------
+
+export const featchCurrentUserData = async (currentUser: User) => {
+  try {
+    const documentRef = doc(db, "admins", currentUser.uid);
+    const userDataDoc = await getDoc(documentRef);
+
+    if (userDataDoc.exists()) {
+      const userData = userDataDoc.data() as DelegatesType;
+      console.log("Current user data fetched successfully");
+      return userData;
+    } else {
+      console.log("Document does not exist.");
+      return null;
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+// ----------------------------------------------------------------
+
+export const isAlreadyRegistered = async (uid: string) => {
+  try {
+    const documentRef = doc(db, "delegates", uid);
+    const document = await getDoc(documentRef);
+
+    return document.exists();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };

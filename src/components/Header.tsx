@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 const Header = () => {
   return (
@@ -14,11 +14,6 @@ const Header = () => {
           <li>
             <Link href="/dashboard" passHref className="hover:underline">
               Dashboard
-            </Link>
-          </li>
-          <li>
-            <Link href="/admin" passHref className="hover:underline">
-              Admin
             </Link>
           </li>
         </ul>
