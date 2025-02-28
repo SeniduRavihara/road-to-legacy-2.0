@@ -1,10 +1,12 @@
-"use client"
+"use client";
 
-import "./AnimatedITLEGACY.css"
 import { useEffect, useState } from "react";
+import "./AnimatedITLEGACY.css";
 
 const AnimatedITLEGACY = () => {
   const [isActive, setIsActive] = useState(false);
+  const [flipped, setFlipped] = useState(false);
+  const [startShow, setStartShow] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -14,8 +16,24 @@ const AnimatedITLEGACY = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setStartShow(true); // Start flip at the same time
+    }, 2000); // Delay of 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFlipped(true); // Start flip at the same time
+    }, 4000); // Delay of 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div>
+    <div className="flex items-center justify-center">
       <svg
         className={`custom-porto-svg-logo ${isActive ? "active" : ""}`}
         width="500"
@@ -80,7 +98,59 @@ const AnimatedITLEGACY = () => {
           strokeWidth="1"
           fill="#ffffff"
         />
+
+        {/* Number "1" with the new SVG path */}
+        {/* <path
+          transform="translate(380,35)"
+          d="M 29.4 52.5 L 3 52.5 L 3 46.5 L 13.725 46.5 L 13.725 8.625 L 3.675 16.2 L 0 11.175 L 15.525 0 L 20.475 0 L 20.475 46.5 L 29.4 46.5 L 29.4 52.5 Z"
+          id="0"
+          stroke="#FF5733"
+          strokeWidth="2"
+          fill="#ffffff"
+        /> */}
+
+        {/* <path
+          transform="translate(380,35)"
+          d="M 30.675 53.4 L 0.225 53.4 Q 0 52.05 0 50.625 A 24.144 24.144 0 0 1 0.477 45.731 A 19.36 19.36 0 0 1 1.688 41.888 Q 3.375 38.025 6.075 34.838 Q 8.775 31.65 11.813 28.913 A 367.908 367.908 0 0 0 14.757 26.232 A 311.687 311.687 0 0 0 17.513 23.663 A 34.664 34.664 0 0 0 20.077 20.983 A 26.701 26.701 0 0 0 21.9 18.6 A 10.295 10.295 0 0 0 23.221 15.911 A 8.763 8.763 0 0 0 23.625 13.275 A 6.959 6.959 0 0 0 23.007 10.316 A 6.855 6.855 0 0 0 21.3 8.063 A 8.042 8.042 0 0 0 17.312 6.173 A 11.258 11.258 0 0 0 15.3 6 A 13.9 13.9 0 0 0 11.583 6.484 A 12.21 12.21 0 0 0 9.563 7.238 A 19.023 19.023 0 0 0 5.222 10.126 A 21.619 21.619 0 0 0 4.725 10.575 L 0.975 6 Q 3.975 3.3 7.613 1.65 A 18.099 18.099 0 0 1 12.342 0.273 A 24.222 24.222 0 0 1 16.05 0 Q 20.475 0 23.775 1.688 A 13.338 13.338 0 0 1 27.44 4.397 A 12.274 12.274 0 0 1 28.913 6.3 Q 30.75 9.225 30.75 12.825 Q 30.75 16.425 29.175 19.5 A 26.084 26.084 0 0 1 25.431 24.936 A 29.021 29.021 0 0 1 25.125 25.275 Q 22.65 27.975 19.8 30.488 Q 16.95 33 14.325 35.625 Q 11.7 38.25 9.863 41.1 Q 8.025 43.95 7.575 47.25 L 30.675 47.25 L 30.675 53.4 Z"
+          id="0"
+          stroke="#FF5733"
+          strokeWidth="2"
+          fill="#ffffff"
+        /> */}
       </svg>
+
+      <div className={`flip-card -ml-10 mt-10 ${flipped ? "flipped" : ""}`}>
+        <div className="front">
+          <svg
+            className={`custom-porto-svg-logo ${isActive ? "active" : ""}`}
+            width="50"
+            height="170"
+            viewBox="0 0 50 100"
+          >
+            <path
+              d="M 33.32 59.5 L 3.4 59.5 L 3.4 52.7 L 15.555 52.7 L 15.555 9.775 L 4.165 18.36 L 0 12.665 L 17.595 0 L 23.205 0 L 23.205 52.7 L 33.32 52.7 L 33.32 59.5 Z"
+              stroke="#fff"
+              strokeWidth="3"
+              fill="#fff"
+            />
+          </svg>
+        </div>
+        <div className="back">
+          <svg
+            className={`custom-porto-svg-logo ${isActive ? "active" : ""}`}
+            width="50"
+            height="170"
+            viewBox="0 0 50 100"
+          >
+            <path
+              d="M 34.765 60.52 L 0.255 60.52 Q 0 58.99 0 57.375 A 27.364 27.364 0 0 1 0.54 51.829 A 21.941 21.941 0 0 1 1.913 47.473 Q 3.825 43.095 6.885 39.483 Q 9.945 35.87 13.388 32.768 A 416.963 416.963 0 0 0 16.724 29.729 A 353.244 353.244 0 0 0 19.848 26.818 A 39.285 39.285 0 0 0 22.754 23.78 A 30.261 30.261 0 0 0 24.82 21.08 A 11.667 11.667 0 0 0 26.317 18.032 A 9.931 9.931 0 0 0 26.775 15.045 A 7.886 7.886 0 0 0 26.075 11.691 A 7.768 7.768 0 0 0 24.14 9.138 A 9.115 9.115 0 0 0 19.62 6.996 A 12.759 12.759 0 0 0 17.34 6.8 A 15.753 15.753 0 0 0 13.127 7.348 A 13.838 13.838 0 0 0 10.838 8.203 A 21.559 21.559 0 0 0 5.918 11.476 A 24.501 24.501 0 0 0 5.355 11.985 L 1.105 6.8 Q 4.505 3.74 8.628 1.87 A 20.512 20.512 0 0 1 13.988 0.309 A 27.452 27.452 0 0 1 18.19 0 A 22.211 22.211 0 0 1 22.612 0.421 A 16.811 16.811 0 0 1 26.945 1.913 A 15.117 15.117 0 0 1 31.099 4.983 A 13.91 13.91 0 0 1 32.768 7.14 Q 34.85 10.455 34.85 14.535 Q 34.85 18.615 33.065 22.1 Q 31.28 25.585 28.475 28.645 Q 25.67 31.705 22.44 34.553 Q 19.21 37.4 16.235 40.375 A 39.042 39.042 0 0 0 12.347 44.882 A 34.246 34.246 0 0 0 11.178 46.58 Q 9.095 49.81 8.585 53.55 L 34.765 53.55 L 34.765 60.52 Z"
+              stroke="#fff"
+              strokeWidth="3"
+              fill="#fff"
+            />
+          </svg>
+        </div>
+      </div>
     </div>
   );
 };
