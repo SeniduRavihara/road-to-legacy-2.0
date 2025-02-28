@@ -4,6 +4,7 @@ import DataContextProvider from "@/context/DataContext";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import LoaderProvider from "@/components/LoaderProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,10 +31,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <DataContextProvider>
-          <AuthContextProvider>{children}</AuthContextProvider>
-        </DataContextProvider>
-
+        <LoaderProvider>
+          <DataContextProvider>
+            <AuthContextProvider>{children}</AuthContextProvider>
+          </DataContextProvider>
+        </LoaderProvider>
+        
         <Toaster />
       </body>
     </html>
