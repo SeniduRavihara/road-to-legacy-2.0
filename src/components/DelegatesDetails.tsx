@@ -115,19 +115,19 @@ const DelegatesDetails = () => {
     }
   };
 
-  useEffect(() => {
-    const collectionRef = collection(db, "delegates");
-    const unsubscribe = onSnapshot(collectionRef, (querySnapshot) => {
-      const usersDataArr = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      })) as DelegatesType[];
+  // useEffect(() => {
+  //   const collectionRef = collection(db, "delegates");
+  //   const unsubscribe = onSnapshot(collectionRef, (querySnapshot) => {
+  //     const usersDataArr = querySnapshot.docs.map((doc) => ({
+  //       ...doc.data(),
+  //       id: doc.id,
+  //     })) as DelegatesType[];
 
-      setDelegatesData(usersDataArr);
-    });
+  //     setDelegatesData(usersDataArr);
+  //   });
 
-    return unsubscribe;
-  }, []);
+  //   return unsubscribe;
+  // }, []);
 
   return (
     <div>

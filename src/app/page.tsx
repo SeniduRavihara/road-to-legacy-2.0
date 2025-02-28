@@ -1,12 +1,13 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import HeroSection from "@/components/HeroSection";
+import Footer from "@/components/sections/Footer";
+import Header from "@/components/sections/Header";
+import HeroSection from "@/components/sections/HeroSection";
 import Uni3Section from "@/components/Uni3Section";
-import VerticalTimeLine from "@/components/VerticalTimeLine";
+import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
+import TestaimonialSection from "@/components/sections/testaimonials/TestaimonialSection";
 
 export default function Home() {
   return (
-    <div>
+    <div className="bg-[#191b1f] text-white">
       <Header />
 
       <HeroSection />
@@ -15,6 +16,7 @@ export default function Home() {
 
       <Uni3Section />
 
+    <TestaimonialSection />
       <Footer />
     </div>
   );

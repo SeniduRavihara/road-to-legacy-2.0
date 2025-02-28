@@ -2,10 +2,16 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  output: "export",
+  // output: "export",
   images: {
-    loader: "custom",
-    loaderFile: "./my-loader.ts",
+    domains: [
+      "example.com",
+      "www.istockphoto.com",
+      "www.google.com",
+      "media.istockphoto.com",
+      "www.shutterstock.com",
+      "encrypted-tbn0.gstatic.com",
+    ],
   },
 };
 

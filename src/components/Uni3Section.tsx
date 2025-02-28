@@ -3,9 +3,9 @@ import Image from "next/image";
 
 const Uni3Section = () => {
   return (
-    <div className="lg:w-1/3 p-3 mb-6">
+    <div className="w-full p-3 mb-6 flex gap-5 items-center justify-center">
       {/* University of Sri Jayawardenepura */}
-      <div className="relative group">
+      <div className="w-1/3 relative group">
         <Image
           src={USJ}
           alt="University of Sri Jayawardenepura"
@@ -33,7 +33,7 @@ const Uni3Section = () => {
       </div>
 
       {/* University of Moratuwa */}
-      <div className="relative group">
+      <div className="w-1/3 relative group">
         <Image
           src={UOM}
           alt="University of Moratuwa"
@@ -59,7 +59,7 @@ const Uni3Section = () => {
       </div>
 
       {/* University of Colombo */}
-      <div className="relative group">
+      <div className="w-1/3 relative group">
         <Image
           src={UOC}
           alt="University of Colombo"
