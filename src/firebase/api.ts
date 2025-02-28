@@ -1,4 +1,4 @@
-import { DelegatesType } from "@/types";
+import { AdminDataType } from "@/types";
 import { signInWithPopup, signOut, User } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db, provider } from "./config";
@@ -58,7 +58,7 @@ export const featchCurrentUserData = async (currentUser: User) => {
     const userDataDoc = await getDoc(documentRef);
 
     if (userDataDoc.exists()) {
-      const userData = userDataDoc.data() as DelegatesType;
+      const userData = userDataDoc.data() as AdminDataType;
       console.log("Current user data fetched successfully");
       return userData;
     } else {

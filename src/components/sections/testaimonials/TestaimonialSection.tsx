@@ -44,6 +44,7 @@ const TestaimonialSection = () => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % testimonials.length);
     }, 4500);
     return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSlide]);
 
   const handleNext = () => {
@@ -56,7 +57,7 @@ const TestaimonialSection = () => {
     );
   };
 
-  const handleDotClick = (index) => {
+  const handleDotClick = (index: React.SetStateAction<number>) => {
     setCurrentSlide(index);
   };
 

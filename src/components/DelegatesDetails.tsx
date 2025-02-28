@@ -2,8 +2,8 @@
 
 import { db } from "@/firebase/config";
 import { DelegatesType } from "@/types";
-import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { doc, updateDoc } from "firebase/firestore";
+import { useState } from "react";
 import { columns } from "./delegates-data/Coloumns";
 import { DataTable } from "./delegates-data/DataTable";
 import { Card, CardContent } from "./ui/card";
@@ -96,7 +96,7 @@ const mockDelegatesData: DelegatesType[] = [
 ];
 
 const DelegatesDetails = () => {
-  const [delegatesData, setDelegatesData] = useState<DelegatesType[] | null>(
+  const [delegatesData, ] = useState<DelegatesType[] | null>(
     mockDelegatesData
   );
 

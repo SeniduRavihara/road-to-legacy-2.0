@@ -1,7 +1,7 @@
 import Image from "next/image";
 import svgImg from "../../assets/svg-patterns/45.svg";
 import RegisterButton from "../home/RegisterButton";
-import AnimatedITLEGACY from "../home/AnimatedITLEGACY";
+import AnimatedITLEGACY from "../home/animated-itlegacy/AnimatedITLEGACY";
 
 const HeroSection = () => {
   return (

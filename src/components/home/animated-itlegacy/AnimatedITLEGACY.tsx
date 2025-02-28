@@ -1,8 +1,23 @@
+"use client"
+
+import "./AnimatedITLEGACY.css"
+import { useEffect, useState } from "react";
+
 const AnimatedITLEGACY = () => {
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsActive(true);
+    }, 2000); // Delay of 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div>
       <svg
-        className="custom-porto-svg-logo"
+        className={`custom-porto-svg-logo ${isActive ? "active" : ""}`}
         width="500"
         viewBox="0 0 375 127.500001"
         height="170"
@@ -68,5 +83,6 @@ const AnimatedITLEGACY = () => {
       </svg>
     </div>
   );
-}
-export default AnimatedITLEGACY
+};
+
+export default AnimatedITLEGACY;
