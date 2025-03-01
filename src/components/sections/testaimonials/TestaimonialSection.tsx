@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect } from "react";
+import ExportedImage from "next-image-export-optimizer";
+import React, { useEffect, useState } from "react";
 import "./TestaimonialSection.css";
-import Image from "next/image";
 
 const TestaimonialSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -44,7 +44,7 @@ const TestaimonialSection = () => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % testimonials.length);
     }, 4500);
     return () => clearTimeout(timer);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSlide]);
 
   const handleNext = () => {
@@ -83,7 +83,13 @@ const TestaimonialSection = () => {
           {testimonials.map((testimonial, index) => (
             <div key={index} className={currentSlide === index ? "active" : ""}>
               <div className="img">
-                <Image src={testimonial.imgSrc} alt={testimonial.name} className="image object-cover" width={100} height={100} />
+                <ExportedImage
+                  src={testimonial.imgSrc}
+                  alt={testimonial.name}
+                  className="image object-cover"
+                  width={100}
+                  height={100}
+                />
               </div>
               <h2>{testimonial.name}</h2>
               <p>{testimonial.text}</p>

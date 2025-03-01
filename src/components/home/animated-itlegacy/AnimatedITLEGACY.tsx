@@ -6,7 +6,7 @@ import "./AnimatedITLEGACY.css";
 const AnimatedITLEGACY = () => {
   const [isActive, setIsActive] = useState(false);
   const [flipped, setFlipped] = useState(false);
-  const [startShow, setStartShow] = useState(false);
+  // const [startShow, setStartShow] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -16,13 +16,13 @@ const AnimatedITLEGACY = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setStartShow(true); // Start flip at the same time
-    }, 2000); // Delay of 2 seconds
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setStartShow(true); // Start flip at the same time
+  //   }, 2000); // Delay of 2 seconds
 
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {

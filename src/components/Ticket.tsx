@@ -1,18 +1,17 @@
-import Image from "next/image";
-
+import ExportedImage from "next-image-export-optimizer";
 const Ticket = () => {
   return (
     <div
       id="content-to-print"
       className="bg-black text-white relative w-[1000px] h-[300px]"
     >
-      <Image
+      <ExportedImage
         src="/ticket-background.png"
         alt="background"
         fill
         className="absolute"
       />
-      <Image
+      <ExportedImage
         src="/qrcode.png"
         alt="qrcode"
         className="absolute mt-10"

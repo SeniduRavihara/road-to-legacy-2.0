@@ -1,13 +1,13 @@
-import { UOC, UOM, USJ } from "@/assets"; // Assuming these are your image imports
-import Image from "next/image";
+// import { UOC, UOM, USJ } from "@/assets"; // Assuming these are your image imports
+import ExportedImage from "next-image-export-optimizer";
 
 const Uni3Section = () => {
   return (
     <div className="w-full p-3 mb-6 flex gap-5 items-center justify-center">
       {/* University of Sri Jayawardenepura */}
       <div className="w-1/3 relative group">
-        <Image
-          src={USJ}
+        <ExportedImage
+          src="/Uni3images/USJ.jpg"
           alt="University of Sri Jayawardenepura"
           className="w-full h-auto rounded-lg shadow-lg"
           width={500} // You can set a fixed width and height for optimization
@@ -34,8 +34,8 @@ const Uni3Section = () => {
 
       {/* University of Moratuwa */}
       <div className="w-1/3 relative group">
-        <Image
-          src={UOM}
+        <ExportedImage
+          src="/Uni3images/UOM.jpg"
           alt="University of Moratuwa"
           className="w-full h-auto rounded-lg shadow-lg"
           width={500}
@@ -60,8 +60,8 @@ const Uni3Section = () => {
 
       {/* University of Colombo */}
       <div className="w-1/3 relative group">
-        <Image
-          src={UOC}
+        <ExportedImage
+          src="/Uni3images/UOC.jpg"
           alt="University of Colombo"
           className="w-full h-auto rounded-lg shadow-lg"
           width={500}
