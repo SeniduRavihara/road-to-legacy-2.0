@@ -70,6 +70,7 @@ const ScanTicket = ({ children }: { children: React.ReactNode }) => {
           <DialogTitle>QR Code Scanner</DialogTitle>
         </DialogHeader>
 
+
         {/* 📷 Real-time QR Code Scanner */}
         <QrScan
           delay={300}
