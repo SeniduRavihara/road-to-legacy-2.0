@@ -1,6 +1,15 @@
 import { AdminDataType } from "@/types";
 import { signInWithPopup, signOut, User } from "firebase/auth";
-import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { auth, db, provider } from "./config";
 
 export const logout = async () => {
@@ -90,28 +99,34 @@ export const isAlreadyRegistered = async (uid: string) => {
 export const approveQr = async (
   data: string
 ): Promise<{ success: boolean; email: string; discription?: string }> => {
- try {
-   const delegatesRef = collection(db, "delegates");
-   const q = query(delegatesRef, where("email", "==", data));
-   const querySnapshot = await getDocs(q);
+  try {
+    const delegatesQuery = query(
+      collection(db, "delegates"),
+      where("email", "==", data)
+    );
 
-   if (querySnapshot.empty) {
-     return { success: false, email: "", discription: "Not Registerd!" };
-   }
+    const querySnapshot = await getDocs(delegatesQuery);
 
-   const delegateDoc = querySnapshot.docs[0];
-   const delegateData = delegateDoc.data();
-   const { email, haveArrived } = delegateData;
+    if (querySnapshot.empty) {
+      return { success: false, email: "", discription: "Not Registerd!" };
+    }
 
-   if (haveArrived) {
-     return { success: false, email, discription: "Already Arrived" };
-   }
+    const delegateDoc = querySnapshot.docs[0];
+    const delegateData = delegateDoc.data();
 
-   await updateDoc(doc(db, "delegates", delegateDoc.id), { haveArrived: true });
+    const { email, haveArrived } = delegateData;
 
-   return { success: true, email };
- } catch (error) {
-   console.error("Error approving QR:", error);
-   return { success: false, email: "" };
- }
+    if (haveArrived) {
+      return { success: false, email, discription: "Already Arrived" };
+    }
+
+    await updateDoc(doc(db, "delegates", delegateDoc.id), {
+      haveArrived: true,
+    });
+
+    return { success: true, email };
+  } catch (error) {
+    console.error("Error approving QR:", error);
+    return { success: false, email: "" };
+  }
 };

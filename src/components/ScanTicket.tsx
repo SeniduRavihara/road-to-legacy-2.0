@@ -19,18 +19,30 @@ const ScanTicket = ({ children }: { children: React.ReactNode }) => {
   const [approved, setApproved] = useState(false);
   const qrRef = useRef<QrScan | null>(null);
 
+  const [scannerReady, setScannerReady] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setScannerReady(true), 500); // Delay by 500ms
+  }, []);
+
   useEffect(() => {
     if (approved) {
       setTimeout(() => {
         setApproved(false);
         setEmail("");
+        setDiscription("");
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        setDiscription("");
       }, 1000);
     }
-  }, [approved]);
+  }, [approved, discription]);
 
   const handleScan = async (data: string | null) => {
     if (data && !approving && !approved) {
       setApproving(true);
+      console.log("SCAN DATA", data);
 
       try {
         const { success, email, discription } = await approveQr(data);
@@ -44,9 +56,9 @@ const ScanTicket = ({ children }: { children: React.ReactNode }) => {
         }
       } catch (error) {
         console.error("QR approval error:", error);
+        setDiscription("QR approval error:");
       } finally {
         setApproving(false);
-        setDiscription("");
       }
     }
   };
@@ -70,25 +82,29 @@ const ScanTicket = ({ children }: { children: React.ReactNode }) => {
           <DialogTitle>QR Code Scanner</DialogTitle>
         </DialogHeader>
 
-
         {/* 📷 Real-time QR Code Scanner */}
-        <QrScan
-          delay={300}
-          onError={handleError}
-          onScan={handleScan}
-          style={{ width: "100%", maxWidth: "320px" }}
-        />
+        {scannerReady && (
+          <QrScan
+            delay={300}
+            onError={handleError}
+            onScan={handleScan}
+            style={{ width: "100%", maxWidth: "320px" }}
+          />
+        )}
 
         {/* 🖼 Upload Image for QR Scanning (Hidden by Default) */}
-        <QrScan
-          ref={qrRef}
-          onError={handleError}
-          onScan={handleScan}
-          legacyMode // ✅ Needed for manual trigger
-          style={{ display: "none" }} // Hide the secondary scanner
-        />
+        {scannerReady && (
+          <QrScan
+            ref={qrRef}
+            onError={handleError}
+            onScan={handleScan}
+            legacyMode // ✅ Needed for manual trigger
+            style={{ display: "none" }} // Hide the secondary scanner
+          />
+        )}
 
         <div className="mt-4 text-lg">{email}</div>
+        {discription && <div className="text-white">{discription}</div>}
 
         {/* Upload Image Button */}
         <button
@@ -113,8 +129,6 @@ const ScanTicket = ({ children }: { children: React.ReactNode }) => {
             Your browser does not support the video tag.
           </video>
         )}
-
-        {discription && <div>{discription}</div>}
 
         <DialogFooter />
       </DialogContent>
