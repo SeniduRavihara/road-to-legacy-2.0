@@ -2,63 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer base {
   :root {
+      /* Name: custom color palette
+       Author: Ilias Ism
+       URL: https://gradient.page */
 
-    --background: 0 0% 100%;
+    /* CSS: .bg-gradient { background: var(--gradient) } */
+    --gradient: #40E0D0;
 
-    --foreground: 0 0% 3.9%;
+    --background: 185 46.8% 4.48%;
+    --foreground: 185 7.199999999999999% 97.8%;
 
-    --card: 0 0% 100%;
+    --muted: 185 36% 16.8%;
+    --muted-foreground: 185 7.199999999999999% 55.6%;
 
-    --card-foreground: 0 0% 3.9%;
+    --popover: 185 50.6% 7.280000000000001%;
+    --popover-foreground: 185 7.199999999999999% 97.8%;
 
-    --popover: 0 0% 100%;
+    --card: 185 50.6% 7.280000000000001%;
+    --card-foreground: 185 7.199999999999999% 97.8%;
 
-    --popover-foreground: 0 0% 3.9%;
+    --border: 185 36% 16.8%;
+    --input: 185 36% 16.8%;
 
-    --primary: 0 0% 9%;
+    --primary: 185 72% 56%;
+    --primary-foreground: 185 7.199999999999999% 5.6000000000000005%;
 
-    --primary-foreground: 0 0% 98%;
+    --secondary: 185 36% 16.8%;
+    --secondary-foreground: 185 7.199999999999999% 97.8%;
 
-    --secondary: 0 0% 96.1%;
+    --accent: 185 36% 16.8%;
+    --accent-foreground: 185 7.199999999999999% 97.8%;
 
-    --secondary-foreground: 0 0% 9%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 185 7.199999999999999% 97.8%;
 
-    --muted: 0 0% 96.1%;
-
-    --muted-foreground: 0 0% 45.1%;
-
-    --accent: 0 0% 96.1%;
-
-    --accent-foreground: 0 0% 9%;
-
-    --destructive: 0 84.2% 60.2%;
-
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 89.8%;
-
-    --input: 0 0% 89.8%;
-
-    --ring: 0 0% 3.9%;
-
-    --chart-1: 12 76% 61%;
-
-    --chart-2: 173 58% 39%;
-
-    --chart-3: 197 37% 24%;
-
-    --chart-4: 43 74% 66%;
-
-    --chart-5: 27 87% 67%;
-
-    --radius: 0.5rem
+    --ring: 185 72% 56%;
   }
   .dark {
-
     --background: 0 0% 3.9%;
 
     --foreground: 0 0% 98%;
@@ -105,11 +87,9 @@
 
     --chart-4: 280 65% 60%;
 
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {
@@ -118,4 +98,28 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.test {
+  --size: 45px;
+  --line: rgba(
+    255,
+    255,
+    255,
+    0.274
+  ); /* Change grid color to white with transparency */
+
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+
+  mask: linear-gradient(-20deg, transparent 50%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
 }

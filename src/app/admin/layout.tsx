@@ -23,7 +23,7 @@ export default function AdminLayout({
     }
 
     if (!currentUserData?.isAdmin) {
-      router.push("/"); // Redirect to home page if not an admin
+      // router.push("/"); // Redirect to home page if not an admin
       return;
     }
 
@@ -35,9 +35,11 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="w-screen h-screen flex flex-row items-center justify-between">
-      <Sidebar />
-      <div className="w-full h-full">{children}</div>
+    <div className="w-screen min-h-screen flex flex-row justify-between bg-[#333842]">
+      <div className="w-20 h-screen fixed top-0  flex items-center justify-center" >
+        <Sidebar />
+      </div>
+      <div className="w-full h-full ml-20">{children}</div>
     </div>
   );
 }

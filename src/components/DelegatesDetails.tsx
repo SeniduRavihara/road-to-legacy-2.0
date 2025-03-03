@@ -130,7 +130,7 @@ const DelegatesDetails = () => {
   // }, []);
 
   return (
-    <div>
+    <div className="text-red-400">
       <Card>
         <CardContent>
           {delegatesData && (

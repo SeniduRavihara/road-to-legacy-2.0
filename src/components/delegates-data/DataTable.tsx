@@ -81,7 +81,7 @@ export function DataTable<TData, TValue>({
   // setOpenDetailsPopup(false);
 
   return (
-    <div className="w-full">
+    <div className="w-full text-[#c7c7c7]">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter by email..."

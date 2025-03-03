@@ -3,7 +3,9 @@ import ExportedImage from "next-image-export-optimizer";
 
 const Uni3Section = () => {
   return (
-    <div className="w-full p-3 mb-6 flex gap-5 items-center justify-center">
+    <div className="w-full p-3 mb-6 flex gap-5 items-center justify-center relative">
+    
+
       {/* University of Sri Jayawardenepura */}
       <div className="w-1/3 relative group">
         <ExportedImage

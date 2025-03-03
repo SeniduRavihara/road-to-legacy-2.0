@@ -63,6 +63,7 @@ const TestaimonialSection = () => {
 
   return (
     <section id="testim" className="testim mt-10">
+
       <div className="wrap">
         <span id="left-arrow" className="arrow left" onClick={handlePrev}>
           ❮
