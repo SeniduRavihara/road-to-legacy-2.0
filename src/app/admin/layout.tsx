@@ -35,11 +35,11 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="w-screen min-h-screen flex flex-row justify-between bg-[#333842]">
-      <div className="w-20 h-screen fixed top-0  flex items-center justify-center" >
+    <div className="max-w-screen min-h-screen flex flex-row justify-between bg-[#333842]">
+      <div className="w-full h-20 sm:w-20 sm:h-screen sm:left-2 p-2 sm:p-0 fixed sm:top-0 bottom-2 z-10 flex items-center justify-center" >
         <Sidebar />
       </div>
-      <div className="w-full h-full ml-20">{children}</div>
+      <div className="w-full h-full sm:ml-20">{children}</div>
     </div>
   );
 }

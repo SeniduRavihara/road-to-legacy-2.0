@@ -14,10 +14,7 @@ import { DelegatesTableType, DelegatesType } from "@/types";
 export const columns: (
   delegatesData: DelegatesType[],
   toggleArrived: (selectedDelegate: DelegatesType | null) => void
-) => ColumnDef<DelegatesTableType>[] = (
-  deldelegatesData,
-  toggleArrived
-) => [
+) => ColumnDef<DelegatesTableType>[] = (deldelegatesData, toggleArrived) => [
   {
     accessorKey: "name",
     header: "Name",
@@ -54,9 +51,10 @@ export const columns: (
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => {
-                const selectedDelegate = deldelegatesData?.find(
-                  (delegate) => delegate.email === delegateInRow.email
-                ) || null;
+                const selectedDelegate =
+                  deldelegatesData?.find(
+                    (delegate) => delegate.email === delegateInRow.email
+                  ) || null;
                 toggleArrived(selectedDelegate);
               }}
             >

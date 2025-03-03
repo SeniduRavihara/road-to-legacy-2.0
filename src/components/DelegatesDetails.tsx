@@ -96,9 +96,7 @@ const mockDelegatesData: DelegatesType[] = [
 ];
 
 const DelegatesDetails = () => {
-  const [delegatesData, ] = useState<DelegatesType[] | null>(
-    mockDelegatesData
-  );
+  const [delegatesData] = useState<DelegatesType[] | null>(mockDelegatesData);
 
   const toggleArrived = async (selectedDelegate: DelegatesType | null) => {
     console.log("Arrived:", selectedDelegate);
@@ -130,7 +128,7 @@ const DelegatesDetails = () => {
   // }, []);
 
   return (
-    <div className="text-red-400">
+    <div className="mb-20">
       <Card>
         <CardContent>
           {delegatesData && (

@@ -1,6 +1,6 @@
 import { AdminDataType } from "@/types";
 import { signInWithPopup, signOut, User } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { auth, db, provider } from "./config";
 
 export const logout = async () => {
@@ -83,4 +83,35 @@ export const isAlreadyRegistered = async (uid: string) => {
     console.error(error);
     throw error;
   }
+};
+
+// ----------------------------------------------------------------
+
+export const approveQr = async (
+  data: string
+): Promise<{ success: boolean; email: string; discription?: string }> => {
+ try {
+   const delegatesRef = collection(db, "delegates");
+   const q = query(delegatesRef, where("email", "==", data));
+   const querySnapshot = await getDocs(q);
+
+   if (querySnapshot.empty) {
+     return { success: false, email: "", discription: "Not Registerd!" };
+   }
+
+   const delegateDoc = querySnapshot.docs[0];
+   const delegateData = delegateDoc.data();
+   const { email, haveArrived } = delegateData;
+
+   if (haveArrived) {
+     return { success: false, email, discription: "Already Arrived" };
+   }
+
+   await updateDoc(doc(db, "delegates", delegateDoc.id), { haveArrived: true });
+
+   return { success: true, email };
+ } catch (error) {
+   console.error("Error approving QR:", error);
+   return { success: false, email: "" };
+ }
 };

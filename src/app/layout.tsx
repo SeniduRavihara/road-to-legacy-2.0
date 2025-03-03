@@ -1,10 +1,11 @@
+import LoaderProvider from "@/components/LoaderProvider";
+import { Provider } from "@/components/ui/provider";
 import { Toaster } from "@/components/ui/sonner";
 import AuthContextProvider from "@/context/AuthContext";
 import DataContextProvider from "@/context/DataContext";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import LoaderProvider from "@/components/LoaderProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,16 +28,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <LoaderProvider>
           <DataContextProvider>
-            <AuthContextProvider>{children}</AuthContextProvider>
+            <AuthContextProvider>
+              <Provider>{children}</Provider>
+            </AuthContextProvider>
           </DataContextProvider>
         </LoaderProvider>
-        
+
         <Toaster />
       </body>
     </html>

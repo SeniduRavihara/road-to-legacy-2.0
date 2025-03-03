@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,16 +8,46 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useRef, useState } from "react";
+import { approveQr } from "@/firebase/api";
+import { useEffect, useRef, useState } from "react";
 import QrScan from "react-qr-reader";
 
 const ScanTicket = ({ children }: { children: React.ReactNode }) => {
-  const [qrscan, setQrscan] = useState("No result");
+  const [email, setEmail] = useState("");
+  const [discription, setDiscription] = useState("");
+  const [approving, setApproving] = useState(false);
+  const [approved, setApproved] = useState(false);
   const qrRef = useRef<QrScan | null>(null);
 
-  const handleScan = (data: string | null) => {
-    if (data) {
-      setQrscan(data);
+  useEffect(() => {
+    if (approved) {
+      setTimeout(() => {
+        setApproved(false);
+        setEmail("");
+      }, 1000);
+    }
+  }, [approved]);
+
+  const handleScan = async (data: string | null) => {
+    if (data && !approving && !approved) {
+      setApproving(true);
+
+      try {
+        const { success, email, discription } = await approveQr(data);
+
+        if (success) {
+          console.log("HELLO", success);
+          setApproved(true);
+          setEmail(email);
+        } else {
+          if (discription) setDiscription(discription);
+        }
+      } catch (error) {
+        console.error("QR approval error:", error);
+      } finally {
+        setApproving(false);
+        setDiscription("");
+      }
     }
   };
 
@@ -26,60 +55,69 @@ const ScanTicket = ({ children }: { children: React.ReactNode }) => {
     console.error("QR Scan Error:", err);
   };
 
-  // Trigger file input for image upload scanning
+  // ✅ Trigger file input for image upload scanning
   const handleUpload = () => {
     if (qrRef.current) {
-      qrRef.current.openImageDialog();
+      qrRef.current.openImageDialog(); // This works only when `legacyMode` is enabled
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-5">
-      <Dialog>
-        <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] flex flex-col items-center justify-center">
-          <DialogHeader>
-            <DialogTitle>QR Code Scanner</DialogTitle>
-          </DialogHeader>
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px] p-5 flex flex-col items-center justify-center sm:rounded-xl rounded-xl">
+        <DialogHeader>
+          <DialogTitle>QR Code Scanner</DialogTitle>
+        </DialogHeader>
 
-          {/* 📷 Real-time QR Code Scanner */}
-          <QrScan
-            delay={300}
-            onError={handleError}
-            onScan={handleScan}
-            style={{ width: "100%", maxWidth: "320px" }}
-            // constraints={{ video: { facingMode: "environment" } }} // Uses the back camera
-          />
+        {/* 📷 Real-time QR Code Scanner */}
+        <QrScan
+          delay={300}
+          onError={handleError}
+          onScan={handleScan}
+          style={{ width: "100%", maxWidth: "320px" }}
+        />
 
-          {/* 🖼 Upload Image for QR Scanning */}
-          <QrScan
-            ref={qrRef}
-            onError={handleError}
-            onScan={handleScan}
-            legacyMode // Only used when manually triggered
-            style={{ display: "none" }} // Hide the second scanner
-          />
+        {/* 🖼 Upload Image for QR Scanning (Hidden by Default) */}
+        <QrScan
+          ref={qrRef}
+          onError={handleError}
+          onScan={handleScan}
+          legacyMode // ✅ Needed for manual trigger
+          style={{ display: "none" }} // Hide the secondary scanner
+        />
 
-          {/* Buttons */}
-          <button
-            onClick={handleUpload}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
-          >
-            Upload Image
-          </button>
+        <div className="mt-4 text-lg">{email}</div>
 
-          {/* Scan Result */}
-          <div className="mt-4">
-            <h3 className="text-lg font-semibold">Scan Result:</h3>
-            <p className="text-gray-600">{qrscan}</p>
-          </div>
+        {/* Upload Image Button */}
+        <button
+          onClick={handleUpload}
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+        >
+          Upload Image
+        </button>
 
-          <DialogFooter>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+        {/* 🔄 Loading Animation */}
+        {approving && (
+          <video autoPlay muted loop playsInline width="30">
+            <source src="/aprove-loading.webm" type="video/webm" />
+            Your browser does not support the video tag.
+          </video>
+        )}
+
+        {/* ✅ Approved Animation */}
+        {approved && (
+          <video autoPlay muted playsInline width="30">
+            <source src="/aprove-animate.webm" type="video/webm" />
+            Your browser does not support the video tag.
+          </video>
+        )}
+
+        {discription && <div>{discription}</div>}
+
+        <DialogFooter />
+      </DialogContent>
+    </Dialog>
   );
 };
 
