@@ -114,19 +114,32 @@ export const approveQr = async (
     const delegateDoc = querySnapshot.docs[0];
     const delegateData = delegateDoc.data();
 
-    const { email, haveArrived } = delegateData;
+    const { email, arrived } = delegateData;
 
-    if (haveArrived) {
+    if (arrived) {
       return { success: false, email, discription: "Already Arrived" };
     }
 
     await updateDoc(doc(db, "delegates", delegateDoc.id), {
-      haveArrived: true,
+      arrived: true,
     });
 
     return { success: true, email };
   } catch (error) {
     console.error("Error approving QR:", error);
     return { success: false, email: "" };
+  }
+};
+
+// --------------------------------------------------------------------
+
+export const AdminToggle = async (id: string, isAdmin: boolean) => {
+  try {
+    const adminDocRef = doc(db, "admins", id);
+    await updateDoc(adminDocRef, {
+      isAdmin: !isAdmin,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };

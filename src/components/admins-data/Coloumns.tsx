@@ -2,12 +2,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { DelegatesTableType, DelegatesType } from "@/types";
+import { AdminDataType, AdminTableType } from "@/types";
 
 export const columns: (
-  delegatesData: DelegatesType[],
-  toggleArrived: (selectedDelegate: DelegatesType | null) => void
-) => ColumnDef<DelegatesTableType>[] = (deldelegatesData, toggleArrived) => [
+  adminUsers: AdminDataType[],
+  toggleAdmin: (id: string) => void
+) => ColumnDef<AdminTableType>[] = (adminUsers, toggleAdmin) => [
   {
     accessorKey: "name",
     header: "Name",
@@ -27,37 +27,37 @@ export const columns: (
     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
-    accessorKey: "arrived",
-    header: "Status",
+    accessorKey: "role",
+    header: "Role",
     cell: ({ row }) => {
-      const delegateInRow = row.original;
+      const adminInRow = row.original; // AdminTableType
 
       return (
         <Button
           className="text-black w-[50%]"
           onClick={() => {
-            const selectedDelegate = deldelegatesData.find(
-              (admin) => admin.email === delegateInRow.email
+            const selectedAdmin = adminUsers.find(
+              (admin) => admin.email === adminInRow.email
             );
 
-            if (!selectedDelegate) {
-              console.warn("Admin not found:", delegateInRow.email);
+            if (!selectedAdmin) {
+              console.warn("Admin not found:", adminInRow.email);
               return;
             }
 
             // Show a confirmation dialog before toggling
             const confirmToggle = window.confirm(
-              `Are you sure you want to mark ${selectedDelegate.email} as ${
-                selectedDelegate.arrived ? "not arrived" : "arrived"
-              }`
+              `Are you sure you want to ${
+                selectedAdmin.isAdmin ? "remove admin rights from" : "make"
+              } ${selectedAdmin.email} an admin?`
             );
 
             if (confirmToggle) {
-              toggleArrived(selectedDelegate);
+              toggleAdmin(selectedAdmin.id);
             }
           }}
         >
-          {delegateInRow.arrived ? "Arrived" : "Not Arrived"}
+          {adminInRow.isAdmin ? "Admin" : "User"}
         </Button>
       );
     },
@@ -76,11 +76,10 @@ export const columns: (
     <DropdownMenuLabel>Actions</DropdownMenuLabel>
     <DropdownMenuItem
       onClick={() => {
-        const selectedDelegate =
-          deldelegatesData?.find(
-            (delegate) => delegate.email === delegateInRow.email
-          ) || null;
-        toggleArrived(selectedDelegate);
+        const selectedAdmin =
+          adminUsers?.find((admin) => admin.email === AdminInRow.email) || null;
+
+        if (selectedAdmin) toggleAdmin(selectedAdmin?.id);
       }}
     >
       Arrived

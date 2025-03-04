@@ -4,12 +4,12 @@
 
 @layer base {
   :root {
-      /* Name: custom color palette
+    /* Name: custom color palette
        Author: Ilias Ism
        URL: https://gradient.page */
 
     /* CSS: .bg-gradient { background: var(--gradient) } */
-    --gradient: #40E0D0;
+    --gradient: #40e0d0;
 
     --background: 185 46.8% 4.48%;
     --foreground: 185 7.199999999999999% 97.8%;
@@ -122,4 +122,19 @@
   top: 0;
   transform-style: flat;
   pointer-events: none;
+}
+
+body {
+  -ms-user-select: text;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+* {
+  user-select: text !important; /* This forces text selection */
+}
+
+::selection {
+  background-color: #3399ff; /* Adjust to your preferred highlight color */
+  color: white; /* Adjust to your preferred text color */
 }

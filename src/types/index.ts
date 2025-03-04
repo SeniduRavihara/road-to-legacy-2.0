@@ -23,6 +23,7 @@ export type DelegatesType = {
 export type DelegatesTableType = {
   name: string;
   email: string;
+  arrived: boolean
 };
 
 export type AdminDataType = {
@@ -31,3 +32,9 @@ export type AdminDataType = {
   email: string;
   isAdmin: boolean;
 }
+
+export type AdminTableType = {
+  name: string;
+  email: string;
+  isAdmin: boolean
+};
