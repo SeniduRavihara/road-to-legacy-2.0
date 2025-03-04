@@ -6,6 +6,7 @@ import DataContextProvider from "@/context/DataContext";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Load three.js before Vanta.js */}
+        <Script
+          src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"
+          strategy="beforeInteractive"
+        />
+        <Script
+          src="https://cdn.jsdelivr.net/npm/vanta/dist/vanta.birds.min.js"
+          strategy="lazyOnload"
+        />
+        
         <LoaderProvider>
           <DataContextProvider>
             <AuthContextProvider>
