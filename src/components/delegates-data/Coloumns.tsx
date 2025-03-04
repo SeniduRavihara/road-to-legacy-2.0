@@ -34,7 +34,7 @@ export const columns: (
 
       return (
         <Button
-          className="text-black w-[50%]"
+          className="text-white w-[50%] bg-blue-500"
           onClick={() => {
             const selectedDelegate = deldelegatesData.find(
               (admin) => admin.email === delegateInRow.email

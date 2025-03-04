@@ -4,90 +4,78 @@
 
 @layer base {
   :root {
-    /* Name: custom color palette
-       Author: Ilias Ism
-       URL: https://gradient.page */
+    /* Custom color palette in hsl(hue, saturation%, lightness%) format */
 
-    /* CSS: .bg-gradient { background: var(--gradient) } */
-    --gradient: #40e0d0;
+    --gradient: hsl(185, 72%, 56%);
 
-    --background: 185 46.8% 4.48%;
-    --foreground: 185 7.199999999999999% 97.8%;
+    --background: hsl(185, 46.8%, 4.48%);
+    --foreground: hsl(185, 7.2%, 97.8%);
 
-    --muted: 185 36% 16.8%;
-    --muted-foreground: 185 7.199999999999999% 55.6%;
+    --muted: hsl(185, 36%, 16.8%);
+    --muted-foreground: hsl(185, 7.2%, 55.6%);
 
-    --popover: 185 50.6% 7.280000000000001%;
-    --popover-foreground: 185 7.199999999999999% 97.8%;
+    --popover: hsl(185, 50.6%, 7.28%);
+    --popover-foreground: hsl(185, 7.2%, 97.8%);
 
-    --card: 185 50.6% 7.280000000000001%;
-    --card-foreground: 185 7.199999999999999% 97.8%;
+    --card: hsl(185, 50.6%, 7.28%);
+    --card-foreground: hsl(185, 7.2%, 97.8%);
 
-    --border: 185 36% 16.8%;
-    --input: 185 36% 16.8%;
+    --border: hsl(185, 36%, 16.8%);
+    --input: hsl(185, 36%, 16.8%);
 
-    --primary: 185 72% 56%;
-    --primary-foreground: 185 7.199999999999999% 5.6000000000000005%;
+    --primary: hsl(185, 72%, 56%);
+    --primary-foreground: hsl(185, 7.2%, 5.6%);
 
-    --secondary: 185 36% 16.8%;
-    --secondary-foreground: 185 7.199999999999999% 97.8%;
+    --secondary: hsl(185, 36%, 16.8%);
+    --secondary-foreground: hsl(185, 7.2%, 97.8%);
 
-    --accent: 185 36% 16.8%;
-    --accent-foreground: 185 7.199999999999999% 97.8%;
+    --accent: hsl(185, 36%, 16.8%);
+    --accent-foreground: hsl(185, 7.2%, 97.8%);
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 185 7.199999999999999% 97.8%;
+    --destructive: hsl(0, 62.8%, 30.6%);
+    --destructive-foreground: hsl(185, 7.2%, 97.8%);
 
-    --ring: 185 72% 56%;
+    --ring: hsl(185, 72%, 56%);
+
+    --radius: 10px;
   }
+
+  /* Dark Mode Color Palette in hsl(hue, saturation%, lightness%) format */
   .dark {
-    --background: 0 0% 3.9%;
+    --background: hsl(222, 12%, 17%);
+    --foreground: hsl(0, 0%, 98%);
 
-    --foreground: 0 0% 98%;
+    --card: hsl(222, 12%, 17%);
+    --card-foreground: hsl(0, 0%, 98%);
 
-    --card: 0 0% 3.9%;
+    --popover: hsl(0, 0%, 3.9%);
+    --popover-foreground: hsl(0, 0%, 98%);
 
-    --card-foreground: 0 0% 98%;
+    --primary: hsl(0, 0%, 98%);
+    --primary-foreground: hsl(0, 0%, 9%);
 
-    --popover: 0 0% 3.9%;
+    --secondary: hsl(0, 0%, 14.9%);
+    --secondary-foreground: hsl(0, 0%, 98%);
 
-    --popover-foreground: 0 0% 98%;
+    --muted: hsl(0, 0%, 14.9%);
+    --muted-foreground: hsl(0, 0%, 63.9%);
 
-    --primary: 0 0% 98%;
+    --accent: hsl(0, 0%, 14.9%);
+    --accent-foreground: hsl(0, 0%, 98%);
 
-    --primary-foreground: 0 0% 9%;
+    --destructive: hsl(0, 62.8%, 30.6%);
+    --destructive-foreground: hsl(0, 0%, 98%);
 
-    --secondary: 0 0% 14.9%;
+    --border: hsla(0, 0%, 29%, 0.541);
+    --input: hsla(0, 2%, 35%, 0.432);
 
-    --secondary-foreground: 0 0% 98%;
+    --ring: hsl(0, 0%, 83.1%);
 
-    --muted: 0 0% 14.9%;
-
-    --muted-foreground: 0 0% 63.9%;
-
-    --accent: 0 0% 14.9%;
-
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 14.9%;
-
-    --input: 0 0% 14.9%;
-
-    --ring: 0 0% 83.1%;
-
-    --chart-1: 220 70% 50%;
-
-    --chart-2: 160 60% 45%;
-
-    --chart-3: 30 80% 55%;
-
-    --chart-4: 280 65% 60%;
-
-    --chart-5: 340 75% 55%;
+    --chart-1: hsl(220, 70%, 50%);
+    --chart-2: hsl(160, 60%, 45%);
+    --chart-3: hsl(30, 80%, 55%);
+    --chart-4: hsl(280, 65%, 60%);
+    --chart-5: hsl(340, 75%, 55%);
   }
 }
 
