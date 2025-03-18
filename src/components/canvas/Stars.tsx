@@ -1,4 +1,4 @@
-import { Suspense, useRef } from "react";
+import { JSX, Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { PointMaterial, Points, Preload } from "@react-three/drei";
 import * as random from "maath/random";
@@ -25,11 +25,11 @@ function Stars(props: StarsProps) {
       <Points ref={ref} positions={sphere} stride={3} frustumCulled>
         <PointMaterial
           transparent
-          color="#fff"
+          color="#333842"
           size={0.002}
           sizeAttenuation={true}
           depthWrite={false}
-          opacity={0.5}
+          opacity={0.8}
         />
       </Points>
     </group>

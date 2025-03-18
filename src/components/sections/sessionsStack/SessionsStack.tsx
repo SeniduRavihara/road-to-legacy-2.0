@@ -2,14 +2,41 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import NET, { VantaEffect } from "vanta/dist/vanta.net.min";
 import "./SessionsStack.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// const sessionsList = [
+//   { title: "" },
+//   { title: "" },
+//   { title: "" },
+//   { title: "" },
+// ];
+
 const SessionsStack = ({ direction = "vertical" }) => {
   const wrapper = useRef<HTMLDivElement | null>(null);
   const section = useRef<HTMLDivElement | null>(null);
+
+  const [vantaEffect, setVantaEffect] = useState<VantaEffect | null>(null); // Corrected type
+  const myRef = useRef<HTMLDivElement | null>(null); // Typing useRef for HTMLDivElement specifically
+
+  useEffect(() => {
+    if (!vantaEffect && myRef.current) {
+      // Ensure myRef.current is not null
+      const effect = NET({
+        el: myRef.current, // Now TypeScript knows myRef.current will be an HTMLDivElement
+        color: 0x333842,
+        backgroundColor: 0x191b1f,
+      });
+      setVantaEffect(effect); // Set the effect object
+    }
+
+    return () => {
+      vantaEffect?.destroy(); // Cleanup when the component unmounts
+    };
+  }, [vantaEffect]);
 
   useLayoutEffect(() => {
     if (!wrapper.current || !section.current) return;
@@ -23,7 +50,7 @@ const SessionsStack = ({ direction = "vertical" }) => {
         if (index !== 0) {
           gsap.set(
             item,
-            direction === "horizontal" ? { xPercent: 100 } : { yPercent: 100 }
+            direction === "horizontal" ? { xPercent: 200 } : { yPercent: 200 }
           );
         }
       });
@@ -32,11 +59,11 @@ const SessionsStack = ({ direction = "vertical" }) => {
         scrollTrigger: {
           trigger: section.current,
           pin: true,
-          start: "top top",
+          start: "center center",
           end: () => `+=${items.length * 100}%`,
           scrub: 1,
           invalidateOnRefresh: true,
-          //  markers: true, // Debugging markers
+          // markers: true,
         },
         defaults: { ease: "none" },
       });
@@ -59,95 +86,40 @@ const SessionsStack = ({ direction = "vertical" }) => {
 
   return (
     <div>
-      <div className="h-[20vh] w-full flex items-center justify-center">
-        <h1 className="">But Vertical Scroll Is Also Cool!</h1>
-      </div>
+      <div className="relative">
+        <div className="scroll-section " ref={section}>
+          <div className="h-[20vh] w-full flex items-center justify-center z-10">
+            <h1 className="">But Vertical Scroll Is Also Cool!</h1>
+          </div>
+          <div
+            ref={myRef}
+            className="absolute w-screen h-screen -top-10 -z-10"
+          ></div>
 
-      <div className="">
-        <div className="scroll-section" ref={section}>
           <div className="wrapper" ref={wrapper}>
-            <div role="list" className="list">
-              <div role="listitem" className="item">
-                <div className="item_content">
-                  <h2 className="item_number">1</h2>
-                  <h2>
-                    Wildlife in Action: A Glimpse into Nature’s Daily Drama
-                  </h2>
-                  <p className="item_p">
-                    Witness the fascinating lives of animals in their natural
-                    habitats, from playful cubs to stealthy predators.
-                  </p>
-                </div>
-                <video
-                  src="https://videos.pexels.com/video-files/4763824/4763824-uhd_2560_1440_24fps.mp4"
-                  // loading="lazy"
-                  autoPlay
-                  muted
-                  loop
-                  className="item_media"
-                ></video>
-              </div>
+            <div
+              role="list"
+              className="list relative flex items-center justify-center gap-5"
+            >
+              <div
+                role="listitem"
+                className="item bg-[#2C3039] w-[90vw] md:w-[70vw] h-[50vh] absolute  border border-white"
+              ></div>
 
-              <div role="listitem" className="item">
-                <div className="item_content">
-                  <h2 className="item_number">2</h2>
-                  <h2>The Changing Seasons: Nature&apos;s Everlasting Cycle</h2>
-                  <p className="item_p">
-                    Experience the beauty of nature&apos;s transitions, from
-                    blooming spring flowers to snowy winter landscapes.
-                  </p>
-                </div>
-                <video
-                  src="https://videos.pexels.com/video-files/3214448/3214448-uhd_2560_1440_25fps.mp4"
-                  // loading="lazy"
-                  autoPlay
-                  muted
-                  loop
-                  className="item_media"
-                ></video>
-              </div>
+              <div
+                role="listitem"
+                className="item bg-[#999ca5] w-[90vw] md:w-[70vw] h-[50vh]  absolute"
+              ></div>
 
-              <div role="listitem" className="item">
-                <div className="item_content">
-                  <h2 className="item_number">3</h2>
-                  <h2>
-                    Guardians of Nature: Protecting Our Planet&apos;s Future
-                  </h2>
-                  <p className="item_p">
-                    Learn about the importance of conservation and how we can
-                    work together to preserve the beauty of nature for
-                    generations to come.
-                  </p>
-                </div>
-                <video
-                  src="https://videos.pexels.com/video-files/4328514/4328514-uhd_2560_1440_30fps.mp4"
-                  // loading="lazy"
-                  autoPlay
-                  muted
-                  loop
-                  className="item_media"
-                ></video>
-              </div>
+              <div
+                role="listitem"
+                className="item bg-[#172033] w-[90vw] md:w-[70vw] h-[50vh] absolute"
+              ></div>
 
-              <div role="listitem" className="item">
-                <div className="item_content">
-                  <h2 className="item_number">4</h2>
-                  <h2>Astral Aesthetics: Portraits from the Infinite</h2>
-                  <p className="item_p">
-                    Experience the boundless beauty of the cosmos through
-                    striking portraits that capture its infinite aesthetic
-                    appeal.
-                  </p>
-                </div>
-                <video
-                  src="https://videos.pexels.com/video-files/2871916/2871916-hd_1920_1080_30fps.mp4"
-                  // loading="lazy"
-                  autoPlay
-                  muted
-                  loop
-                  className="item_media"
-                ></video>
-              </div>
+              <div
+                role="listitem"
+                className="item bg-[#3d7518] w-[90vw] md:w-[70vw] h-[50vh]"
+              ></div>
             </div>
           </div>
         </div>
