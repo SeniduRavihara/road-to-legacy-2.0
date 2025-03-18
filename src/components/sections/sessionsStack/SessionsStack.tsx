@@ -35,7 +35,7 @@ const SessionsStack = ({ direction = "vertical" }) => {
            end: () => `+=${items.length * 100}%`,
            scrub: 1,
            invalidateOnRefresh: true,
-           markers: true, // Debugging markers
+          //  markers: true, // Debugging markers
          },
          defaults: { ease: "none" },
        });
@@ -59,7 +59,7 @@ const SessionsStack = ({ direction = "vertical" }) => {
 
   return (
     <div>
-      <div className=" h-[50vh] w-full">
+      <div className=" h-[20vh] w-full">
         <h1 className="heading">But Vertical Scroll Is Also Cool!</h1>
       </div>
 
@@ -151,9 +151,9 @@ const SessionsStack = ({ direction = "vertical" }) => {
         </div>
       </div>
 
-      <div className=" bg-amber-500 h-[100vh]">
+      {/* <div className=" bg-amber-500 h-[100vh]">
         <h1 className="heading">But Vertical Scroll Is Also Cool!</h1>
-      </div>
+      </div> */}
     </div>
   );
 };

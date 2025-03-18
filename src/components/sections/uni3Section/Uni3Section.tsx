@@ -202,12 +202,10 @@ const Uni3Section = () => {
     }
   }
 
-  //   console.log(cards[0]);
-
   return (
-    <div className="w-full h-full flex flex-col ">
-      <div className="w-full h-full flex items-center justify-center relative">
-        <div className="cardList">
+    <div className="w-[100vw] my-10 overflow-x-hidden flex flex-col items-center justify-between">
+      <div className="w-full h-[50vh] overflow-x-hidden flex items-center justify-center relative">
+        <div className="cardList ">
           <button
             className="cardList__btn btn btn--left hidden md:block"
             onClick={() => swapCards("right")}
@@ -299,7 +297,7 @@ const Uni3Section = () => {
           onClick={() => swapCards("right")}
         >
           <div className="icon">
-            <ChevronLeft />
+            <ChevronLeft className="w-14 h-14" />
             {/* <svg>
                 <use xlinkHref="#arrow-left"></use>
               </svg> */}
@@ -311,55 +309,13 @@ const Uni3Section = () => {
           onClick={() => swapCards("left")}
         >
           <div className="icon">
-            <ChevronRight />
+            <ChevronRight className="w-14 h-14" />
             {/* <svg>
                 <use xlinkHref="#arrow-right"></use>
               </svg> */}
           </div>
         </button>
       </div>
-
-      {/* <div className="loading__wrapper">
-        <div className="loader--text">Loading...</div>
-        <div className="loader">
-          <span></span>
-        </div>
-      </div> */}
-
-      {/* <svg className="icons" style={{ display: "none" }}>
-        <symbol
-          id="arrow-left"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-        >
-          <polyline
-            points="328 112 184 256 328 400"
-            style={{
-              fill: "none",
-              stroke: "#fff",
-              strokeLinecap: "round",
-              strokeLinejoin: "round",
-              strokeWidth: "48px",
-            }}
-          />
-        </symbol>
-        <symbol
-          id="arrow-right"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-        >
-          <polyline
-            points="184 112 328 256 184 400"
-            style={{
-              fill: "none",
-              stroke: "#fff",
-              strokeLinecap: "round",
-              strokeLinejoin: "round",
-              strokeWidth: "48px",
-            }}
-          />
-        </symbol>
-      </svg> */}
     </div>
   );
 };
