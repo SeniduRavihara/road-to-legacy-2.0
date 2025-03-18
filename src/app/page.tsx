@@ -6,6 +6,7 @@ import Header from "@/components/sections/Header";
 import HeroSection from "@/components/sections/HeroSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
 import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
+import SessionsStack from "@/components/sections/sessionsStack/SessionsStack";
 import TestaimonialSection from "@/components/sections/testaimonials/TestaimonialSection";
 
 export default function Home() {
@@ -36,7 +37,9 @@ export default function Home() {
 
       <RoadToLegacy />
 
-      <VerticalTimeLine />
+      {/* <VerticalTimeLine /> */}
+
+      <SessionsStack />
 
       <div className="bg-whit ">
         <Uni3Section />
