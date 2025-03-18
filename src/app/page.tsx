@@ -1,5 +1,6 @@
 "use client";
 
+import StarsCanvas from "@/components/canvas/Stars";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/Header";
 import HeroSection from "@/components/sections/HeroSection";
@@ -38,11 +39,11 @@ export default function Home() {
 
       <SessionsStack />
 
-      <div className="bg-whit ">
+      <div className="relative">
         <Uni3Section />
+        <TestaimonialSection />
+        <StarsCanvas />
       </div>
-
-      <TestaimonialSection />
 
       <Footer />
     </div>
