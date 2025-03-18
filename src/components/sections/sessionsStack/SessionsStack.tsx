@@ -59,11 +59,11 @@ const SessionsStack = ({ direction = "vertical" }) => {
 
   return (
     <div>
-      <div className=" h-[20vh] w-full">
-        <h1 className="heading">But Vertical Scroll Is Also Cool!</h1>
+      <div className="h-[20vh] w-full flex items-center justify-center">
+        <h1 className="">But Vertical Scroll Is Also Cool!</h1>
       </div>
 
-      <div className=" ">
+      <div className="">
         <div className="scroll-section" ref={section}>
           <div className="wrapper" ref={wrapper}>
             <div role="list" className="list">
