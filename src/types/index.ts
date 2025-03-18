@@ -38,3 +38,21 @@ export type AdminTableType = {
   email: string;
   isAdmin: boolean
 };
+
+export type FormDataType = {
+  firstName: string;
+  lastName: string;
+  university: string;
+  faculty: string;
+  department: string;
+  regNumber: string;
+  alYear: string;
+  contactNumber: string;
+  email: string;
+  emergencyContact: string;
+  mealPreference: string;
+  tshirt: string;
+  howHeard: string;
+  certificateName: string;
+  suggestions?: string;
+};

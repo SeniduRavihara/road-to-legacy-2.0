@@ -1,4 +1,4 @@
-import { AdminDataType } from "@/types";
+import { AdminDataType, FormDataType } from "@/types";
 import { signInWithPopup, signOut, User } from "firebase/auth";
 import {
   collection,
@@ -141,5 +141,37 @@ export const AdminToggle = async (id: string, isAdmin: boolean) => {
     });
   } catch (error) {
     console.log(error);
+  }
+};
+
+// --------------------------------------------------------------------
+
+export const registerDelegates = async (formData: FormDataType) => {
+  try {
+    const delegatesQuery = query(
+      collection(db, "delegates"),
+      where("email", "==", formData.email)
+    );
+
+    const querySnapshot = await getDocs(delegatesQuery);
+
+    if (!querySnapshot.empty) {
+      throw new Error("User is already registered.");
+    }
+
+    const documentRef = doc(collection(db, "delegates"));
+
+    await setDoc(documentRef, {
+      ...formData,
+      arrived: false,
+      createdAt: new Date().toISOString(),
+    });
+
+    console.log("Delegate registered successfully.");
+    return { success: true };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    console.error("Error registering delegate:", error);
+    return { success: false, error: error.message };
   }
 };

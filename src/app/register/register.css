@@ -1,0 +1,186 @@
+.container {
+  padding: 30px;
+  width: 100%;
+  max-width: 900px;
+  background: transparent;
+  border: none;
+}
+
+h1 {
+  color: #b2bed8;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.form-columns {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.left-column,
+.right-column {
+  flex: 1;
+  min-width: 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+label {
+  color: #a9b1c0;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  background-color: #2d343e;
+  border: 2px solid #3d4654;
+  color: #d3d6db;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #4a90e2;
+  background-color: #2e3642;
+}
+
+input.error,
+select.error,
+textarea.error {
+  border-color: #ff4d4d;
+  background-color: #3a2d2d;
+}
+
+button {
+  background: linear-gradient(90deg, #4a90e2, #50e3c2);
+  color: #ffffff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #357abd, #38b7a1);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+input[type="radio"] {
+  width: auto;
+  margin-right: 10px;
+  accent-color: #4a90e2;
+  vertical-align: middle;
+}
+
+.radio-group {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Reduced gap for better alignment */
+  margin-top: 8px;
+}
+
+.radio-group label {
+  margin: 0;
+  color: #d3d6db;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Ensure consistent height for form groups */
+.form-group {
+  min-height: 70px; /* Adjust based on tallest element (radio group) */
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  /* Mobile */
+  .form-columns {
+    flex-direction: column;
+  }
+  .container {
+    padding: 20px;
+    margin: 10px;
+    max-width: 95%;
+  }
+  h1 {
+    font-size: 28px;
+  }
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
+  .radio-group {
+    gap: 15px;
+  }
+  label {
+    font-size: 13px;
+  }
+  .form-group {
+    min-height: auto; /* Reset min-height for mobile */
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  /* Tablet */
+  .container {
+    padding: 25px;
+    max-width: 90%;
+  }
+  h1 {
+    font-size: 32px;
+  }
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 15px;
+  }
+  .radio-group {
+    gap: 20px;
+  }
+  .form-group {
+    min-height: 70px;
+  }
+}
+
+@media (min-width: 769px) {
+  /* Desktop */
+  .container {
+    max-width: 900px;
+  }
+  .form-group {
+    min-height: 70px;
+  }
+}
