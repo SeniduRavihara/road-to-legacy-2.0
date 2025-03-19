@@ -88,9 +88,16 @@ const SessionsStack = ({ direction = "vertical" }) => {
     <div>
       <div className="relative">
         <div className="scroll-section " ref={section}>
-          <div className="h-[20vh] w-full flex items-center justify-center z-10">
-            <h1 className="">But Vertical Scroll Is Also Cool!</h1>
+          <div className="h-[20vh] w-full flex flex-col items-center justify-center z-10 relative -top-10">
+            <h1 className="text-3xl font-bold text-white">
+              🚀 Shape Your Future in Tech
+            </h1>
+            <p className="text-white text-lg mt-2 text-center">
+              Join Road to Legacy 2.0 for industry insights, networking, and
+              career growth.
+            </p>
           </div>
+
           <div
             ref={myRef}
             className="absolute w-screen h-screen -top-10 -z-10"
@@ -101,25 +108,98 @@ const SessionsStack = ({ direction = "vertical" }) => {
               role="list"
               className="list relative flex items-center justify-center gap-5"
             >
+              {/* Card 1: Cybersecurity & AI */}
               <div
                 role="listitem"
-                className="item bg-[#2C3039] w-[90vw] md:w-[70vw] h-[50vh] absolute  border border-white"
-              ></div>
+                className="item bg-[#2C3039] w-[90vw] md:w-[70vw] h-[50vh] absolute border border-white"
+              >
+                <h2 className="text-xl font-bold text-white mt-6 ml-6">
+                  🛡️ Cybersecurity & Artificial Intelligence (AI)
+                </h2>
+                <p className="text-white ml-6 mt-4">
+                  Stay ahead of digital threats and AI innovations. Learn how AI
+                  is revolutionizing cybersecurity and how you can build a
+                  career in this rapidly growing field.
+                </p>
+                <ul className="text-white ml-6 mt-4">
+                  <li>Understand the latest cybersecurity challenges 🚨</li>
+                  <li>Learn AI-driven security solutions 🤖</li>
+                  <li>
+                    Explore career opportunities in AI and cybersecurity 🌐
+                  </li>
+                </ul>
+                <p className="text-white ml-6 mt-4">
+                  🎯 Interactive Activity: Participate in a hands-on quiz or
+                  discussion led by experts!
+                </p>
+              </div>
 
+              {/* Card 2: Project Management & Business Analysis */}
               <div
                 role="listitem"
-                className="item bg-[#999ca5] w-[90vw] md:w-[70vw] h-[50vh]  absolute"
-              ></div>
+                className="item bg-[#999ca5] w-[90vw] md:w-[70vw] h-[50vh] absolute"
+              >
+                <h2 className="text-xl font-bold text-white mt-6 ml-6">
+                  📊 Project Management & Business Analysis
+                </h2>
+                <p className="text-white ml-6 mt-4">
+                  Master the art of project planning, execution, and business
+                  analysis. Learn how these skills drive success in the tech
+                  world.
+                </p>
+                <ul className="text-white ml-6 mt-4">
+                  <li>
+                    Discover effective project management methodologies 📅
+                  </li>
+                  <li>
+                    Learn the role of business analysis in bridging IT and
+                    business needs 🔍
+                  </li>
+                  <li>Explore career opportunities in project management 📈</li>
+                </ul>
+                <p className="text-white ml-6 mt-4">
+                  🎯 Interactive Activity: Collaborate on a real-world project
+                  scenario!
+                </p>
+              </div>
 
+              {/* Card 3: Game Development */}
               <div
                 role="listitem"
                 className="item bg-[#172033] w-[90vw] md:w-[70vw] h-[50vh] absolute"
-              ></div>
+              >
+                <h2 className="text-xl font-bold text-white mt-6 ml-6">
+                  🎮 Game Development
+                </h2>
+                <p className="text-white ml-6 mt-4">
+                  Turn your passion for gaming into a career. Learn the
+                  fundamentals of game design, tools, and industry insights to
+                  get started in this exciting field.
+                </p>
+                <ul className="text-white ml-6 mt-4">
+                  <li>Learn the basics of game design 🕹️</li>
+                  <li>Get hands-on with popular game development tools 🛠️</li>
+                  <li>Explore career pathways in game development 🎮</li>
+                </ul>
+                <p className="text-white ml-6 mt-4">
+                  🎯 Interactive Activity: Design a mini-game or take on a quick
+                  coding challenge!
+                </p>
+              </div>
 
               <div
                 role="listitem"
                 className="item bg-[#3d7518] w-[90vw] md:w-[70vw] h-[50vh]"
-              ></div>
+              >
+                <h2 className="text-2xl text-white font-bold p-4">
+                  👩‍💻 Software Engineering
+                </h2>
+                <p className="text-white text-lg p-4">
+                  Explore the fundamentals of software development, from coding
+                  practices to project life cycles, and discover the career
+                  opportunities in Software Engineering.
+                </p>
+              </div>
             </div>
           </div>
         </div>

@@ -291,7 +291,7 @@ const Uni3Section = () => {
         </div>
       </div>
 
-      <div className=" w-full h-[50px] flex items-center justify-center gap-10">
+      <div className=" w-full h-[50px] flex items-center justify-center gap-10 z-10">
         <button
           className="btn--left block md:hidden"
           onClick={() => swapCards("right")}
