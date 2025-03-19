@@ -59,7 +59,7 @@ const SessionsStack = ({ direction = "vertical" }) => {
         scrollTrigger: {
           trigger: section.current,
           pin: true,
-          start: "center center",
+          start: "53% center",
           end: () => `+=${items.length * 100}%`,
           scrub: 1,
           invalidateOnRefresh: true,
@@ -111,7 +111,7 @@ const SessionsStack = ({ direction = "vertical" }) => {
               {/* Card 1: Cybersecurity & AI */}
               <div
                 role="listitem"
-                className="item bg-[#2C3039] w-[90vw] md:w-[70vw] h-[50vh] absolute border border-white"
+                className="item bg-[#191b1fad] backdrop-blur-md border w-[90vw] md:w-[70vw] h-[70vh] absolute "
               >
                 <h2 className="text-xl font-bold text-white mt-6 ml-6">
                   🛡️ Cybersecurity & Artificial Intelligence (AI)
@@ -137,7 +137,7 @@ const SessionsStack = ({ direction = "vertical" }) => {
               {/* Card 2: Project Management & Business Analysis */}
               <div
                 role="listitem"
-                className="item bg-[#999ca5] w-[90vw] md:w-[70vw] h-[50vh] absolute"
+                className="item bg-[#191b1fad] backdrop-blur-md border w-[90vw] md:w-[70vw] h-[70vh] absolute"
               >
                 <h2 className="text-xl font-bold text-white mt-6 ml-6">
                   📊 Project Management & Business Analysis
@@ -166,7 +166,7 @@ const SessionsStack = ({ direction = "vertical" }) => {
               {/* Card 3: Game Development */}
               <div
                 role="listitem"
-                className="item bg-[#172033] w-[90vw] md:w-[70vw] h-[50vh] absolute"
+                className="item bg-[#191b1fad] backdrop-blur-md border w-[90vw] md:w-[70vw] h-[70vh] absolute"
               >
                 <h2 className="text-xl font-bold text-white mt-6 ml-6">
                   🎮 Game Development
@@ -189,7 +189,7 @@ const SessionsStack = ({ direction = "vertical" }) => {
 
               <div
                 role="listitem"
-                className="item bg-[#3d7518] w-[90vw] md:w-[70vw] h-[50vh]"
+                className="item bg-[#191b1fad] backdrop-blur-md border w-[90vw] md:w-[70vw] h-[70vh]"
               >
                 <h2 className="text-2xl text-white font-bold p-4">
                   👩‍💻 Software Engineering
