@@ -88,7 +88,7 @@ const SessionsStack = ({ direction = "vertical" }) => {
     <div>
       <div className="relative">
         <div className="scroll-section " ref={section}>
-          <div className="h-[20vh] w-full flex flex-col items-center justify-center z-10 relative -top-10">
+          <div className="h-[20vh] text-center w-full flex flex-col items-center justify-center z-10 relative ">
             <h1 className="text-3xl font-bold text-white">
               🚀 Shape Your Future in Tech
             </h1>

@@ -1,6 +1,7 @@
 "use client";
 
 import StarsCanvas from "@/components/canvas/Stars";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/Header";
 import HeroSection from "@/components/sections/HeroSection";
@@ -33,6 +34,10 @@ export default function Home() {
       </div>
 
       <Footer />
+
+      <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-[1000]">
+        <Navbar />
+      </div>
     </div>
   );
 }
