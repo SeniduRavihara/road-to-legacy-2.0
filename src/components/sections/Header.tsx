@@ -1,23 +1,21 @@
-import Link from "next/link";
+import { logo } from "@/assets";
+import ExportedImage from "next-image-export-optimizer";
+import { FaFacebook, FaLinkedin } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <header className=" text-white py-4 px-6 flex justify-between items-center shadow-md">
-      <h1 className="text-2xl font-bold">Road To Legacy 2.0</h1>
-      <nav>
-        <ul className="flex gap-4">
-          <li>
-            <Link href="/" passHref className="hover:underline">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/dashboard" passHref className="hover:underline">
-              Dashboard
-            </Link>
-          </li>
-        </ul>
-      </nav>
+    <header className=" text-white py-4 px-6 flex justify-between items-center bg-transparent">
+      <div className="flex">
+        <ExportedImage src={logo} alt="logo" className="w-14" />
+        <h1 className="text-5xl">RTL</h1>
+      </div>
+
+      <div className="hidden sm:flex">UOM-USJ-UOC</div>
+
+      <div className="hidden sm:flex gap-2">
+        <FaFacebook className="w-8 h-8" />
+        <FaLinkedin className="w-8 h-8" />
+      </div>
     </header>
   );
 };
