@@ -1,9 +1,8 @@
 "use client";
 
-import StarsCanvas from "@/components/canvas/Stars";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/sections/Footer";
-import Header from "@/components/sections/Header";
+import Header from "@/components/sections/header/Header";
 import HeroSection from "@/components/sections/HeroSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
 import SessionsStack from "@/components/sections/sessionsStack/SessionsStack";
@@ -17,20 +16,21 @@ export default function Home() {
       {/* <HighlightGrid /> */}
       {/* <HighlightedMesh /> */}
 
-      <Header />
+      <div className="h-screen">
+        <Header />
+        <HeroSection />
+      </div>
 
-      <HeroSection />
+      <div id="begin" className="pt-2">
+        <RoadToLegacy />
+        <SessionsStack />
+      </div>
 
-      <RoadToLegacy />
-
-      {/* <VerticalTimeLine /> */}
-
-      <SessionsStack />
-
-      <div className="relative">
+      <div className="relative " id="about">
         <Uni3Section />
         <TestaimonialSection />
-        <StarsCanvas />
+        {/* <Spotlight /> */}
+        {/* <StarsCanvas /> */}
       </div>
 
       <Footer />

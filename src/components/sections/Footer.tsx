@@ -11,7 +11,7 @@ import Social from "../Social"; // Assuming this component handles Google login 
 
 const Footer = () => {
   return (
-    <div className="text-white py-6 text-center relative">
+    <div className="text-white py-6 text-center relative mb-20">
       <div className="mx-auto relative z-10">
         <p className="text-lg">
           © 2025 Road To Legacy 2.0. All Rights Reserved.
@@ -26,13 +26,13 @@ const Footer = () => {
             <DialogHeader>
               <DialogTitle>Login with Google</DialogTitle>
             </DialogHeader>
-            <Social /> 
+            <Social />
             <DialogFooter />
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="absolute bottom-0 w-full">
+      <div className="absolute bottom-32 w-full">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
           <path
             fill="#333842"
@@ -41,6 +41,8 @@ const Footer = () => {
           ></path>
         </svg>
       </div>
+
+      <div className="bg-[#333842] absolute w-full h-[128px] bottom-0 opacity-50"></div>
     </div>
   );
 };
