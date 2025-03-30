@@ -1,6 +1,15 @@
-import { AdminDataType } from "@/types";
+import { AdminDataType, FormDataType } from "@/types";
 import { signInWithPopup, signOut, User } from "firebase/auth";
-import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { auth, db, provider } from "./config";
 
 export const logout = async () => {
@@ -90,28 +99,79 @@ export const isAlreadyRegistered = async (uid: string) => {
 export const approveQr = async (
   data: string
 ): Promise<{ success: boolean; email: string; discription?: string }> => {
- try {
-   const delegatesRef = collection(db, "delegates");
-   const q = query(delegatesRef, where("email", "==", data));
-   const querySnapshot = await getDocs(q);
+  try {
+    const delegatesQuery = query(
+      collection(db, "delegates"),
+      where("email", "==", data)
+    );
 
-   if (querySnapshot.empty) {
-     return { success: false, email: "", discription: "Not Registerd!" };
-   }
+    const querySnapshot = await getDocs(delegatesQuery);
 
-   const delegateDoc = querySnapshot.docs[0];
-   const delegateData = delegateDoc.data();
-   const { email, haveArrived } = delegateData;
+    if (querySnapshot.empty) {
+      return { success: false, email: "", discription: "Not Registerd!" };
+    }
 
-   if (haveArrived) {
-     return { success: false, email, discription: "Already Arrived" };
-   }
+    const delegateDoc = querySnapshot.docs[0];
+    const delegateData = delegateDoc.data();
 
-   await updateDoc(doc(db, "delegates", delegateDoc.id), { haveArrived: true });
+    const { email, arrived } = delegateData;
 
-   return { success: true, email };
- } catch (error) {
-   console.error("Error approving QR:", error);
-   return { success: false, email: "" };
- }
+    if (arrived) {
+      return { success: false, email, discription: "Already Arrived" };
+    }
+
+    await updateDoc(doc(db, "delegates", delegateDoc.id), {
+      arrived: true,
+    });
+
+    return { success: true, email };
+  } catch (error) {
+    console.error("Error approving QR:", error);
+    return { success: false, email: "" };
+  }
+};
+
+// --------------------------------------------------------------------
+
+export const AdminToggle = async (id: string, isAdmin: boolean) => {
+  try {
+    const adminDocRef = doc(db, "admins", id);
+    await updateDoc(adminDocRef, {
+      isAdmin: !isAdmin,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// --------------------------------------------------------------------
+
+export const registerDelegates = async (formData: FormDataType) => {
+  try {
+    const delegatesQuery = query(
+      collection(db, "delegates"),
+      where("email", "==", formData.email)
+    );
+
+    const querySnapshot = await getDocs(delegatesQuery);
+
+    if (!querySnapshot.empty) {
+      throw new Error("User is already registered.");
+    }
+
+    const documentRef = doc(collection(db, "delegates"));
+
+    await setDoc(documentRef, {
+      ...formData,
+      arrived: false,
+      createdAt: new Date().toISOString(),
+    });
+
+    console.log("Delegate registered successfully.");
+    return { success: true };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    console.error("Error registering delegate:", error);
+    return { success: false, error: error.message };
+  }
 };

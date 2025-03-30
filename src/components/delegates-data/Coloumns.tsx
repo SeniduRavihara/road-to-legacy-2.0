@@ -1,14 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { DelegatesTableType, DelegatesType } from "@/types";
 
 export const columns: (
@@ -34,35 +27,64 @@ export const columns: (
     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
-    id: "actions",
-    enableHiding: false,
+    accessorKey: "arrived",
+    header: "Status",
     cell: ({ row }) => {
       const delegateInRow = row.original;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => {
-                const selectedDelegate =
-                  deldelegatesData?.find(
-                    (delegate) => delegate.email === delegateInRow.email
-                  ) || null;
-                toggleArrived(selectedDelegate);
-              }}
-            >
-              Arrived
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button
+          className="text-white w-[50%] bg-blue-500"
+          onClick={() => {
+            const selectedDelegate = deldelegatesData.find(
+              (admin) => admin.email === delegateInRow.email
+            );
+
+            if (!selectedDelegate) {
+              console.warn("Admin not found:", delegateInRow.email);
+              return;
+            }
+
+            // Show a confirmation dialog before toggling
+            const confirmToggle = window.confirm(
+              `Are you sure you want to mark ${selectedDelegate.email} as ${
+                selectedDelegate.arrived ? "not arrived" : "arrived"
+              }`
+            );
+
+            if (confirmToggle) {
+              toggleArrived(selectedDelegate);
+            }
+          }}
+        >
+          {delegateInRow.arrived ? "Arrived" : "Not Arrived"}
+        </Button>
       );
     },
   },
 ];
+
+{
+  /* <DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="ghost" className="h-8 w-8 p-0">
+      <span className="sr-only">Open menu</span>
+      <MoreHorizontal className="h-4 w-4" />
+    </Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent align="end">
+    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+    <DropdownMenuItem
+      onClick={() => {
+        const selectedDelegate =
+          deldelegatesData?.find(
+            (delegate) => delegate.email === delegateInRow.email
+          ) || null;
+        toggleArrived(selectedDelegate);
+      }}
+    >
+      Arrived
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>; */
+}

@@ -1,29 +1,18 @@
 "use client";
 
-import Uni3Section from "@/components/Uni3Section";
+import StarsCanvas from "@/components/canvas/Stars";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/Header";
 import HeroSection from "@/components/sections/HeroSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
-import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
+import SessionsStack from "@/components/sections/sessionsStack/SessionsStack";
 import TestaimonialSection from "@/components/sections/testaimonials/TestaimonialSection";
+import Uni3Section from "@/components/sections/uni3Section/Uni3Section";
 
 export default function Home() {
   return (
     <div className="bg-[#191b1f] text-white">
-      {/* <video
-        className="video"
-        autoPlay
-        loop
-        muted
-        poster=""
-        role="none"
-      >
-        <source
-          src="https://raw.githubusercontent.com/mobalti/open-props-interfaces/main/dynamic-content-lockups-v2/assets/bg-gradient-animation.mp4"
-          type="video/mp4"
-        />
-      </video> */}
       {/* <div className="grid-overlay test"></div> */}
       {/* <HighlightGrid /> */}
       {/* <HighlightedMesh /> */}
@@ -34,15 +23,21 @@ export default function Home() {
 
       <RoadToLegacy />
 
-      <VerticalTimeLine />
+      {/* <VerticalTimeLine /> */}
 
-      <div className="bg-whit ">
+      <SessionsStack />
+
+      <div className="relative">
         <Uni3Section />
+        <TestaimonialSection />
+        <StarsCanvas />
       </div>
 
-      <TestaimonialSection />
-
       <Footer />
+
+      <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-[1000]">
+        <Navbar />
+      </div>
     </div>
   );
 }

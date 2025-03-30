@@ -1,7 +1,7 @@
 "use client";
 
 import { logout } from "@/firebase/api";
-import { Home, LogOut, ScanQrCode, User } from "lucide-react";
+import { Dices, Home, LogOut, ScanQrCode, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { FaUserShield } from "react-icons/fa";
@@ -55,6 +55,16 @@ const Sidebar = () => {
         <FaUserShield
           className={`w-8 h-8 sm:w-12 sm:h-12 sm:p-2 p-1  rounded-2xl cursor-pointer duration-300 flex items-center justify-center ${
             isActive("/admin/manage-admins")
+              ? "text-white bg-blue-600"
+              : "text-[#c7c7c7] sm:hover:bg-blue-600"
+          }`}
+        />
+      </Link>
+
+      <Link href="/admin/game">
+        <Dices
+          className={`w-8 h-8 sm:w-12 sm:h-12 sm:p-2 p-1  rounded-2xl cursor-pointer duration-300 flex items-center justify-center ${
+            isActive("/admin/game")
               ? "text-white bg-blue-600"
               : "text-[#c7c7c7] sm:hover:bg-blue-600"
           }`}

@@ -30,7 +30,7 @@ const Social = () => {
   return (
     <Button
       size="lg"
-      className="rounded-full px-5 py-4 bg-blue-500 text-white hover:bg-blue-400 text-lg flex items-center gap-2"
+      className="rounded-xl px-5 py-6 bg-blue-500 text-white hover:bg-blue-400 text-lg flex items-center gap-2 cursor-pointer"
       variant="outline"
       onClick={handleGooglesignin}
     >

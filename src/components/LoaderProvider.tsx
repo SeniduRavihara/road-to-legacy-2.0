@@ -18,7 +18,7 @@ const LoaderProvider = ({ children }: { children: React.ReactNode }) => {
   // if (!loading) return <>{children}</>;
 
   return (
-    <div className="relative w-screen h-screen">
+    <div className="relative w-[100vw]">
       {/* Content is still there but slightly dimmed */}
       <div className={cn(loading ? "opacity-20" : "")}>{children}</div>
 
