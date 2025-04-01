@@ -3,6 +3,7 @@ import UOM from "./Uni3images/UOM.jpg";
 import USJ from "./Uni3images/USJ.jpg";
 import logo from "./logo.png";
 import fullLogo from "./logos/full_logo.png";
+import mission from "./mission.png";
 import AiPic from "./service-1.png";
 import analy from "./service-2.png";
 import game from "./service-3.png";
@@ -21,6 +22,7 @@ export {
   fullLogo,
   game,
   logo,
+  mission,
   post1,
   post2,
   post3,

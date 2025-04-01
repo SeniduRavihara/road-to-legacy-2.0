@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/header/Header";
 import HeroSection from "@/components/sections/HeroSection";
+import MissionSection from "@/components/sections/MissionSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
 import SessionsStack from "@/components/sections/sessionsStack/SessionsStack";
 import SpeakerSection from "@/components/sections/speakerSection/SpeakerSection";
@@ -26,6 +27,8 @@ export default function Home() {
       <div className="relative " id="about">
         <Uni3Section />
       </div>
+
+      <MissionSection />
 
       <SessionsStack />
 
