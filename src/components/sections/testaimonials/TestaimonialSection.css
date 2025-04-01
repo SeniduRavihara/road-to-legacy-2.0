@@ -82,7 +82,7 @@
     bottom: 60px;
     left: 0;
     display: block;
-    z-index: 3333;
+    /* z-index: 3333; */
 		height: 12px;
 }
 

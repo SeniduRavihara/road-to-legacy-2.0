@@ -18,13 +18,13 @@ const LoaderProvider = ({ children }: { children: React.ReactNode }) => {
   // if (!loading) return <>{children}</>;
 
   return (
-    <div className="relative w-[100vw]">
+    <div className="relative w-[100vw] overflow-x-hidden">
       {/* Content is still there but slightly dimmed */}
       <div className={cn(loading ? "opacity-20" : "")}>{children}</div>
 
       {/* Loader Overlay */}
       {loading && (
-        <div className="fixed inset-0 flex justify-center items-center bg-[#262930] bg-opacity-60 z-50">
+        <div className="fixed inset-0 flex justify-center items-center bg-[#262930] z-50">
           <Loader />
         </div>
       )}

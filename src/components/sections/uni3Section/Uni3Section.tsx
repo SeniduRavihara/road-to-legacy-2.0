@@ -203,7 +203,7 @@ const Uni3Section = () => {
   }
 
   return (
-    <div className="w-[100vw] my-10 overflow-x-hidden flex flex-col items-center justify-between">
+    <div className="w-full overflow-hidden  sm:scale-75 flex flex-col items-center justify-between">
       <div className="w-full lg:h-[100vh] md:h-[80vh] h-[60vh] overflow-hidden flex items-center justify-center relative">
         <div className="cardList ">
           <button
@@ -244,49 +244,49 @@ const Uni3Section = () => {
         <div className="infoList">
           <div className="info__wrapper">
             <div className="info current--info">
-              <h1 className="text name">UOM</h1>
-              <h4 className="text location">Scotland</h4>
-              <p className="text description">The mountains are calling</p>
+              <h1 className="text name -mt-[130px] sm:-mt-[200px]">UOM</h1>
+              {/* <h4 className="text location">Scotland</h4>
+              <p className="text description">The mountains are calling</p> */}
             </div>
 
             <div className="info next--info">
-              <h1 className="text name">USJ</h1>
-              <h4 className="text location">Peru</h4>
-              <p className="text description">Adventure is never far away</p>
+              <h1 className="text name -mt-[130px] sm:-mt-[200px]">USJ</h1>
+              {/* <h4 className="text location">Peru</h4>
+              <p className="text description">Adventure is never far away</p> */}
             </div>
 
             <div className="info previous--info">
-              <h1 className="text name">UOC</h1>
-              <h4 className="text location">France</h4>
-              <p className="text description">Let your dreams come true</p>
+              <h1 className="text name -mt-[130px] sm:-mt-[200px]">UOC</h1>
+              {/* <h4 className="text location">France</h4>
+              <p className="text description">Let your dreams come true</p> */}
             </div>
           </div>
         </div>
 
-        <div className="app__bg">
+        <div className="app__bg hidden">
           <div className="app__bg__image current--image">
-            <ExportedImage
+            {/* <ExportedImage
               className="img"
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxK0nLezqlaqJjGtRUruZCY-fqKdI2Wi7bG1i0n7PrNerD-aNfH5iit53FO92f5X3xjDo&usqp=CAU"
               alt=""
               fill
-            />
+            /> */}
           </div>
           <div className="app__bg__image next--image">
-            <ExportedImage
+            {/* <ExportedImage
               className="img"
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVreuIL7YFIhOLpMK0HDOcgbFTH9MDoB5neyMoDWZzL4iFRQg_dI4J9sQQTCcmUx7L55c&usqp=CAU"
               alt=""
               fill
-            />
+            /> */}
           </div>
           <div className="app__bg__image previous--image">
-            <ExportedImage
+            {/* <ExportedImage
               className="img"
               src="https://i.pinimg.com/474x/58/be/4a/58be4a4722481dbecee4d549a65197c4.jpg"
               alt=""
               fill
-            />
+            /> */}
           </div>
         </div>
       </div>
