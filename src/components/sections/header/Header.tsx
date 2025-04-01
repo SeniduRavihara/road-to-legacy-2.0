@@ -1,39 +1,78 @@
-import { logo } from "@/assets";
+"use client";
+
+import { fullLogo } from "@/assets";
 import gsap from "gsap";
 import ExportedImage from "next-image-export-optimizer";
 import { useEffect } from "react";
-import { FaFacebook, FaLinkedin } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import "./Header.css";
 
 const Header = () => {
   useEffect(() => {
-    gsap.from("#header", {
-      opacity: 0,
-      delay: 2,
-      x: 20,
-      duration: 1,
+    // Header fade-in animation
+    const ctx = gsap.context(() => {
+      gsap.from("#header", {
+        opacity: 0,
+        delay: 2,
+        x: 20,
+        duration: 1,
+      });
+
+      // Sea wave effect on social media icons
+      gsap.to(".social-icon", {
+        y: -5, // Move up slightly
+        duration: 1.5, // Smooth animation
+        repeat: -1, // Infinite loop
+        yoyo: true, // Reverse animation
+        ease: "sine.inOut", // Smooth wave motion
+        stagger: 0.5,
+      });
     });
+
+    return () => ctx.revert(); // Cleanup animation
   }, []);
 
   return (
     <header
       id="header"
-      className="text-white py-4 px-6 flex justify-between items-center bg-transparent"
+      className="text-white py-4 px-6 flex justify-between items-center bg-transparent absolute left-0 top-0 w-full z-10 "
     >
       <div id="floating-logo" className="flex">
-        <ExportedImage
-          src={logo}
-          alt="logo"
-          className="w-8 h-8 sm:w-14 sm:h-14"
-        />
-        <h1 className="text-3xl sm:text-5xl">RTL</h1>
+        <a href="#">
+          <ExportedImage
+            src={fullLogo}
+            alt="UOM-USJ-UOC logo"
+            priority
+            className="w-16 h-16 sm:w-20 sm:h-20 cursor-pointer"
+          />
+        </a>
       </div>
 
-      <div className="hidden sm:flex">UOM-USJ-UOC</div>
+      <div className="hidden sm:flex text-xl font-boldonse">UOM-USJ-UOC</div>
 
-      <div className="flex sm:flex gap-2">
-        <FaFacebook className="w-8 h-8" />
-        <FaLinkedin className="w-8 h-8" />
+      <div className="flex gap-2 z-[1000]">
+        <a
+          href="https://www.instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          // className="cursor-pointer"
+        >
+          <FaInstagram className="w-8 h-8 sm:w-12 sm:h-12 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
+        </a>
+        <a
+          href="https://www.facebook.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaFacebook className="w-8 h-8 sm:w-12 sm:h-12 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
+        </a>
+        <a
+          href="https://www.linkedin.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaLinkedin className="w-8 h-8 sm:w-12 sm:h-12 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
+        </a>
       </div>
     </header>
   );

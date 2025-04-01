@@ -245,20 +245,20 @@ const Uni3Section = () => {
           <div className="info__wrapper">
             <div className="info current--info">
               <h1 className="text name">UOM</h1>
-              <h4 className="text location">Scotland</h4>
-              <p className="text description">The mountains are calling</p>
+              {/* <h4 className="text location">Scotland</h4>
+              <p className="text description">The mountains are calling</p> */}
             </div>
 
             <div className="info next--info">
               <h1 className="text name">USJ</h1>
-              <h4 className="text location">Peru</h4>
-              <p className="text description">Adventure is never far away</p>
+              {/* <h4 className="text location">Peru</h4>
+              <p className="text description">Adventure is never far away</p> */}
             </div>
 
             <div className="info previous--info">
               <h1 className="text name">UOC</h1>
-              <h4 className="text location">France</h4>
-              <p className="text description">Let your dreams come true</p>
+              {/* <h4 className="text location">France</h4>
+              <p className="text description">Let your dreams come true</p> */}
             </div>
           </div>
         </div>
