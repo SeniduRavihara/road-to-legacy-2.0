@@ -23,17 +23,17 @@ export default function Home() {
         <RoadToLegacy />
       </div>
 
-      {/* <div className="relative " id="about">
+      <div className="relative " id="about">
         <Uni3Section />
-      </div> */}
+      </div>
 
-      {/* <SessionsStack /> */}
+      <SessionsStack />
 
-      {/* <SpeakerSection /> */}
+      <SpeakerSection />
 
-      {/* <TestaimonialSection /> */}
+      <TestaimonialSection />
 
-      {/* <Footer /> */}
+      <Footer />
 
       <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-[1000]">
         <Navbar />

@@ -18,23 +18,23 @@ const HeroSection = () => {
       opacity: 0,
       y: 50,
       duration: 1,
-      delay: 0.5,
+      delay: 2,
       ease: "power2.out",
     });
 
     gsap.from(".hero-text", {
       opacity: 0,
       y: 30,
-      duration: 1,
-      delay: 1,
+      duration: 1.5,
+      delay: 2,
       ease: "power2.out",
     });
 
     gsap.from(".register-btn", {
       opacity: 0,
       scale: 0.8,
-      duration: 0.8,
-      delay: 1.5,
+      duration: 1.5,
+      delay: 2,
       ease: "back.out(1.7)",
     });
 
@@ -52,7 +52,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="hero-section relative h-[600px] w-full overflow-hidden flex flex-col justify-center items-center text-white text-center px-6 ">
+    <section className="hero-section relative h-screen w-full overflow-hidden flex flex-col justify-center items-center text-white text-center px-6 ">
       {/* Background Image with Parallax Effect */}
       <ExportedImage
         src={svgImg}
@@ -64,7 +64,7 @@ const HeroSection = () => {
         ROAD TO LEGACY 2.0
       </h1> */}
 
-      <div className="mt-20">
+      <div className="mt">
         <AnimatedITLEGACY />
       </div>
 
@@ -77,7 +77,7 @@ const HeroSection = () => {
         <RegisterButton />
       </div>
 
-      <div className="w-full flex justify-center items-center relative top-[60px] opacity-30">
+      <div className="w-full flex justify-center items-center opacity-30 absolute bottom-5">
         <a
           href="#begin"
           onClick={(e) => {
@@ -87,7 +87,7 @@ const HeroSection = () => {
             });
           }}
         >
-          <div className="w-[35px] h-[64px] -mt-14 rounded-3xl border-4 border-primary flex justify-center items-start p-2">
+          <div className="w-[35px] h-[64px]  rounded-3xl border-4 border-primary flex justify-center items-start p-2">
             <motion.div
               animate={{ y: [0, 24, 0] }}
               transition={{
