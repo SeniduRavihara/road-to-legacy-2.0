@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        "xsm": "570px",
+      },
       fontFamily: {
         boldonse: "Boldonse",
       },

@@ -87,7 +87,7 @@ const SessionsStack = ({ direction = "vertical" }) => {
   }, [direction]);
 
   return (
-    <div className="w-full relative top-5">
+    <div className="w-full relative top-20">
       <div className="relative w-full">
         <div className="scroll-section " ref={section}>
           <div className="h-[20vh] p-5 text-center w-full flex flex-col items-center justify-center z-10 relative ">
