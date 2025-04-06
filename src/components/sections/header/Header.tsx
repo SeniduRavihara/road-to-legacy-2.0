@@ -44,6 +44,8 @@ const Header = () => {
             alt="UOM-USJ-UOC logo"
             priority
             className="w-16 h-16 sm:w-20 sm:h-20 cursor-pointer"
+            unoptimized
+            placeholder="blur"
           />
         </a>
       </div>
