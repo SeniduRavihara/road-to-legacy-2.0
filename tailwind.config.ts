@@ -9,8 +9,11 @@ export default {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        "custom-dark": "0 4px 30px rgba(0, 0, 0, 0.4)",
+      },
       screens: {
-        "xsm": "570px",
+        xsm: "570px",
       },
       fontFamily: {
         boldonse: "Boldonse",
