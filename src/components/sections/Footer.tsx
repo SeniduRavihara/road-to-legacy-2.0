@@ -6,8 +6,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@chakra-ui/react";
 import Social from "../Social"; // Assuming this component handles Google login or other social logins
+import { Button } from "../ui/button";
 
 const Footer = () => {
   return (
@@ -20,7 +20,7 @@ const Footer = () => {
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button>Admin</Button>
+            <Button variant="ghost" className="mt-5">Admin</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px] p-5 gap-10 flex flex-col items-center justify-center sm:rounded-xl rounded-xl">
             <DialogHeader>

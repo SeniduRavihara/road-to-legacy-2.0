@@ -18,7 +18,7 @@ const MissionSection = () => {
         <ExportedImage
           src={mission}
           alt="Background Pattern"
-          className="w-[250px] xsm:w-[350px] z-[100]  object-cover absolute -bottom-[200px] right-[50%] translate-x-[50%] xsm:bottom-0 xsm:translate-x-0 xsm:-right-48"
+          className="w-[250px] xsm:w-[350px] z-[100]  object-cover absolute -bottom-[200px] right-[50%] translate-x-[50%] xsm:-bottom-8 xsm:translate-x-0 xsm:-right-48"
         />
 
         <BackgroundBeams />

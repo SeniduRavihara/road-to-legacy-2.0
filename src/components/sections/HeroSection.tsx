@@ -14,13 +14,13 @@ gsap.registerPlugin(ScrollTrigger);
 const HeroSection = () => {
   useEffect(() => {
     // Hero section animations
-    gsap.from(".hero-title", {
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      delay: 2,
-      ease: "power2.out",
-    });
+    // gsap.from(".hero-title", {
+    //   opacity: 0,
+    //   y: 50,
+    //   duration: 1,
+    //   delay: 2,
+    //   ease: "power2.out",
+    // });
 
     gsap.from(".hero-text", {
       opacity: 0,
