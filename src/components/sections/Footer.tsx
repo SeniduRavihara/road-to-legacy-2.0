@@ -6,8 +6,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@chakra-ui/react";
 import Social from "../Social"; // Assuming this component handles Google login or other social logins
+import { Button } from "../ui/button";
 
 const Footer = () => {
   return (

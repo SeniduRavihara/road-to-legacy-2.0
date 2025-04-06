@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@blackbox-vision/react-qr-reader": "^5.0.0",
-    "@chakra-ui/react": "^3.8.1",
     "@emotion/react": "^11.14.0",
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-dialog": "^1.1.6",
