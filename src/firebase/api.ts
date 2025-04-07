@@ -147,6 +147,7 @@ export const AdminToggle = async (id: string, isAdmin: boolean) => {
 // --------------------------------------------------------------------
 
 export const registerDelegates = async (formData: FormDataType) => {
+
   try {
     const delegatesQuery = query(
       collection(db, "delegates"),
@@ -156,7 +157,7 @@ export const registerDelegates = async (formData: FormDataType) => {
     const querySnapshot = await getDocs(delegatesQuery);
 
     if (!querySnapshot.empty) {
-      throw new Error("User is already registered.");
+      return { success: false, error: "User is already registered." };
     }
 
     const documentRef = doc(collection(db, "delegates"));

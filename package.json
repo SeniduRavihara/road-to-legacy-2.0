@@ -52,6 +52,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
+    "@types/qrcode.react": "^1.0.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-qr-reader": "^2.1.7",

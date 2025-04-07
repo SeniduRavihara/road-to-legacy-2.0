@@ -1,5 +1,4 @@
 import LoaderProvider from "@/components/LoaderProvider";
-// import { Provider } from "@/components/ui/provider";
 import { Toaster } from "@/components/ui/sonner";
 import AuthContextProvider from "@/context/AuthContext";
 import DataContextProvider from "@/context/DataContext";
@@ -47,7 +46,6 @@ export default function RootLayout({
           <DataContextProvider>
             <AuthContextProvider>
               {children}
-              {/* <Provider>{children}</Provider> */}
             </AuthContextProvider>
           </DataContextProvider>
         </LoaderProvider>

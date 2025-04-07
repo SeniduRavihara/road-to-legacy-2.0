@@ -1,6 +1,3 @@
-import UOC from "./Uni3images/UOC.jpg";
-import UOM from "./Uni3images/UOM.jpg";
-import USJ from "./Uni3images/USJ.jpg";
 import logo from "./logo.png";
 import fullLogo from "./logos/full_logo.png";
 import mission from "./mission.png";
@@ -15,18 +12,31 @@ import post3 from "./speakers/AI.png";
 import post2 from "./speakers/Cloud.png";
 import post4 from "./speakers/Cyber_Security.png";
 import post1 from "./speakers/SE.png";
+import UOC from "./Uni3images/UOC.jpg";
+import UOM from "./Uni3images/UOM.jpg";
+import USJ from "./Uni3images/USJ.jpg";
+
+import graduatedCap from "./qr-pdf/graduate-cap-svgrepo-com.png";
+import mailShield from "./qr-pdf/mail-shield-svgrepo-com.png";
+import roadToLegacy from "./qr-pdf/Road to Leagacy 2.0.png";
+
+import invitation from "./invitation.png";
 
 export {
   AiPic,
   analy,
   fullLogo,
   game,
+  graduatedCap,
+  invitation,
   logo,
+  mailShield,
   mission,
   post1,
   post2,
   post3,
   post4,
+  roadToLegacy,
   speaker1,
   speaker2,
   speaker3,

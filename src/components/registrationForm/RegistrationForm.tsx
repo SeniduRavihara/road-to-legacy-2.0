@@ -3,28 +3,11 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 // import tShirtImage from "../../public/assets/tshirt.jpg";
+import { registerDelegates } from "@/firebase/api";
+import { FormDataType } from "@/types";
+import { useRouter } from "next/navigation";
 import styles from "./Form.module.css";
 import GradientText from "./GradientText/GradientText";
-
-interface FormData {
-  firstName: string;
-  lastName: string;
-  certificateName: string;
-  nic: string;
-  university: string;
-  faculty: string;
-  department: string;
-  universityRegNo: string;
-  alYear: string;
-  contactNumber: string;
-  email: string;
-  emergencyContact: string;
-  mealPreference: string;
-  tShirt: boolean;
-  hearAbout: string;
-  hearAboutOther: string;
-  suggestions: string;
-}
 
 interface FormErrors {
   firstName?: string;
@@ -42,8 +25,11 @@ interface FormErrors {
 }
 
 const RegistrationForm: React.FC = () => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<FormDataType>({
     firstName: "",
     lastName: "",
     certificateName: "",
@@ -168,10 +154,45 @@ const RegistrationForm: React.FC = () => {
     setStep(step - 1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log(formData);
+      setIsLoading(true);
+      const { success, error } = await registerDelegates(formData);
+      if (success) {
+        alert("Form submitted successfully!");
+        setStep(1);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          certificateName: "",
+          nic: "",
+          university: "",
+          faculty: "",
+          department: "",
+          universityRegNo: "",
+          alYear: "",
+          contactNumber: "",
+          email: "",
+          emergencyContact: "",
+          mealPreference: "",
+          tShirt: false,
+          hearAbout: "",
+          hearAboutOther: "",
+          suggestions: "",
+        });
+        setErrors({});
+      } else if (error) {
+        alert("Error submitting form: " + error);
+      }
+      setStep(1);
+      setErrors({});
+      setIsLoading(false);
+      router.push(
+        `/thankyou?email=${encodeURIComponent(
+          formData.email
+        )}&name=${encodeURIComponent(formData.certificateName)}`
+      );
     }
   };
 
@@ -477,7 +498,11 @@ const RegistrationForm: React.FC = () => {
             <button onClick={prevStep} className={styles.formButton}>
               Previous
             </button>
-            <button onClick={handleSubmit} className={styles.formButton}>
+            <button
+              onClick={handleSubmit}
+              disabled={isLoading}
+              className={styles.formButton}
+            >
               Submit
             </button>
           </div>
@@ -541,8 +566,10 @@ const RegistrationForm: React.FC = () => {
           >
             <h1 className="text-[2.3rem] font-bold">Registration</h1>
           </GradientText>
-          
-          <p className="text-[0.8rem] relative left-20 -top-3 italic text-white">ROAD TO LEGACY 2.0</p>
+
+          <p className="text-[0.8rem] relative left-20 -top-3 italic text-white">
+            ROAD TO LEGACY 2.0
+          </p>
         </div>
 
         <div className="flex flex-col md:flex-row bg-[#1f203100]">
@@ -552,7 +579,7 @@ const RegistrationForm: React.FC = () => {
             layout // Ensures smooth height changes
             className="flex-1 items-start mr-[5px]"
           >
-            <form onSubmit={handleSubmit}>
+            <div>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={step}
@@ -565,7 +592,7 @@ const RegistrationForm: React.FC = () => {
                   {renderStep()}
                 </motion.div>
               </AnimatePresence>
-            </form>
+            </div>
           </motion.div>
         </div>
       </motion.div>

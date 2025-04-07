@@ -42,17 +42,19 @@ export type AdminTableType = {
 export type FormDataType = {
   firstName: string;
   lastName: string;
+  certificateName: string;
+  nic: string;
   university: string;
   faculty: string;
   department: string;
-  regNumber: string;
+  universityRegNo: string;
   alYear: string;
   contactNumber: string;
   email: string;
   emergencyContact: string;
   mealPreference: string;
-  tshirt: string;
-  howHeard: string;
-  certificateName: string;
-  suggestions?: string;
+  tShirt: boolean;
+  hearAbout: string;
+  hearAboutOther: string;
+  suggestions: string;
 };
