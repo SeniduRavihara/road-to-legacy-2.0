@@ -14,7 +14,6 @@ import Uni3Section from "@/components/sections/uni3Section/Uni3Section";
 export default function Home() {
   return (
     <div className="bg-[#191b1f] text-white">
-
       <div className="">
         <Header />
         <HeroSection />

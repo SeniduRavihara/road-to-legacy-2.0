@@ -3,7 +3,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 // import tShirtImage from "../../public/assets/tshirt.jpg";
-import { registerDelegates } from "@/firebase/api";
 import { FormDataType } from "@/types";
 import { useRouter } from "next/navigation";
 import styles from "./Form.module.css";
@@ -11,6 +10,9 @@ import GradientText from "./GradientText/GradientText";
 import Step1 from "./steps/Step1";
 import Step2 from "./steps/Step2";
 import Step3 from "./steps/Step3";
+
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { registerDelegates } from "@/firebase/api";
 
 interface FormErrors {
   firstName?: string;
@@ -27,9 +29,13 @@ interface FormErrors {
   emergencyContact?: string;
 }
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const RegistrationForm: React.FC = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [submited, setSubmited] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormDataType>({
@@ -149,7 +155,7 @@ const RegistrationForm: React.FC = () => {
 
   const nextStep = () => {
     if (validateForm()) {
-      setStep(step + 1);
+    setStep(step + 1);
     }
   };
 
@@ -161,9 +167,12 @@ const RegistrationForm: React.FC = () => {
     e.preventDefault();
     if (validateForm()) {
       setIsLoading(true);
+      setOpenDialog(true);
       const { success, error } = await registerDelegates(formData);
       if (success) {
-        alert("Form submitted successfully!");
+        setSubmited(true);
+        await delay(1000);
+        // alert("Form submitted successfully!");
 
         router.push(
           `/thankyou?email=${encodeURIComponent(
@@ -201,6 +210,9 @@ const RegistrationForm: React.FC = () => {
       setStep(1);
       setErrors({});
       setIsLoading(false);
+      setSubmited(false);
+      setOpenDialog(false);
+
       // router.push("/");
     }
   };
@@ -326,6 +338,34 @@ const RegistrationForm: React.FC = () => {
           </motion.div>
         </div>
       </motion.div>
+
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent className="sm:max-w-[425px] flex flex-col items-center justify-center">
+          <DialogTitle>Please Wait...</DialogTitle>
+
+          <div>
+            {isLoading && !submited && (
+              <video autoPlay muted loop playsInline width="30">
+                <source src="/aprove-loading.webm" type="video/webm" />
+                Your browser does not support the video tag.
+              </video>
+            )}
+
+            {/* ✅ Approved Animation */}
+            {submited && (
+              <video autoPlay muted playsInline width="30">
+                <source src="/aprove-animate.webm" type="video/webm" />
+                Your browser does not support the video tag.
+              </video>
+            )}
+          </div>
+
+          <p className="text-center">
+            Please kindly wait while we redirect you to the next page. Your
+            ticket will be available for download shortly.
+          </p>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -22,21 +22,21 @@ const HeroSection = () => {
     //   ease: "power2.out",
     // });
 
-    gsap.from(".hero-text", {
-      opacity: 0,
-      y: 30,
-      duration: 1.5,
-      delay: 2,
-      ease: "power2.out",
-    });
+    // gsap.from(".hero-text", {
+    //   opacity: 0,
+    //   y: 30,
+    //   duration: 1.5,
+    //   delay: 2,
+    //   ease: "power2.out",
+    // });
 
-    gsap.from(".register-btn", {
-      opacity: 0,
-      scale: 0.8,
-      duration: 1.5,
-      delay: 2,
-      ease: "back.out(1.7)",
-    });
+    // gsap.from(".register-btn", {
+    //   opacity: 0,
+    //   scale: 0.8,
+    //   duration: 1.5,
+    //   delay: 2,
+    //   ease: "back.out(1.7)",
+    // });
 
     // Parallax Effect for Background Image
     gsap.to(".parallax-bg", {
@@ -68,12 +68,12 @@ const HeroSection = () => {
         <AnimatedITLEGACY />
       </div>
 
-      <p className="relative -top-5 hero-text backdrop-blur-sm p-5 mt-5">
+      <p className="relative -top-5 hero-text backdrop-blur-sm p-5 mt-5 z-10">
         Welcome to IT Legacy—where innovation, collaboration, and growth bring
         Tech minds together.
       </p>
 
-      <div className="register-btn">
+      <div className="register-btn z-10">
         <RegisterButton />
       </div>
 
