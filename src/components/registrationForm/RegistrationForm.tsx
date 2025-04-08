@@ -8,6 +8,9 @@ import { FormDataType } from "@/types";
 import { useRouter } from "next/navigation";
 import styles from "./Form.module.css";
 import GradientText from "./GradientText/GradientText";
+import Step1 from "./steps/Step1";
+import Step2 from "./steps/Step2";
+import Step3 from "./steps/Step3";
 
 interface FormErrors {
   firstName?: string;
@@ -161,6 +164,13 @@ const RegistrationForm: React.FC = () => {
       const { success, error } = await registerDelegates(formData);
       if (success) {
         alert("Form submitted successfully!");
+
+        router.push(
+          `/thankyou?email=${encodeURIComponent(
+            formData.email
+          )}&name=${encodeURIComponent(formData.certificateName)}&uni=${encodeURIComponent(formData.university)}`
+        );
+
         setStep(1);
         setFormData({
           firstName: "",
@@ -184,15 +194,14 @@ const RegistrationForm: React.FC = () => {
         setErrors({});
       } else if (error) {
         alert("Error submitting form: " + error);
+        setIsLoading(false);
+        setStep(1);
       }
+
       setStep(1);
       setErrors({});
       setIsLoading(false);
-      router.push(
-        `/thankyou?email=${encodeURIComponent(
-          formData.email
-        )}&name=${encodeURIComponent(formData.certificateName)}`
-      );
+      // router.push("/");
     }
   };
 
@@ -200,312 +209,33 @@ const RegistrationForm: React.FC = () => {
     switch (step) {
       case 1:
         return (
-          <div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>First Name</label>
-              <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-              {errors.firstName && (
-                <p className={styles.error}>{errors.firstName}</p>
-              )}
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>Last Name</label>
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-              {errors.lastName && (
-                <p className={styles.error}>{errors.lastName}</p>
-              )}
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>Certificate Name</label>
-              <input
-                type="text"
-                name="certificateName"
-                value={formData.certificateName}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-              {errors.certificateName && (
-                <p className={styles.error}>{errors.certificateName}</p>
-              )}
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>NIC no</label>
-              <input
-                type="text"
-                name="nic"
-                value={formData.nic}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-              {errors.nic && <p className={styles.error}>{errors.nic}</p>}
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>University</label>
-              <input
-                type="text"
-                name="university"
-                value={formData.university}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-              {errors.university && (
-                <p className={styles.error}>{errors.university}</p>
-              )}
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>Faculty</label>
-              <input
-                type="text"
-                name="faculty"
-                value={formData.faculty}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-              {errors.faculty && (
-                <p className={styles.error}>{errors.faculty}</p>
-              )}
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>Department</label>
-              <input
-                type="text"
-                name="department"
-                value={formData.department}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-              {errors.department && (
-                <p className={styles.error}>{errors.department}</p>
-              )}
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>
-                University Registration Number
-              </label>
-              <input
-                type="text"
-                name="universityRegNo"
-                value={formData.universityRegNo}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-              {errors.universityRegNo && (
-                <p className={styles.error}>{errors.universityRegNo}</p>
-              )}
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>
-                Year you have done your A/L’s
-              </label>
-              <input
-                type="text"
-                name="alYear"
-                value={formData.alYear}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-              {errors.alYear && <p className={styles.error}>{errors.alYear}</p>}
-            </div>
-            <button onClick={nextStep} className={styles.formButton}>
-              Next
-            </button>
-          </div>
+          <Step1
+            formData={formData}
+            nextStep={nextStep}
+            handleInputChange={handleInputChange}
+            errors={errors}
+          />
         );
       case 2:
         return (
-          <div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>Contact Number</label>
-              <input
-                type="text"
-                name="contactNumber"
-                value={formData.contactNumber}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-              {errors.contactNumber && (
-                <p className={styles.error}>{errors.contactNumber}</p>
-              )}
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>Email Address</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-              {errors.email && <p className={styles.error}>{errors.email}</p>}
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>
-                Emergency Contact Number
-              </label>
-              <input
-                type="text"
-                name="emergencyContact"
-                value={formData.emergencyContact}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-              {errors.emergencyContact && (
-                <p className={styles.error}>{errors.emergencyContact}</p>
-              )}
-            </div>
-            <div className={styles.formGroup}>
-              <button onClick={prevStep} className={styles.formButton}>
-                Previous
-              </button>
-              <button onClick={nextStep} className={styles.formButton}>
-                Next
-              </button>
-            </div>
-          </div>
+          <Step2
+            formData={formData}
+            nextStep={nextStep}
+            prevStep={prevStep}
+            handleInputChange={handleInputChange}
+            errors={errors}
+          />
         );
       case 3:
         return (
-          <div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>Meal Preference:</label>
-              <div className={styles.formOptions}>
-                <label>
-                  <input
-                    type="radio"
-                    name="mealPreference"
-                    value="Vegetarian"
-                    checked={formData.mealPreference === "Vegetarian"}
-                    onChange={handleInputChange}
-                  />
-                  Vegetarian
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="mealPreference"
-                    value="Egg"
-                    checked={formData.mealPreference === "Egg"}
-                    onChange={handleInputChange}
-                  />
-                  Egg
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="mealPreference"
-                    value="Non-Vegetarian"
-                    checked={formData.mealPreference === "Non-Vegetarian"}
-                    onChange={handleInputChange}
-                  />
-                  Non-Vegetarian
-                </label>
-              </div>
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>
-                Would you like to buy the event T-shirt?
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="tShirt"
-                  checked={formData.tShirt}
-                  onChange={handleInputChange}
-                />
-                Yes
-              </label>
-              {formData.tShirt && (
-                <div>
-                  {/* <Image
-                    src={tShirtImage}
-                    alt="T-shirt Design"
-                    width={200}
-                    height={200}
-                  /> */}
-                </div>
-              )}
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>
-                How did you hear about this event?
-              </label>
-              <div className={styles.formOptions}>
-                <label>
-                  <input
-                    type="radio"
-                    name="hearAbout"
-                    value="Social Media"
-                    checked={formData.hearAbout === "Social Media"}
-                    onChange={handleInputChange}
-                  />
-                  Social Media
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="hearAbout"
-                    value="Friends"
-                    checked={formData.hearAbout === "Friends"}
-                    onChange={handleInputChange}
-                  />
-                  Friends
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="hearAbout"
-                    value="Other"
-                    checked={formData.hearAbout === "Other"}
-                    onChange={handleInputChange}
-                  />
-                  Other
-                  {formData.hearAbout === "Other" && (
-                    <input
-                      type="text"
-                      name="hearAboutOther"
-                      placeholder="(please specify)"
-                      value={formData.hearAboutOther}
-                      onChange={handleInputChange}
-                      className={styles.formTextarea}
-                    />
-                  )}
-                </label>
-              </div>
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>
-                Any suggestions or expectations for the event?
-              </label>
-              <textarea
-                name="suggestions"
-                value={formData.suggestions}
-                onChange={handleInputChange}
-                className={styles.formInput}
-              />
-            </div>
-            <button onClick={prevStep} className={styles.formButton}>
-              Previous
-            </button>
-            <button
-              onClick={handleSubmit}
-              disabled={isLoading}
-              className={styles.formButton}
-            >
-              Submit
-            </button>
-          </div>
+          <Step3
+            formData={formData}
+            handleInputChange={handleInputChange}
+            errors={errors}
+            handleSubmit={handleSubmit}
+            isLoading={isLoading}
+            prevStep={prevStep}
+          />
         );
       default:
         return null;
@@ -528,8 +258,8 @@ const RegistrationForm: React.FC = () => {
               index + 1 === step
                 ? styles.activeStep
                 : index + 1 < step
-                ? styles.completedStep
-                : styles.pendingStep
+                  ? styles.completedStep
+                  : styles.pendingStep
             }`}
           >
             {index + 1 < step && (

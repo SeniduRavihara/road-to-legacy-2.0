@@ -1,6 +1,7 @@
 "use client";
 
 import GenerateTicket from "@/components/GenerateTicket";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 const ThankYouPage = () => {
@@ -12,32 +13,23 @@ const ThankYouPage = () => {
   console.log("Name:", name);
   console.log("Email:", email);
 
-  //   useEffect(() => {
-  //     const timer = setTimeout(() => {
-  //       router.push("/");
-  //     }, 2000);
-
-  //     return () => clearTimeout(timer); // Clean up in case component unmounts early
-  //   }, [router]);
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="p-8 rounded-lg shadow-md text-center">
         <h1 className="text-3xl font-bold mb-4">Thank You!</h1>
-        <p className="text-gray-600 mb-4">You will be redirected shortly...</p>
 
-        {/* <Link
+        <Link
           href="/"
           className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
         >
           Go Back to Home
-        </Link> */}
+        </Link>
 
         {name && email && uni && (
-          <GenerateTicket name={name} email={email} uni={uni} />
+          <div className="mt-10">
+            <GenerateTicket name={name} email={email} uni={uni} />
+          </div>
         )}
-
-        {/* <InvitationCard /> */}
       </div>
     </div>
   );

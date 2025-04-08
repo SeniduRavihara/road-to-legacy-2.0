@@ -147,7 +147,6 @@ export const AdminToggle = async (id: string, isAdmin: boolean) => {
 // --------------------------------------------------------------------
 
 export const registerDelegates = async (formData: FormDataType) => {
-
   try {
     const delegatesQuery = query(
       collection(db, "delegates"),
@@ -170,9 +169,36 @@ export const registerDelegates = async (formData: FormDataType) => {
 
     console.log("Delegate registered successfully.");
     return { success: true };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Error registering delegate:", error);
     return { success: false, error: error.message };
+  }
+};
+
+// ---------------------------------------------------------
+
+export const sendEmail = async (to: string, subject: string, html: string) => {
+  const response = await fetch(
+    "https://us-central1-roadtolecacy.cloudfunctions.net/api/send",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        to,
+        subject,
+        html,
+      }),
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    console.error("Error sending email:", data);
+  } else {
+    console.log("Email sent successfully:", data);
   }
 };
