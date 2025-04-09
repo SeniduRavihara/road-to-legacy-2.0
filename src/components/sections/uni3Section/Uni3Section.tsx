@@ -1,4 +1,4 @@
-import { UOC, UOM, USJ } from "@/assets";
+// import { UOC, UOM, USJ } from "@/assets";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -12,19 +12,19 @@ const initialCards = [
   {
     title: "slide1",
     description: "",
-    imgUrl: USJ,
+    imgUrl: "/images/Uni3images/USJ.jpg",
     classNames: "previous--card",
   },
   {
     title: "slide2",
     description: "",
-    imgUrl: UOM,
+    imgUrl: "/images/Uni3images/UOM.jpg",
     classNames: "current--card",
   },
   {
     title: "slide3",
     description: "",
-    imgUrl: UOC,
+    imgUrl: "/images/Uni3images/UOC.jpg",
     classNames: "next--card",
   },
 ];
@@ -222,7 +222,14 @@ const Uni3Section = () => {
             {cards.map(({ imgUrl, classNames }, index) => (
               <div key={index} className={`card ${classNames}`}>
                 <div className="card__image">
-                  <ExportedImage className="img" src={imgUrl} alt="" fill />
+                  <ExportedImage
+                    className="img"
+                    src={imgUrl}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    priority
+                  />
                 </div>
               </div>
             ))}
@@ -250,13 +257,13 @@ const Uni3Section = () => {
             </div>
 
             <div className="info next--info">
-              <h1 className="text name -mt-[130px] sm:-mt-[200px]">USJ</h1>
+              <h1 className="text name -mt-[130px] sm:-mt-[200px]">UOC</h1>
               {/* <h4 className="text location">Peru</h4>
               <p className="text description">Adventure is never far away</p> */}
             </div>
 
             <div className="info previous--info">
-              <h1 className="text name -mt-[130px] sm:-mt-[200px]">UOC</h1>
+              <h1 className="text name -mt-[130px] sm:-mt-[200px]">USJ</h1>
               {/* <h4 className="text location">France</h4>
               <p className="text description">Let your dreams come true</p> */}
             </div>

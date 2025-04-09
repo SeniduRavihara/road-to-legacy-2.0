@@ -1,9 +1,13 @@
-import { speaker1, speaker2, speaker3, speaker4 } from "@/assets";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { Card } from "@/components/ui/card";
 import ExportedImage from "next-image-export-optimizer";
 
-export const posts = [speaker1, speaker2, speaker3, speaker4];
+export const posts = [
+  "/images/speakers/1.png",
+  "/images/speakers/2.png",
+  "/images/speakers/3.png",
+  "/images/speakers/4.png",
+];
 
 const SpeakerSection = () => {
   return (
@@ -23,7 +27,8 @@ const SpeakerSection = () => {
                 src={post}
                 alt={`Speaker ${id + 1}`}
                 className="object-cover rounded-xl"
-                layout="fill"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
               <BackgroundBeams />
             </div>

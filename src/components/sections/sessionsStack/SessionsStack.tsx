@@ -2,11 +2,10 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ExportedImage from "next-image-export-optimizer";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import NET, { VantaEffect } from "vanta/dist/vanta.net.min";
 import "./SessionsStack.css";
-import ExportedImage from "next-image-export-optimizer";
-import { AiPic, analy, game } from "@/assets";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -136,9 +135,11 @@ const SessionsStack = ({ direction = "vertical" }) => {
                     discussion led by experts!
                   </p>
                   <ExportedImage
-                    src={AiPic}
+                    src="/images/service-1.png"
                     alt="Cybersecurity and AI illustration"
                     className="absolute top-0 -z-10 opacity-10  w-[90vw] md:w-[70vw] h-[70vh] object-cover"
+                    width={500}
+                    height={375}
                   />
                 </div>
               </div>
@@ -174,9 +175,11 @@ const SessionsStack = ({ direction = "vertical" }) => {
                     scenario!
                   </p>
                   <ExportedImage
-                    src={analy}
+                    src="/images/service-2.png"
                     alt="Cybersecurity and AI illustration"
                     className="absolute top-0 -z-10 opacity-10 left-0 w-full h-full object-cover"
+                    width={500}
+                    height={375}
                   />
                 </div>
               </div>
@@ -206,9 +209,11 @@ const SessionsStack = ({ direction = "vertical" }) => {
                   </p>
 
                   <ExportedImage
-                    src={game}
+                    src="/images/service-3.png"
                     alt="Cybersecurity and AI illustration"
                     className="absolute top-0 -z-10 opacity-10 w-full h-full object-cover"
+                    width={500}
+                    height={375}
                   />
                 </div>
               </div>

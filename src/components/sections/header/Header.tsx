@@ -1,6 +1,5 @@
 "use client";
 
-import { fullLogo } from "@/assets";
 import gsap from "gsap";
 import ExportedImage from "next-image-export-optimizer";
 import { useEffect } from "react";
@@ -40,19 +39,21 @@ const Header = () => {
       <div id="floating-logo" className="flex">
         <a href="#">
           <ExportedImage
-            src={fullLogo}
+            src="/images/logos/full_logo.png"
             alt="UOM-USJ-UOC logo"
             priority
             className="w-16 h-16 sm:w-20 sm:h-20 cursor-pointer"
             width={64}
             height={64}
             placeholder="blur"
-            unoptimized
+            // unoptimized
           />
         </a>
       </div>
 
-      <div className="hidden sm:flex text-xl font-boldonse">UOM-USJ-UOC</div>
+      <div className="hidden sm:flex text-xl font-boldonse absolute left-[50%] transform -translate-x-[50%]">
+        UOM-USJ-UOC
+      </div>
 
       <div className="flex gap-2 z-[1000]">
         <a
@@ -61,21 +62,21 @@ const Header = () => {
           rel="noopener noreferrer"
           // className="cursor-pointer"
         >
-          <FaInstagram className="w-8 h-8 sm:w-12 sm:h-12 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
+          <FaInstagram className="w-8 h-8 sm:w-10 sm:h-10 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
         </a>
         <a
           href="https://www.facebook.com"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <FaFacebook className="w-8 h-8 sm:w-12 sm:h-12 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
+          <FaFacebook className="w-8 h-8 sm:w-10 sm:h-10 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
         </a>
         <a
           href="https://www.linkedin.com"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <FaLinkedin className="w-8 h-8 sm:w-12 sm:h-12 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
+          <FaLinkedin className="w-8 h-8 sm:w-10 sm:h-10 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
         </a>
       </div>
     </header>
