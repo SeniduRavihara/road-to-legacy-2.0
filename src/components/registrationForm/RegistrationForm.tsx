@@ -13,6 +13,7 @@ import Step3 from "./steps/Step3";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { registerDelegates } from "@/firebase/api";
+import Link from "next/link";
 
 interface FormErrors {
   firstName?: string;
@@ -299,7 +300,7 @@ const RegistrationForm: React.FC = () => {
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className={`flex flex-col w-[96%] sm:w-[90%] lg:w-[80%] p-2 md:p-5 rounded-xl shadow-custom-dark backdrop-blur-sm`}
       >
-        <div className="flex flex-col items-center justify-center relative">
+        <Link href="/" className="flex flex-col items-center justify-center relative">
           <GradientText
             colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
             animationSpeed={6}
@@ -312,7 +313,7 @@ const RegistrationForm: React.FC = () => {
           <p className="text-[0.8rem] relative left-20 -top-3 italic text-white">
             ROAD TO LEGACY 2.0
           </p>
-        </div>
+        </Link>
 
         <div className="flex flex-col md:flex-row bg-[#1f203100]">
           {renderSidebar()}

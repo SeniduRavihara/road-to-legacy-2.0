@@ -203,7 +203,7 @@ const Uni3Section = () => {
   }
 
   return (
-    <div className="w-full overflow-hidden  sm:scale-75 flex flex-col items-center justify-between">
+    <div className="w-full overflow-hidden flex flex-col items-center justify-between">
       <div className="w-full lg:h-[100vh] md:h-[80vh] h-[60vh] overflow-hidden flex items-center justify-center relative">
         <div className="cardList ">
           <button
