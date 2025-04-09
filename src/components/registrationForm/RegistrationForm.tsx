@@ -285,7 +285,7 @@ const RegistrationForm: React.FC = () => {
   };
 
   return (
-    <div className="flex m-0  p-2 py-10 w-full min-h-[100vh] justify-center items-center bg-[#161618]">
+    <div className="flex m-0  p-2 py-10 w-full min-h-[100vh] justify-center items-center ">
       {/* <div style={{ width: '100dvw', height: '100vh', position: 'absolute' }}>
                 <Threads
                     color={[255, 255, 255]}
@@ -297,7 +297,7 @@ const RegistrationForm: React.FC = () => {
       <motion.div
         layout
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className={`flex flex-col w-[96%] sm:w-[90%] lg:w-[80%] p-2 md:p-5 rounded-xl bg-[#16161896] shadow-custom-dark backdrop-blur-xl`}
+        className={`flex flex-col w-[96%] sm:w-[90%] lg:w-[80%] p-2 md:p-5 rounded-xl shadow-custom-dark backdrop-blur-sm`}
       >
         <div className="flex flex-col items-center justify-center relative">
           <GradientText
