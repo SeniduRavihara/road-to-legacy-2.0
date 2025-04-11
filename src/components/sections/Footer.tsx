@@ -6,33 +6,33 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@chakra-ui/react";
 import Social from "../Social"; // Assuming this component handles Google login or other social logins
+import { Button } from "../ui/button";
 
 const Footer = () => {
   return (
-    <div className="text-white py-6 text-center relative">
+    <div className="text-white py-6 text-center relative pb-20">
       <div className="mx-auto relative z-10">
         <p className="text-lg">
           © 2025 Road To Legacy 2.0. All Rights Reserved.
         </p>
-        <p className="text-sm mt-2">Powered by [Your University Name]</p>
+        <p className="text-sm mt-2">Powered by ITlegacy</p>
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button>Admin</Button>
+            <Button variant="ghost" className="mt-5">Admin</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px] p-5 gap-10 flex flex-col items-center justify-center sm:rounded-xl rounded-xl">
             <DialogHeader>
               <DialogTitle>Login with Google</DialogTitle>
             </DialogHeader>
-            <Social /> 
+            <Social />
             <DialogFooter />
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="absolute bottom-0 w-full">
+      <div className="absolute bottom-32 w-full">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
           <path
             fill="#333842"
@@ -41,6 +41,8 @@ const Footer = () => {
           ></path>
         </svg>
       </div>
+
+      <div className="bg-[#333842] absolute w-full h-[128px] bottom-0 opacity-50"></div>
     </div>
   );
 };

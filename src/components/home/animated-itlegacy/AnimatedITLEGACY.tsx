@@ -5,7 +5,7 @@ import "./AnimatedITLEGACY.css";
 
 const AnimatedITLEGACY = () => {
   const [isActive, setIsActive] = useState(false);
-  const [flipped, setFlipped] = useState(false);
+  const [, setFlipped] = useState(false);
   // const [startShow, setStartShow] = useState(false);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const AnimatedITLEGACY = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center w-[250px] sm:w-[350px] md:w-[400px]">
       <svg
         className={`custom-porto-svg-logo ${isActive ? "active" : ""}`}
         width="500"
@@ -119,7 +119,7 @@ const AnimatedITLEGACY = () => {
         /> */}
       </svg>
 
-      <div className={`flip-card -ml-10 mt-10 ${flipped ? "flipped" : ""}`}>
+      {/* <div className={`flip-card -ml-10 mt-10 ${flipped ? "flipped" : ""}`}>
         <div className="front">
           <svg
             className={`custom-porto-svg-logo ${isActive ? "active" : ""}`}
@@ -150,7 +150,7 @@ const AnimatedITLEGACY = () => {
             />
           </svg>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

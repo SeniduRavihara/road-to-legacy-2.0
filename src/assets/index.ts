@@ -1,6 +1,3 @@
-import UOC from "./Uni3images/UOC.jpg";
-import UOM from "./Uni3images/UOM.jpg";
-import USJ from "./Uni3images/USJ.jpg";
-import logo from "./logo.png";
+import invitation from "./invitation.png";
 
-export { UOC, UOM, USJ , logo};
+export { invitation };

@@ -28,7 +28,8 @@ const VantaBackgroundProvider = ({
   }, [vantaEffect]);
 
   return (
-    <div ref={myRef} className="w-screen h-screen">
+    <div>
+      <div ref={myRef} className="w-screen h-screen fixed top-0 left-0"></div>
       {children}
     </div>
   );

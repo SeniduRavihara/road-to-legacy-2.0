@@ -1,26 +1,43 @@
+import { invitation } from "@/assets";
 import ExportedImage from "next-image-export-optimizer";
-const Ticket = () => {
+import { QRCodeCanvas } from "qrcode.react";
+const Ticket = ({
+  name = "sen",
+  email,
+  uni,
+}: {
+  name: string;
+  email: string;
+  uni: string;
+}) => {
   return (
     <div
-      id="content-to-print"
-      className="bg-black text-white relative w-[1000px] h-[300px]"
+      className="relative rounded-lg w-[400px] h-[710px]"
+      id="ticket"
     >
       <ExportedImage
-        src="/ticket-background.png"
-        alt="background"
-        fill
-        className="absolute"
+        src={invitation}
+        alt="Invitation"
+        width={400}
+        height={710}
+        unoptimized={true}
       />
-      <ExportedImage
-        src="/qrcode.png"
-        alt="qrcode"
-        className="absolute mt-10"
-        width={200}
-        height={200}
-      />
-      {/* <h2>Sample HTML Content</h2>
-      <p>This content will be converted into a PDF.</p>{" "}
-      <p>This content will be converted into a PDF.</p> */}
+
+      <div className="absolute top-[230px] left-[100px]">
+        <QRCodeCanvas
+          id="myqr"
+          value={email}
+          size={200}
+          bgColor={"#ffffff"}
+          fgColor={"#000000"}
+          includeMargin={true}
+          marginSize={1}
+        />
+      </div>
+
+      <h2 className="absolute top-[482px] left-[100px]">{name}</h2>
+      <h2 className="absolute top-[535px] left-[100px]">{email}</h2>
+      <h2 className="absolute top-[594px] left-[100px]">{uni}</h2>
     </div>
   );
 };

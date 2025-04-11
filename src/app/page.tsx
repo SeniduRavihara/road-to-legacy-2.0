@@ -1,37 +1,48 @@
 "use client";
 
-import StarsCanvas from "@/components/canvas/Stars";
-import Navbar from "@/components/Navbar";
+import AgendaSheet from "@/components/agenda/AgendaSheet";
+import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/sections/Footer";
-import Header from "@/components/sections/Header";
+import Header from "@/components/sections/header/Header";
 import HeroSection from "@/components/sections/HeroSection";
+import MissionSection from "@/components/sections/MissionSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
 import SessionsStack from "@/components/sections/sessionsStack/SessionsStack";
+import SpeakerSection from "@/components/sections/speakerSection/SpeakerSection";
 import TestaimonialSection from "@/components/sections/testaimonials/TestaimonialSection";
 import Uni3Section from "@/components/sections/uni3Section/Uni3Section";
 
 export default function Home() {
   return (
     <div className="bg-[#191b1f] text-white">
-      {/* <div className="grid-overlay test"></div> */}
-      {/* <HighlightGrid /> */}
-      {/* <HighlightedMesh /> */}
+      
+      <div className="">
+        <Header />
+        <HeroSection />
+      </div>
 
-      <Header />
+      <div id="begin" className="pt-2">
+        <RoadToLegacy />
+      </div>
 
-      <HeroSection />
+      <div className="relative " id="about">
+        <Uni3Section />
+      </div>
 
-      <RoadToLegacy />
-
-      {/* <VerticalTimeLine /> */}
+      <MissionSection />
+      
+      <AgendaSheet>
+        <h1>Hi guys</h1>
+      </AgendaSheet>
 
       <SessionsStack />
+      
 
-      <div className="relative">
-        <Uni3Section />
-        <TestaimonialSection />
-        <StarsCanvas />
-      </div>
+      <SpeakerSection />
+
+      <TestaimonialSection />
+
+
 
       <Footer />
 

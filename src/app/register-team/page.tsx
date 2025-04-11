@@ -1,11 +1,10 @@
-import VantaBackgroundProvider from "@/components/backgrounds/VantaBackground";
+import Agenda from "@/components/agenda/Agenda";
 
 const RegisterTeam = () => {
   return (
     <div>
-      <VantaBackgroundProvider>
-        Hi
-      </VantaBackgroundProvider>
+      {/* <VantaBackgroundProvider>Hi</VantaBackgroundProvider> */}
+      <Agenda />
     </div>
   );
 };
