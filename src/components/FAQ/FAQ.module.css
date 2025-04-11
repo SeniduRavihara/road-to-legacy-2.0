@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background-color: #161618;
+}
+
+.faqSection {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #c6c6c6;
+    margin-bottom: 2rem;
+}
+
+.accordion {
+    text-align: left;
+    border-top: 1px solid #ddd;
+}
+
+.item {
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 0;
+}
+
+.question {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0;
+    color: #fff;
+}
+
+.chevron {
+    transition: transform 0.3s ease;
+    color: #ffffff;
+}
+
+.answerWrapper {
+    overflow: hidden;
+}
+
+.answer {
+    padding-top: 0.5rem;
+    color: #c9c9c9;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.bottom {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.bottom h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.bottom p {
+    color: #c9c9c9;
+    margin-bottom: 1rem;
+}
+
+.contactButton {
+    background: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.contactButton:hover {
+    background: #c7c7c7;
+}
