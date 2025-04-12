@@ -26,6 +26,9 @@ export const speakers = [
 const VerticalTimeLine = ({ direction = "vertical" }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  console.log(currentSlide);
+  
+
   const section = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
@@ -61,6 +64,10 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
       items.forEach((item, index) => {
         timeline.to(item, { scale: 0.8, borderRadius: "10px" });
 
+        timeline.call(() => {
+          setCurrentSlide(index);
+        });
+
         if (items[index + 1]) {
           timeline.to(
             items[index + 1],
@@ -75,7 +82,10 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
   }, [direction]);
 
   return (
-    <div className="relative w-full flex items-center justify-between overflow-hidden" ref={section}>
+    <div
+      className="relative w-full flex items-center justify-between overflow-hidden"
+      ref={section}
+    >
       <div className="w-2/3">
         <div
           role="list"
@@ -111,8 +121,12 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           <div className="mt-24 flex flex-col gap-5 h-full">
             {timelineEvents.map((item, index) => (
               <div key={index} className="ml-4 mb-6">
-                <div className="absolute -left-[12px] w-5 h-5 bg-[#191b1f] rounded-full border-2 border-[#333842]"></div>
-                <p className="text-[#a0a4a8]">{item.event}</p>
+                <div
+                  className={`absolute -left-[12px] w-5 h-5 bg-[#191b1f] rounded-full border-2 border-[#333842] ${
+                    currentSlide === index ? "bg-[#333842]" : ""
+                  }`}
+                ></div>
+                <p className={`${currentSlide === index? "text-white font-semibold": "text-[#a0a4a8]"}`}>{item.event}</p>
               </div>
             ))}
           </div>
