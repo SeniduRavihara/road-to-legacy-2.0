@@ -7,15 +7,15 @@ import Header from "@/components/sections/header/Header";
 import HeroSection from "@/components/sections/HeroSection";
 import MissionSection from "@/components/sections/MissionSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
+import RTLBanner from "@/components/sections/RTLBanner";
 import SessionsStack from "@/components/sections/sessionsStack/SessionsStack";
 import SpeakerSection from "@/components/sections/speakerSection/SpeakerSection";
 import TestaimonialSection from "@/components/sections/testaimonials/TestaimonialSection";
-import Uni3Section from "@/components/sections/uni3Section/Uni3Section";
+import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
 
 export default function Home() {
   return (
     <div className="bg-[#191b1f] text-white">
-      
       <div className="">
         <Header />
         <HeroSection />
@@ -25,24 +25,25 @@ export default function Home() {
         <RoadToLegacy />
       </div>
 
-      <div className="relative " id="about">
+      {/* <div className="relative " id="about">
         <Uni3Section />
-      </div>
+      </div> */}
 
       <MissionSection />
-      
+
+      <RTLBanner />
+
+      {/* <VerticalTimeLine /> */}
+
       <AgendaSheet>
         <h1>Hi guys</h1>
       </AgendaSheet>
 
       <SessionsStack />
-      
 
       <SpeakerSection />
 
       <TestaimonialSection />
-
-
 
       <Footer />
 

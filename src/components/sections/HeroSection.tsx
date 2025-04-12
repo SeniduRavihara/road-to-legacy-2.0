@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ExportedImage from "next-image-export-optimizer";
 import { useEffect } from "react";
 import svgImg from "../../assets/svg-patterns/45.svg";
-import AnimatedITLEGACY from "../home/animated-itlegacy/AnimatedITLEGACY";
+import AnimatedRoadToLegacy from "../home/animated-road-to-legacy/AnimatedRoadToLegacy";
 import RegisterButton from "../home/RegisterButton";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -65,15 +65,16 @@ const HeroSection = () => {
       </h1> */}
 
       <div className="mt">
-        <AnimatedITLEGACY />
+        {/* <AnimatedITLEGACY /> */}
+        <AnimatedRoadToLegacy />
       </div>
 
-      <p className="relative -top-5 hero-text backdrop-blur-sm p-5 mt-5 z-10">
+      <p className="relative hero-text backdrop-blur-sm p-5 mt-10 z-10">
         Welcome to IT Legacy—where innovation, collaboration, and growth bring
         Tech minds together.
       </p>
 
-      <div className="register-btn z-10">
+      <div className="register-btn z-10 mt-5">
         <RegisterButton />
       </div>
 

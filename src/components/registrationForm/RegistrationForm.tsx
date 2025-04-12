@@ -298,9 +298,12 @@ const RegistrationForm: React.FC = () => {
       <motion.div
         layout
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className={`flex flex-col w-[96%] sm:w-[90%] lg:w-[80%] p-2 md:p-5 rounded-xl shadow-custom-dark backdrop-blur-sm`}
+        className={`flex flex-col w-[96%] sm:w-[90%] lg:w-[80%] p-2 md:p-5 rounded-xl bg-[#1f22279d] shadow-custom-dark backdrop-blur-sm`}
       >
-        <Link href="/" className="flex flex-col items-center justify-center relative">
+        <Link
+          href="/"
+          className="flex flex-col items-center justify-center relative"
+        >
           <GradientText
             colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
             animationSpeed={6}

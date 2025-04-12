@@ -12,12 +12,15 @@ const AgendaSheet = ({ children }: { children: React.ReactNode }) => {
   return (
     <Sheet>
       <SheetTrigger>{children}</SheetTrigger>
-      <SheetContent className="z-[1000] w-[90%] bg-[#191b1f]">
+      <SheetContent
+        className="z-[1000] w-[90%] md:w-[80%] lg:w-[90%] bg-[#191b1f]"
+
+      >
         <SheetHeader className="hidden">
           <SheetTitle>Are you absolutely sure?</SheetTitle>
           <SheetDescription></SheetDescription>
         </SheetHeader>
-        <div className="mt-3">
+        <div className="mt-3 ">
           <Agenda />
         </div>
       </SheetContent>

@@ -51,9 +51,9 @@ const Header = () => {
         </a>
       </div>
 
-      <div className="hidden sm:flex text-xl font-boldonse absolute left-[50%] transform -translate-x-[50%]">
+      {/* <div className="hidden sm:flex text-xl font-boldonse absolute left-[50%] transform -translate-x-[50%]">
         UOM-USJ-UOC
-      </div>
+      </div> */}
 
       <div className="flex gap-2 z-[1000]">
         <a

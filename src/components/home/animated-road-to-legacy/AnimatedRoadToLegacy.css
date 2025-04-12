@@ -1,0 +1,46 @@
+/* .custom-porto-svg-logo path {
+  fill-opacity: 0;
+  stroke-width: 1px;
+  stroke: #fff;
+  stroke-dasharray: 630;
+  stroke-dashoffset: 630;
+  transition:
+    ease stroke-dashoffset 5s,
+    ease fill-opacity 1s 1.7s;
+}
+
+.custom-porto-svg-logo.active path {
+  stroke-dashoffset: 0;
+  fill-opacity: 1;
+} */
+
+/* Google chrome */
+@-webkit-keyframes svg-text-animation {
+  40% {
+    stroke-dashoffset: 0;
+    fill: transparent;
+  }
+  60% {
+    stroke-dashoffset: 0;
+    fill: #ffffff;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill: #ffffff;
+  }
+}
+/* Most browsers */
+@keyframes svg-text-animation {
+  40% {
+    stroke-dashoffset: 0;
+    fill: transparent;
+  }
+  60% {
+    stroke-dashoffset: 0;
+    fill: #ffffff;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill: #ffffff;
+  }
+}
