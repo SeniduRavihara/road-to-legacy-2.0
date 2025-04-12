@@ -1,6 +1,7 @@
 "use client";
 
 import AgendaSheet from "@/components/agenda/AgendaSheet";
+import FAQ from "@/components/FAQ/FAQ";
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/header/Header";
@@ -41,6 +42,8 @@ export default function Home() {
       {/* <SessionsStack /> */}
 
       {/* <SpeakerSection /> */}
+
+      <FAQ />
 
       <TestaimonialSection />
 
