@@ -33,15 +33,14 @@ export default function Home() {
 
       <RTLBanner />
 
-      {/* <VerticalTimeLine /> */}
-
       <AgendaSheet>
         <h1>Hi guys</h1>
       </AgendaSheet>
 
-      <SessionsStack />
+      <VerticalTimeLine />
+      {/* <SessionsStack /> */}
 
-      <SpeakerSection />
+      {/* <SpeakerSection /> */}
 
       <TestaimonialSection />
 

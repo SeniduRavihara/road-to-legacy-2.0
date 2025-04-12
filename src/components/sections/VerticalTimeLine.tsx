@@ -1,8 +1,11 @@
-"use client"
+"use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLayoutEffect, useRef, useState } from "react";
+import { Card } from "../ui/card";
+import ExportedImage from "next-image-export-optimizer";
+import { BackgroundBeams } from "../ui/background-beams";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,38 +26,38 @@ export const speakers = [
 const VerticalTimeLine = ({ direction = "vertical" }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const wrapper = useRef<HTMLDivElement | null>(null);
   const section = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
-    if (!wrapper.current || !section.current) return;
+    if (!section.current) return;
 
     const ctx = gsap.context(() => {
-      if (!wrapper.current || !section.current) return;
-      const items = wrapper.current.querySelectorAll(".item");
+      if (!section.current) return;
+      const items = section.current.querySelectorAll(".item");
       if (!items.length) return;
 
       items.forEach((item, index) => {
         if (index !== 0) {
           gsap.set(
             item,
-            direction === "horizontal" ? { xPercent: 200 } : { yPercent: 100 }
+            direction === "horizontal" ? { xPercent: 200 } : { yPercent: 200 }
           );
         }
       });
 
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: section.current,
-        pin: true,
-        start: "53% center",
-        end: () => `+=${items.length * 100}%`,
-        scrub: 1,
-        invalidateOnRefresh: true,
-        markers: true,
-      },
-      defaults: { ease: "none" },
-    });
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: section.current,
+          pin: true,
+          start: "50% center",
+          end: () => `+=${items.length * 100}%`,
+          scrub: 1,
+          invalidateOnRefresh: true,
+          // markers: true,
+        },
+        defaults: { ease: "none" },
+      });
+
       items.forEach((item, index) => {
         timeline.to(item, { scale: 0.8, borderRadius: "10px" });
 
@@ -66,47 +69,46 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           );
         }
       });
-    }, wrapper);
+    }, section);
 
     return () => ctx.revert(); // Cleanup GSAP animations on unmount
   }, [direction]);
 
   return (
-    <div className="flex items-center justify-between space-y-6 py-8 text-whit">
-      <div className="bg-blue-200 flex w-2/3 h-[350px]" ref={section}>
-        <div ref={wrapper}>
-          <div
-            role="list"
-            className="list relative flex items-center justify-center gap-5"
-          >
+    <div className="relative w-full flex items-center justify-between overflow-hidden" ref={section}>
+      <div className="w-2/3">
+        <div
+          role="list"
+          className="list  relative flex items-center justify-center gap-5"
+        >
+          {speakers.map((speaker, index) => (
             <div
-              role="listitem"
-              className="item w-40 h-40 bg-red-500 absolute"
-            ></div>
-            <div
-              role="listitem"
-              className="item w-40 h-40 bg-green-500 absolute"
-            ></div>
-            <div
-              role="listitem"
-              className="item w-40 h-40 bg-blue-500 absolute"
-            ></div>
-            <div
-              role="listitem"
-              className="item w-40 h-40 bg-yellow-500 absolute"
-            ></div>
-          </div>
+              key={index}
+              className="item bg-[#2C3039] w-[300PX] h-[350PX] absolute overflow-hidden rounded-xl shadow-lg  "
+            >
+              <div className="relative w-full h-[350px] md:h-[350px] lg:h-[400px]">
+                <ExportedImage
+                  src={speaker}
+                  alt={`Speaker ${index + 1}`}
+                  className="object-cover rounded-xl"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <BackgroundBeams />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
       <div className="flex w-1/3">
-        <div className="h-[350px] w-[3px] bg-[#333842] relative">
+        <div className="h-[450px] w-[3px] bg-[#333842] relative">
           <div className="w-5 h-5 bg-[#333842] rounded-full absolute top-0 -left-2"></div>
           <div className="w-5 h-5 bg-[#333842] rounded-full absolute bottom-0 -left-2"></div>
         </div>
 
         <div className="w-[200px] h-[350px] relative">
-          <div className="mt-20">
+          <div className="mt-24 flex flex-col gap-5 h-full">
             {timelineEvents.map((item, index) => (
               <div key={index} className="ml-4 mb-6">
                 <div className="absolute -left-[12px] w-5 h-5 bg-[#191b1f] rounded-full border-2 border-[#333842]"></div>
