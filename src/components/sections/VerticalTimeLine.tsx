@@ -2,9 +2,8 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef, useState } from "react";
-import { Card } from "../ui/card";
 import ExportedImage from "next-image-export-optimizer";
+import { useLayoutEffect, useRef, useState } from "react";
 import { BackgroundBeams } from "../ui/background-beams";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -27,7 +26,6 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   console.log(currentSlide);
-  
 
   const section = useRef<HTMLDivElement | null>(null);
 
@@ -94,7 +92,7 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           {speakers.map((speaker, index) => (
             <div
               key={index}
-              className="item bg-[#2C3039] w-[300PX] h-[350PX] absolute overflow-hidden rounded-xl shadow-lg  "
+              className="item bg-[#2C3039] w-[550px] h-[450px] absolute overflow-hidden rounded-xl shadow-lg  "
             >
               <div className="relative w-full h-[350px] md:h-[350px] lg:h-[400px]">
                 <ExportedImage
@@ -126,7 +124,11 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
                     currentSlide === index ? "bg-[#333842]" : ""
                   }`}
                 ></div>
-                <p className={`${currentSlide === index? "text-white font-semibold": "text-[#a0a4a8]"}`}>{item.event}</p>
+                <p
+                  className={`${currentSlide === index ? "text-white font-semibold" : "text-[#a0a4a8]"}`}
+                >
+                  {item.event}
+                </p>
               </div>
             ))}
           </div>

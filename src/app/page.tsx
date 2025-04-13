@@ -9,8 +9,6 @@ import HeroSection from "@/components/sections/HeroSection";
 import MissionSection from "@/components/sections/MissionSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
 import RTLBanner from "@/components/sections/RTLBanner";
-import SessionsStack from "@/components/sections/sessionsStack/SessionsStack";
-import SpeakerSection from "@/components/sections/speakerSection/SpeakerSection";
 import TestaimonialSection from "@/components/sections/testaimonials/TestaimonialSection";
 import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
 
@@ -34,11 +32,11 @@ export default function Home() {
 
       <RTLBanner />
 
-      <AgendaSheet>
-        <h1>Hi guys</h1>
-      </AgendaSheet>
-
       <VerticalTimeLine />
+
+      <AgendaSheet>
+        <h1>Full Agenda</h1>
+      </AgendaSheet>
       {/* <SessionsStack /> */}
 
       {/* <SpeakerSection /> */}
