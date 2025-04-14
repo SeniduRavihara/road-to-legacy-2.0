@@ -46,6 +46,8 @@ const MemorisSection = () => {
 
   return (
     <div className="w-full h-[500px] px-4 mt-10 mb-20">
+      <h2 className="text-4xl font-bold text-center mb-6">OUR MEMORIES</h2>
+
       <Carousel
         opts={{ align: "start" }}
         className="w-full"
@@ -84,7 +86,7 @@ const MemorisSection = () => {
             key={index}
             onClick={() => api?.scrollTo(index)}
             className={`w-3 h-3 mx-2 rounded-full transition-colors duration-200 ${
-              currentIndex === index ? "bg-blue-500" : "bg-gray-400"
+              currentIndex === index ? "bg-gray-400" : "bg-[#333842]"
             }`}
           />
         ))}

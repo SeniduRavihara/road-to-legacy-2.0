@@ -10,7 +10,6 @@ import HeroSection from "@/components/sections/HeroSection";
 import MemorisSection from "@/components/sections/MemorisSection";
 import MissionSection from "@/components/sections/MissionSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
-import RTLBanner from "@/components/sections/RTLBanner";
 import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
 
 export default function Home() {
@@ -31,7 +30,7 @@ export default function Home() {
 
       <MissionSection />
 
-      <RTLBanner />
+      {/* <RTLBanner /> */}
 
       <MemorisSection />
 

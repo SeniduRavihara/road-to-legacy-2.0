@@ -7,6 +7,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
