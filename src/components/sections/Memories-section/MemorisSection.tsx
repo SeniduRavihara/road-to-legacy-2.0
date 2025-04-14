@@ -24,6 +24,8 @@ const MemorisSection = () => {
 
   // This runs when Embla API becomes available
   const onApiReady = (api: CarouselApi) => {
+    if (!api) return;
+
     setApi(api);
 
     const onSelect = () => {
