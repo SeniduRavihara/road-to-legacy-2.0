@@ -7,7 +7,7 @@ import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/header/Header";
 import HeroSection from "@/components/sections/HeroSection";
-import MemorisSection from "@/components/sections/Memories-section/MemorisSection";
+import MemorisSection from "@/components/sections/MemorisSection";
 import MissionSection from "@/components/sections/MissionSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
 import RTLBanner from "@/components/sections/RTLBanner";

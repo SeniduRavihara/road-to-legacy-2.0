@@ -45,7 +45,7 @@ const MemorisSection = () => {
   };
 
   return (
-    <div className="w-full h-[500px] px-4">
+    <div className="w-full h-[500px] px-4 mt-10 mb-20">
       <Carousel
         opts={{ align: "start" }}
         className="w-full"
