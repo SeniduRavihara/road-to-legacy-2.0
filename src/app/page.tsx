@@ -3,13 +3,14 @@
 import AgendaSheet from "@/components/agenda/AgendaSheet";
 import FAQ from "@/components/FAQ/FAQ";
 import Navbar from "@/components/navbar/Navbar";
+import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/header/Header";
 import HeroSection from "@/components/sections/HeroSection";
+import MemorisSection from "@/components/sections/Memories-section/MemorisSection";
 import MissionSection from "@/components/sections/MissionSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
 import RTLBanner from "@/components/sections/RTLBanner";
-import TestaimonialSection from "@/components/sections/testaimonials/TestaimonialSection";
 import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
 
 export default function Home() {
@@ -32,6 +33,8 @@ export default function Home() {
 
       <RTLBanner />
 
+      <MemorisSection />
+
       <VerticalTimeLine />
 
       <AgendaSheet>
@@ -43,7 +46,9 @@ export default function Home() {
 
       <FAQ />
 
-      <TestaimonialSection />
+      {/* <TestaimonialSection /> */}
+
+      <ContactSection />
 
       <Footer />
 

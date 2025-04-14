@@ -95,13 +95,13 @@ export default function FAQ() {
                 ))}
             </div>
 
-            <div className={styles.bottom}>
+            {/* <div className={styles.bottom}>
                 <h3>Still have questions?</h3>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 </p>
                 <button className={styles.contactButton}>Contact</button>
-            </div>
+            </div> */}
         </div>
     );
 }

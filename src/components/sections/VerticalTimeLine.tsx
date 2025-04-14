@@ -3,7 +3,8 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ExportedImage from "next-image-export-optimizer";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import NET, { VantaEffect } from "vanta/dist/vanta.net.min";
 import { BackgroundBeams } from "../ui/background-beams";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -24,10 +25,26 @@ export const speakers = [
 
 const VerticalTimeLine = ({ direction = "vertical" }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  console.log(currentSlide);
-
   const section = useRef<HTMLDivElement | null>(null);
+
+  const [vantaEffect, setVantaEffect] = useState<VantaEffect | null>(null); // Corrected type
+  const myRef = useRef<HTMLDivElement | null>(null); // Typing useRef for HTMLDivElement specifically
+
+  useEffect(() => {
+    if (!vantaEffect && myRef.current) {
+      // Ensure myRef.current is not null
+      const effect = NET({
+        el: myRef.current, // Now TypeScript knows myRef.current will be an HTMLDivElement
+        color: 0x333842,
+        backgroundColor: 0x191b1f,
+      });
+      setVantaEffect(effect); // Set the effect object
+    }
+
+    return () => {
+      vantaEffect?.destroy(); // Cleanup when the component unmounts
+    };
+  }, [vantaEffect]);
 
   useLayoutEffect(() => {
     if (!section.current) return;
@@ -134,6 +151,11 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           </div>
         </div>
       </div>
+
+      <div
+        ref={myRef}
+        className="absolute w-full h-screen -top-10 -z-10 opacity-30"
+      ></div>
     </div>
   );
 };
