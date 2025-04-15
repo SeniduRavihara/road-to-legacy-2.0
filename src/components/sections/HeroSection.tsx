@@ -1,11 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ExportedImage from "next-image-export-optimizer";
 import { useEffect } from "react";
 import svgImg from "../../assets/svg-patterns/45.svg";
+import FlipCounter from "../flip-count/FlipCounter";
 import AnimatedRoadToLegacy from "../home/animated-road-to-legacy/AnimatedRoadToLegacy";
 import RegisterButton from "../home/RegisterButton";
 
@@ -78,7 +78,9 @@ const HeroSection = () => {
         <RegisterButton />
       </div>
 
-      <div className="w-full flex justify-center items-center opacity-30 absolute bottom-5">
+      <FlipCounter />
+
+      {/* <div className="w-full flex justify-center items-center opacity-30 absolute bottom-5">
         <a
           href="#begin"
           onClick={(e) => {
@@ -100,7 +102,7 @@ const HeroSection = () => {
             />
           </div>
         </a>
-      </div>
+      </div> */}
     </section>
   );
 };

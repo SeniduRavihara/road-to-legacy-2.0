@@ -5,7 +5,7 @@ import "./AnimatedITLEGACY.css";
 
 const AnimatedITLEGACY = () => {
   const [isActive, setIsActive] = useState(false);
-  const [, setFlipped] = useState(false);
+  // const [, setFlipped] = useState(false);
   // const [startShow, setStartShow] = useState(false);
 
   useEffect(() => {

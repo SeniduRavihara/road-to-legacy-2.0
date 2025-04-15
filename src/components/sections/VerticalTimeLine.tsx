@@ -2,9 +2,9 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef, useState } from "react";
-import { Card } from "../ui/card";
 import ExportedImage from "next-image-export-optimizer";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import NET, { VantaEffect } from "vanta/dist/vanta.net.min";
 import { BackgroundBeams } from "../ui/background-beams";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -13,7 +13,7 @@ const timelineEvents = [
   { event: "SE Session" },
   { event: "Cybersecurity & AI" },
   { event: "Project Management & Business Analysis" },
-  { event: "Game / Gaming Development" },
+  { event: "Gaming Development" },
 ];
 
 export const speakers = [
@@ -25,11 +25,26 @@ export const speakers = [
 
 const VerticalTimeLine = ({ direction = "vertical" }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  console.log(currentSlide);
-  
-
   const section = useRef<HTMLDivElement | null>(null);
+
+  const [vantaEffect, setVantaEffect] = useState<VantaEffect | null>(null); // Corrected type
+  const myRef = useRef<HTMLDivElement | null>(null); // Typing useRef for HTMLDivElement specifically
+
+  useEffect(() => {
+    if (!vantaEffect && myRef.current) {
+      // Ensure myRef.current is not null
+      const effect = NET({
+        el: myRef.current, // Now TypeScript knows myRef.current will be an HTMLDivElement
+        color: 0x333842,
+        backgroundColor: 0x191b1f,
+      });
+      setVantaEffect(effect); // Set the effect object
+    }
+
+    return () => {
+      vantaEffect?.destroy(); // Cleanup when the component unmounts
+    };
+  }, [vantaEffect]);
 
   useLayoutEffect(() => {
     if (!section.current) return;
@@ -62,7 +77,7 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
       });
 
       items.forEach((item, index) => {
-        timeline.to(item, { scale: 0.8, borderRadius: "10px" });
+        timeline.to(item, { scale: 0.9, borderRadius: "10px" });
 
         timeline.call(() => {
           setCurrentSlide(index);
@@ -83,10 +98,44 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
 
   return (
     <div
-      className="relative w-full flex items-center justify-between overflow-hidden"
+      className="relative w-full bg-green-20 h-screen flex  flex-col md:flex-row  items-center justify-between overflow-hidden mt-20"
       ref={section}
+      id="sessions"
     >
-      <div className="w-2/3">
+      <div className="w-full bg-blue-40 flex flex-col md:hidden justify-center mt-14 mb-6 px-4">
+        <div className="h-[3px] w-full bg-[#333842] relative">
+          {/* <div className="w-5 h-5 bg-[#333842] rounded-full absolute -top-2 left-0"></div>
+          <div className="w-5 h-5 bg-[#333842] rounded-full absolute -top-2 right-0"></div> */}
+        </div>
+
+        <div className="w-full bg-blue-20 relative">
+          <div className="flex flex-row gap-5 w-full justify-center">
+            {timelineEvents.map((item, index) => (
+              <div key={index} className="flex flex-col items-center mb-6">
+                <div
+                  className={`w-5 h-5 bg-[#191b1f] rounded-full left-2 relative -top-3 border-2 border-[#333842] ${
+                    currentSlide === index ? "bg-[#333842]" : ""
+                  }`}
+                ></div>
+
+                <div className="left-2 relative -top-3 ">
+                  <p
+                    className={`text-xs text-center mt-2 ${
+                      currentSlide === index
+                        ? "text-white font-semibold"
+                        : "text-[#a0a4a8]"
+                    }`}
+                  >
+                    {item.event}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="w-2/3 relative md:top-0 -top-[50%] bg-red-500">
         <div
           role="list"
           className="list  relative flex items-center justify-center gap-5"
@@ -94,7 +143,7 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           {speakers.map((speaker, index) => (
             <div
               key={index}
-              className="item bg-[#2C3039] w-[300PX] h-[350PX] absolute overflow-hidden rounded-xl shadow-lg  "
+              className="item bg-[#2C3039] w-[350px] xsm:w-[450px] sm:w-[550px] sm:h-[450px] absolute overflow-hidden rounded-xl shadow-lg  "
             >
               <div className="relative w-full h-[350px] md:h-[350px] lg:h-[400px]">
                 <ExportedImage
@@ -111,7 +160,7 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
         </div>
       </div>
 
-      <div className="flex w-1/3">
+      <div className=" w-1/3 hidden md:flex">
         <div className="h-[450px] w-[3px] bg-[#333842] relative">
           <div className="w-5 h-5 bg-[#333842] rounded-full absolute top-0 -left-2"></div>
           <div className="w-5 h-5 bg-[#333842] rounded-full absolute bottom-0 -left-2"></div>
@@ -126,12 +175,21 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
                     currentSlide === index ? "bg-[#333842]" : ""
                   }`}
                 ></div>
-                <p className={`${currentSlide === index? "text-white font-semibold": "text-[#a0a4a8]"}`}>{item.event}</p>
+                <p
+                  className={`${currentSlide === index ? "text-white font-semibold" : "text-[#a0a4a8]"}`}
+                >
+                  {item.event}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      <div
+        ref={myRef}
+        className="absolute w-full h-screen -top-10 -z-10 opacity-30"
+      ></div>
     </div>
   );
 };

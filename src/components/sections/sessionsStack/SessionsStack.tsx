@@ -1,92 +1,239 @@
-"use client";
+// "use client";
 
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef } from "react";
+// import gsap from "gsap";
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
+// import ExportedImage from "next-image-export-optimizer";
+// import { useEffect, useLayoutEffect, useRef, useState } from "react";
+// import NET, { VantaEffect } from "vanta/dist/vanta.net.min";
 // import "./SessionsStack.css";
 
-gsap.registerPlugin(ScrollTrigger);
+// gsap.registerPlugin(ScrollTrigger);
 
-// const sessionsList = [
-//   { title: "" },
-//   { title: "" },
-//   { title: "" },
-//   { title: "" },
-// ];
+// // const sessionsList = [
+// //   { title: "" },
+// //   { title: "" },
+// //   { title: "" },
+// //   { title: "" },
+// // ];
 
-const SessionsStack = ({ direction = "vertical" }) => {
-  const section = useRef<HTMLDivElement | null>(null);
+// const SessionsStack = ({ direction = "vertical" }) => {
+//   const wrapper = useRef<HTMLDivElement | null>(null);
+//   const section = useRef<HTMLDivElement | null>(null);
 
-  useLayoutEffect(() => {
-    if (!section.current) return;
+//   const [vantaEffect, setVantaEffect] = useState<VantaEffect | null>(null); // Corrected type
+//   const myRef = useRef<HTMLDivElement | null>(null); // Typing useRef for HTMLDivElement specifically
 
-    const ctx = gsap.context(() => {
-      if (!section.current) return;
-      const items = section.current.querySelectorAll(".item");
-      if (!items.length) return;
+//   useEffect(() => {
+//     if (!vantaEffect && myRef.current) {
+//       // Ensure myRef.current is not null
+//       const effect = NET({
+//         el: myRef.current, // Now TypeScript knows myRef.current will be an HTMLDivElement
+//         color: 0x333842,
+//         backgroundColor: 0x191b1f,
+//       });
+//       setVantaEffect(effect); // Set the effect object
+//     }
 
-      items.forEach((item, index) => {
-        if (index !== 0) {
-          gsap.set(
-            item,
-            direction === "horizontal" ? { xPercent: 200 } : { yPercent: 150 }
-          );
-        }
-      });
+//     return () => {
+//       vantaEffect?.destroy(); // Cleanup when the component unmounts
+//     };
+//   }, [vantaEffect]);
 
-      const timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: section.current,
-          pin: true,
-          start: "60% center",
-          end: () => `+=${items.length * 100}%`,
-          scrub: 1,
-          invalidateOnRefresh: true,
-          markers: true,
-        },
-        defaults: { ease: "none" },
-      });
+//   useLayoutEffect(() => {
+//     if (!wrapper.current || !section.current) return;
 
-      items.forEach((item, index) => {
-        timeline.to(item, { scale: 0.8, borderRadius: "10px" });
+//     const ctx = gsap.context(() => {
+//       if (!wrapper.current || !section.current) return;
+//       const items = wrapper.current.querySelectorAll(".item");
+//       if (!items.length) return;
 
-        if (items[index + 1]) {
-          timeline.to(
-            items[index + 1],
-            direction === "horizontal" ? { xPercent: 0 } : { yPercent: 0 },
-            "<"
-          );
-        }
-      });
-    }, section);
+//       items.forEach((item, index) => {
+//         if (index !== 0) {
+//           gsap.set(
+//             item,
+//             direction === "horizontal" ? { xPercent: 200 } : { yPercent: 200 }
+//           );
+//         }
+//       });
 
-    return () => ctx.revert(); // Cleanup GSAP animations on unmount
-  }, [direction]);
+//       const timeline = gsap.timeline({
+//         scrollTrigger: {
+//           trigger: section.current,
+//           pin: true,
+//           start: "53% center",
+//           end: () => `+=${items.length * 100}%`,
+//           scrub: 1,
+//           invalidateOnRefresh: true,
+//           // markers: true,
+//         },
+//         defaults: { ease: "none" },
+//       });
 
-  return (
-    <div className="w-full top-20" ref={section}>
-      <div
-        role="list"
-        className="list relative flex items-center justify-center gap-5"
-      >
-        <div
-          role="listitem"
-          className="item w-40 h-40 bg-red-500 absolute"
-        ></div>
-        <div
-          role="listitem"
-          className="item w-40 h-40 bg-green-500 absolute"
-        ></div>
-        <div
-          role="listitem"
-          className="item w-40 h-40 bg-blue-500 absolute"
-        ></div>
-        <div
-          role="listitem"
-          className="item w-40 h-40 bg-yellow-500 absolute"
-        ></div>
-      </div>
-    </div>
-  );
-};
-export default SessionsStack;
+//       items.forEach((item, index) => {
+//         timeline.to(item, { scale: 0.8, borderRadius: "10px" });
+
+//         if (items[index + 1]) {
+//           timeline.to(
+//             items[index + 1],
+//             direction === "horizontal" ? { xPercent: 0 } : { yPercent: 0 },
+//             "<"
+//           );
+//         }
+//       });
+//     }, wrapper);
+
+//     return () => ctx.revert(); // Cleanup GSAP animations on unmount
+//   }, [direction]);
+
+//   return (
+//     <div className="w-full relative top-20">
+//       <div className="relative w-full">
+//         <div className="scroll-section " ref={section}>
+//           <div className="h-[20vh] p-5 text-center w-full flex flex-col items-center justify-center z-10 relative ">
+//             <h1 className="text-2xl font-bold text-white">
+//               🚀 Shape Your Future in Tech
+//             </h1>
+//             <p className="text-white text-sm mt-2 text-center">
+//               Join Road to Legacy 2.0 for industry insights, networking, and
+//               career growth.
+//             </p>
+//           </div>
+
+//           <div
+//             ref={myRef}
+//             className="absolute w-full h-screen -top-10 -z-10 opacity-30"
+//           ></div>
+
+//           <div className="wrapper" ref={wrapper}>
+//             <div
+//               role="list"
+//               className="list relative flex items-center justify-center gap-5"
+//             >
+//               {/* Card 1: Cybersecurity & AI */}
+//               <div
+//                 role="listitem"
+//                 className="item p-5 bg-[#191b1fad] backdrop-blur-md border w-[90vw] md:w-[70vw] h-[70vh] absolute "
+//               >
+//                 <div className="w-full h-full relative">
+//                   <h2 className="text-xl font-bold text-white mt-6 ml-6">
+//                     🛡️ Cybersecurity & Artificial Intelligence (AI)
+//                   </h2>
+//                   <p className="text-white ml-6 mt-4">
+//                     Stay ahead of digital threats and AI innovations. Learn how
+//                     AI is revolutionizing cybersecurity and how you can build a
+//                     career in this rapidly growing field.
+//                   </p>
+//                   <ul className="text-white ml-6 mt-4">
+//                     <li>Understand the latest cybersecurity challenges 🚨</li>
+//                     <li>Learn AI-driven security solutions 🤖</li>
+//                     <li>
+//                       Explore career opportunities in AI and cybersecurity 🌐
+//                     </li>
+//                   </ul>
+//                   <p className="text-white ml-6 mt-4">
+//                     🎯 Interactive Activity: Participate in a hands-on quiz or
+//                     discussion led by experts!
+//                   </p>
+//                   <ExportedImage
+//                     src={AiPic}
+//                     alt="Cybersecurity and AI illustration"
+//                     className="absolute top-0 -z-10 opacity-10  w-[90vw] md:w-[70vw] h-[70vh] object-cover"
+//                   />
+//                 </div>
+//               </div>
+
+//               {/* Card 2: Project Management & Business Analysis */}
+//               <div
+//                 role="listitem"
+//                 className="item p-5 bg-[#191b1fad] backdrop-blur-md border w-[90vw] md:w-[70vw] h-[70vh] absolute"
+//               >
+//                 <div className="w-full h-full relative">
+//                   <h2 className="text-xl font-bold text-white mt-6 ml-6">
+//                     📊 Project Management & Business Analysis
+//                   </h2>
+//                   <p className="text-white ml-6 mt-4">
+//                     Master the art of project planning, execution, and business
+//                     analysis. Learn how these skills drive success in the tech
+//                     world.
+//                   </p>
+//                   <ul className="text-white ml-6 mt-4">
+//                     <li>
+//                       Discover effective project management methodologies 📅
+//                     </li>
+//                     <li>
+//                       Learn the role of business analysis in bridging IT and
+//                       business needs 🔍
+//                     </li>
+//                     <li>
+//                       Explore career opportunities in project management 📈
+//                     </li>
+//                   </ul>
+//                   <p className="text-white ml-6 mt-4">
+//                     🎯 Interactive Activity: Collaborate on a real-world project
+//                     scenario!
+//                   </p>
+//                   <ExportedImage
+//                     src={analy}
+//                     alt="Cybersecurity and AI illustration"
+//                     className="absolute top-0 -z-10 opacity-10 left-0 w-full h-full object-cover"
+//                   />
+//                 </div>
+//               </div>
+
+//               {/* Card 3: Game Development */}
+//               <div
+//                 role="listitem"
+//                 className="item p-5 bg-[#191b1fad] backdrop-blur-md border w-[90vw] md:w-[70vw] h-[70vh] absolute"
+//               >
+//                 <div className="w-full h-full relative">
+//                   <h2 className="text-xl font-bold text-white mt-6 ml-6">
+//                     🎮 Game Development
+//                   </h2>
+//                   <p className="text-white ml-6 mt-4">
+//                     Turn your passion for gaming into a career. Learn the
+//                     fundamentals of game design, tools, and industry insights to
+//                     get started in this exciting field.
+//                   </p>
+//                   <ul className="text-white ml-6 mt-4">
+//                     <li>Learn the basics of game design 🕹️</li>
+//                     <li>Get hands-on with popular game development tools 🛠️</li>
+//                     <li>Explore career pathways in game development 🎮</li>
+//                   </ul>
+//                   <p className="text-white ml-6 mt-4">
+//                     🎯 Interactive Activity: Design a mini-game or take on a
+//                     quick coding challenge!
+//                   </p>
+
+//                   <ExportedImage
+//                     src={game}
+//                     alt="Cybersecurity and AI illustration"
+//                     className="absolute top-0 -z-10 opacity-10 w-full h-full object-cover"
+//                   />
+//                 </div>
+//               </div>
+
+//               <div
+//                 role="listitem"
+//                 className="item p-5 bg-[#191b1fad] backdrop-blur-md border w-[90vw] md:w-[70vw] h-[70vh]"
+//               >
+//                 <h2 className="text-2xl text-white font-bold p-4">
+//                   👩‍💻 Software Engineering
+//                 </h2>
+//                 <p className="text-white text-lg p-4">
+//                   Explore the fundamentals of software development, from coding
+//                   practices to project life cycles, and discover the career
+//                   opportunities in Software Engineering.
+//                 </p>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* <div className=" bg-amber-500 h-[100vh]">
+//         <h1 className="heading">But Vertical Scroll Is Also Cool!</h1>
+//       </div> */}
+//     </div>
+//   );
+// };
+// export default SessionsStack;

@@ -1,16 +1,15 @@
 "use client";
 
 import AgendaSheet from "@/components/agenda/AgendaSheet";
+import FAQ from "@/components/FAQ/FAQ";
 import Navbar from "@/components/navbar/Navbar";
+import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/header/Header";
 import HeroSection from "@/components/sections/HeroSection";
+import MemorisSection from "@/components/sections/MemorisSection";
 import MissionSection from "@/components/sections/MissionSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
-import RTLBanner from "@/components/sections/RTLBanner";
-import SessionsStack from "@/components/sections/sessionsStack/SessionsStack";
-import SpeakerSection from "@/components/sections/speakerSection/SpeakerSection";
-import TestaimonialSection from "@/components/sections/testaimonials/TestaimonialSection";
 import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
 
 export default function Home() {
@@ -31,18 +30,28 @@ export default function Home() {
 
       <MissionSection />
 
-      <RTLBanner />
+      {/* <RTLBanner /> */}
+
+      <div className="md:h-[450px] h-[400px]">
+        <MemorisSection />
+      </div>
+
+     
+        <VerticalTimeLine />
+     
 
       <AgendaSheet>
-        <h1>Hi guys</h1>
+        <h1>Full Agenda</h1>
       </AgendaSheet>
-
-      <VerticalTimeLine />
       {/* <SessionsStack /> */}
 
       {/* <SpeakerSection /> */}
 
-      <TestaimonialSection />
+      <FAQ />
+
+      {/* <TestaimonialSection /> */}
+
+      <ContactSection />
 
       <Footer />
 
