@@ -13,7 +13,7 @@ const timelineEvents = [
   { event: "SE Session" },
   { event: "Cybersecurity & AI" },
   { event: "Project Management & Business Analysis" },
-  { event: "Game / Gaming Development" },
+  { event: "Gaming Development" },
 ];
 
 export const speakers = [
@@ -98,10 +98,45 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
 
   return (
     <div
-      className="relative w-full flex items-center justify-between overflow-hidden"
+      className="relative w-full bg-green-20 h-screen flex  flex-col md:flex-row  items-center justify-between overflow-hidden mt-20"
       ref={section}
     >
-      <div className="w-2/3">
+      <div className="w-full bg-blue-40 flex flex-col md:hidden justify-center mt-4 mb-6 px-4">
+        
+        <div className="h-[3px] w-full bg-[#333842] relative">
+          {/* <div className="w-5 h-5 bg-[#333842] rounded-full absolute -top-2 left-0"></div>
+          <div className="w-5 h-5 bg-[#333842] rounded-full absolute -top-2 right-0"></div> */}
+        </div>
+
+        <div className="w-full bg-blue-20 relative">
+          <div className="flex flex-row gap-5 w-full justify-center">
+            {timelineEvents.map((item, index) => (
+              <div key={index} className="flex flex-col items-center mb-6">
+              
+                <div
+                  className={`w-5 h-5 bg-[#191b1f] rounded-full left-2 relative -top-3 border-2 border-[#333842] ${
+                    currentSlide === index ? "bg-[#333842]" : ""
+                  }`}
+                ></div>
+
+                <div className="left-2 relative -top-3 ">
+                  <p
+                    className={`text-xs text-center mt-2 ${
+                      currentSlide === index
+                        ? "text-white font-semibold"
+                        : "text-[#a0a4a8]"
+                    }`}
+                  >
+                    {item.event}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="w-2/3 relative md:top-0 -top-[50%] bg-red-500">
         <div
           role="list"
           className="list  relative flex items-center justify-center gap-5"
@@ -109,7 +144,7 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           {speakers.map((speaker, index) => (
             <div
               key={index}
-              className="item bg-[#2C3039] w-[550px] h-[450px] absolute overflow-hidden rounded-xl shadow-lg  "
+              className="item bg-[#2C3039] w-[350px] xsm:w-[450px] sm:w-[550px] sm:h-[450px] absolute overflow-hidden rounded-xl shadow-lg  "
             >
               <div className="relative w-full h-[350px] md:h-[350px] lg:h-[400px]">
                 <ExportedImage
@@ -126,7 +161,7 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
         </div>
       </div>
 
-      <div className="flex w-1/3">
+      <div className=" w-1/3 hidden md:flex">
         <div className="h-[450px] w-[3px] bg-[#333842] relative">
           <div className="w-5 h-5 bg-[#333842] rounded-full absolute top-0 -left-2"></div>
           <div className="w-5 h-5 bg-[#333842] rounded-full absolute bottom-0 -left-2"></div>

@@ -32,7 +32,9 @@ export default function Home() {
 
       {/* <RTLBanner /> */}
 
-      <MemorisSection />
+      <div className="md:h-[400px] h-[450px]">
+        <MemorisSection />
+      </div>
 
       <VerticalTimeLine />
 
