@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Boldonse&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 @tailwind base;
 @tailwind components;
@@ -123,7 +125,9 @@ body {
   -ms-user-select: text;
   -webkit-user-select: text;
   user-select: text;
+   font-family: 'Montserrat', sans-serif;
 }
+
 
 * {
   user-select: text !important; /* This forces text selection */

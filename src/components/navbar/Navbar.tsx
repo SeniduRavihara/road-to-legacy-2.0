@@ -20,15 +20,25 @@ const Navbar = () => {
         </li>
         <li
           className="cursor-pointer hover:text-gray-300 px-4 py-2 rounded-lg transition duration-300 ease-in-out bg-gradient-to-tr from-red-500 to-[#191B1F] via-[#191B1F] hover:from-red-400 hover:to-neutral-700"
-          //   onClick={() => scrollToSection("sessions")}
+          onClick={(e) => {
+            e.preventDefault();
+            document.querySelector("#sessions")?.scrollIntoView({
+              behavior: "smooth",
+            });
+          }}
         >
           Sessions
         </li>
         <li
           className="cursor-pointer hover:text-gray-300 px-4 py-2 rounded-lg transition duration-300 ease-in-out bg-gradient-to-tr from-red-500 to-[#191B1F] via-[#191B1F] hover:from-red-400 hover:to-neutral-700"
-          //   onClick={() => scrollToSection("rtl")}
+          onClick={(e) => {
+            e.preventDefault();
+            document.querySelector("#contact")?.scrollIntoView({
+              behavior: "smooth",
+            });
+          }}
         >
-          RTL
+          Contact
         </li>
       </ul>
     </div>

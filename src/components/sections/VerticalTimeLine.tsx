@@ -77,7 +77,7 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
       });
 
       items.forEach((item, index) => {
-        timeline.to(item, { scale: 0.8, borderRadius: "10px" });
+        timeline.to(item, { scale: 0.9, borderRadius: "10px" });
 
         timeline.call(() => {
           setCurrentSlide(index);
@@ -100,9 +100,9 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
     <div
       className="relative w-full bg-green-20 h-screen flex  flex-col md:flex-row  items-center justify-between overflow-hidden mt-20"
       ref={section}
+      id="sessions"
     >
-      <div className="w-full bg-blue-40 flex flex-col md:hidden justify-center mt-4 mb-6 px-4">
-        
+      <div className="w-full bg-blue-40 flex flex-col md:hidden justify-center mt-14 mb-6 px-4">
         <div className="h-[3px] w-full bg-[#333842] relative">
           {/* <div className="w-5 h-5 bg-[#333842] rounded-full absolute -top-2 left-0"></div>
           <div className="w-5 h-5 bg-[#333842] rounded-full absolute -top-2 right-0"></div> */}
@@ -112,7 +112,6 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           <div className="flex flex-row gap-5 w-full justify-center">
             {timelineEvents.map((item, index) => (
               <div key={index} className="flex flex-col items-center mb-6">
-              
                 <div
                   className={`w-5 h-5 bg-[#191b1f] rounded-full left-2 relative -top-3 border-2 border-[#333842] ${
                     currentSlide === index ? "bg-[#333842]" : ""

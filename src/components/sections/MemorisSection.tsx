@@ -45,7 +45,7 @@ const MemorisSection = () => {
   };
 
   return (
-    <div className="w-full h-[500px] px-4 mt-10 mb-20">
+    <div className="w-full h-[500px] px-4 mt-10 mb-20 flex flex-col items-center justify-center">
       <h2 className="text-4xl font-bold text-center mb-6">OUR MEMORIES</h2>
 
       <Carousel
@@ -57,11 +57,11 @@ const MemorisSection = () => {
           {memories.map((memory) => (
             <CarouselItem
               key={memory.id}
-              className="basis-full sm:basis-full md:basis-1/2 lg:basis-1/3"
+              className="basis-full xsm:basis-1/2 md:basis-1/3 lg:basis-1/"
             >
               <div className="p-2">
                 <Card className="transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden">
-                  <CardContent className="relative aspect-square p-0">
+                  <CardContent className="relative aspect-square p-0 ">
                     <ExportedImage
                       src={memory.src}
                       alt={memory.alt}
