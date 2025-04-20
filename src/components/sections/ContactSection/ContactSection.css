@@ -1,0 +1,61 @@
+/* body{
+  background-color: #000000;
+} */
+.card-section {
+    font-family: 'Arial', sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  /* .section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2rem;
+    color: #333;
+  } */
+  
+  /* .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  } */
+  
+  .member-card {
+    background-color: #908c8c;
+    border-radius: 8px;
+    border: solid 1px #656363;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 150px;
+    text-align: center;
+    margin: 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  .member-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .member-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #222;
+    letter-spacing: 1px;
+  }
+  
+  .member-position {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.5;
+  }
+  
+  .icon-container{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    cursor: pointer;
+  }

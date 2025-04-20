@@ -1,9 +1,37 @@
+"use client";
+
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 import Tilt from "react-parallax-tilt";
 import { BackgroundBeams } from "../ui/background-beams";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const RoadToLegacy = () => {
+  const boxRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(boxRef.current, {
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: boxRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none", // replay on re-enter
+          // markers: true, // uncomment for debugging
+        },
+      });
+    }, boxRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="w-full flex items-center justify-center">
+    <div className="w-full flex items-center justify-center" ref={boxRef}>
       <Tilt
         tiltMaxAngleX={5} // Reduce X-axis tilt
         tiltMaxAngleY={5} // Reduce Y-axis tilt
