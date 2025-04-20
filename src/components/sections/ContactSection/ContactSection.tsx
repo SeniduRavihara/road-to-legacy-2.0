@@ -1,25 +1,25 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import ExportedImage from "next-image-export-optimizer";
+import { useEffect, useRef } from "react";
 import { FaLinkedin } from "react-icons/fa";
 import { FiMail } from "react-icons/fi";
 import { IoIosCall } from "react-icons/io";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 import "./ContactSection.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ContactSection = () => {
   const sectionRef = useRef(null);
-  const cardsRef = useRef([]);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const teamMembers = [
     {
@@ -103,11 +103,12 @@ const ContactSection = () => {
 
   return (
     <div
+      id="contact"
       ref={sectionRef}
       className="px-10 md:pb-40 flex flex-col items-center justify-start py-12"
     >
       <h2 className="text-4xl font-bold text-center mb-8 section-title">
-        OUR TEAM
+        CONTACT US
       </h2>
 
       <Carousel opts={{ align: "start" }} className="w-full">
@@ -117,7 +118,12 @@ const ContactSection = () => {
               key={index}
               className="basis-full xsm:basis-1/2 md:basis-1/3 lg:basis-1/4 flex items-center justify-center"
             >
-              <div className="p-2" ref={(el) => (cardsRef.current[index] = el)}>
+              <div
+                className="p-2"
+                ref={(el) => {
+                  cardsRef.current[index] = el;
+                }}
+              >
                 <Card className="rounded-xl shadow-md w-[250px] h-[300px]">
                   <CardContent className="flex flex-col text-center items-center justify-center p-6 space-y-4">
                     <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-[#333842] shadow">

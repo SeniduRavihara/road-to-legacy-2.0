@@ -145,11 +145,11 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
               key={index}
               className="item bg-[#2C3039] w-[350px] xsm:w-[450px] sm:w-[550px] sm:h-[450px] absolute overflow-hidden rounded-xl shadow-lg  "
             >
-              <div className="relative w-full h-[350px] md:h-[350px] lg:h-[400px]">
+              <div className="relative w-full h-full">
                 <ExportedImage
                   src={speaker}
                   alt={`Speaker ${index + 1}`}
-                  className="object-cover rounded-xl"
+                  className="object-cover rounded-xl -mt-5"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />

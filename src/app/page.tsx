@@ -36,13 +36,16 @@ export default function Home() {
         <MemorisSection />
       </div>
 
-     
-        <VerticalTimeLine />
-     
+      <VerticalTimeLine />
 
       <AgendaSheet>
-        <h1>Full Agenda</h1>
+        <div className="w-screen relative -top-20 md:-top-5 flex justify-center">
+          <h1 className="text-white bg-[#262930] px-6 py-3 rounded-full shadow-lg text-xl font-bold hover:bg-[#333] transition duration-300 cursor-pointer">
+            Full Agenda
+          </h1>
+        </div>
       </AgendaSheet>
+
       {/* <SessionsStack /> */}
 
       {/* <SpeakerSection /> */}
