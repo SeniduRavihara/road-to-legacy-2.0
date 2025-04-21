@@ -164,6 +164,7 @@ export const registerDelegates = async (formData: FormDataType) => {
     await setDoc(documentRef, {
       ...formData,
       arrived: false,
+      confirmArrival: false,
       createdAt: new Date().toISOString(),
     });
 

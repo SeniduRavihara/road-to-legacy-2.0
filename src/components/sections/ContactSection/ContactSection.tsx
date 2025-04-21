@@ -23,52 +23,90 @@ const ContactSection = () => {
 
   const teamMembers = [
     {
-      name: "VIHAN MENDIS",
+      name: "Dheeshana Alagiyawanna",
       position: "Co chief organizer",
       image: "/images/contacts/Dheeshana.jpg",
-      icon: <FiMail />,
-      icon2: <FaLinkedin />,
-      icon3: <IoIosCall />,
+      email: { email: "dheeshanaalagiyawanna@gmail.com", icon: <FiMail /> },
+      linkedIn: {
+        linkedIn:
+          "https://www.linkedin.com/in/dheeshana-alagiyawanna-901948283?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+        icon: <FaLinkedin />,
+      },
+      phone: {
+        phone: "0714835998",
+        icon: <IoIosCall />,
+      },
     },
     {
-      name: "VIHANGA RATHNASEKERA",
+      name: "Pasindu Udana",
       position: "Co chief organizer",
       image: "/images/contacts/Pasindu.jpg",
-      icon: <FiMail />,
-      icon2: <FaLinkedin />,
-      icon3: <IoIosCall />,
+      email: { email: "pasinduudana12m2@gmail.com", icon: <FiMail /> },
+      linkedIn: {
+        linkedIn: "https://www.linkedin.com/in/pasindu-udana-mendis-a45504307",
+        icon: <FaLinkedin />,
+      },
+      phone: {
+        phone: "0719367720",
+        icon: <IoIosCall />,
+      },
     },
     {
-      name: "AMIRTHA BALENDRAN",
+      name: "Oshadi Pesala Naimana Liyanage",
       position: "Co chief organizer",
       image: "/images/contacts/Oshadi.jpg",
-      icon: <FiMail />,
-      icon2: <FaLinkedin />,
-      icon3: <IoIosCall />,
+      email: { email: "liyanageoshadi99@gmail.com", icon: <FiMail /> },
+      linkedIn: {
+        linkedIn:
+          "https://www.linkedin.com/in/oshadi-liyanage?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+        icon: <FaLinkedin />,
+      },
+      phone: {
+        phone: "0702502890",
+        icon: <IoIosCall />,
+      },
     },
     {
-      name: "LEYANA DABARE",
+      name: "Umaya Walpola",
       position: "Co chief organizer",
       image: "/images/contacts/Umaya.jpg",
-      icon: <FiMail />,
-      icon2: <FaLinkedin />,
-      icon3: <IoIosCall />,
+      email: { email: "umayawalpola@gmail.com", icon: <FiMail /> },
+      linkedIn: {
+        linkedIn: "https://www.linkedin.com/in/umaya-walpola-a24a31201",
+        icon: <FaLinkedin />,
+      },
+      phone: {
+        phone: "0765408463",
+        icon: <IoIosCall />,
+      },
     },
     {
-      name: "LEYANA DABARE",
+      name: "A.P.R.Asiri Harischandra",
       position: "Co chief organizer",
       image: "/images/contacts/Harischandra.jpg",
-      icon: <FiMail />,
-      icon2: <FaLinkedin />,
-      icon3: <IoIosCall />,
+      email: { email: "asiriharischandra33@gmail.com", icon: <FiMail /> },
+      linkedIn: {
+        linkedIn: "https://www.linkedin.com/in/asiri-harischandra-2209b3305/",
+        icon: <FaLinkedin />,
+      },
+      phone: {
+        phone: "0714835998",
+        icon: <IoIosCall />,
+      },
     },
     {
       name: "LEYANA DABARE",
       position: "Co chief organizer",
       image: "/images/contacts/Hesanda.jpg",
-      icon: <FiMail />,
-      icon2: <FaLinkedin />,
-      icon3: <IoIosCall />,
+      email: { email: "nhesanda@gmail.com", icon: <FiMail /> },
+      linkedIn: {
+        linkedIn: "https://www.linkedin.com/in/hesanda-liyanage/",
+        icon: <FaLinkedin />,
+      },
+      phone: {
+        phone: "0752069515",
+        icon: <IoIosCall />,
+      },
     },
   ];
 
@@ -142,9 +180,28 @@ const ContactSection = () => {
                     <p className="text-sm text-gray-600">{member.position}</p>
 
                     <div className="flex gap-4 text-xl text-gray-700">
-                      {member.icon}
-                      {member.icon2}
-                      {member.icon3}
+                      <a
+                        href={`mailto:${member.email.email}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-blue-500 transition"
+                      >
+                        {member.email.icon}
+                      </a>
+                      <a
+                        href={member.linkedIn.linkedIn}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-blue-500 transition"
+                      >
+                        {member.linkedIn.icon}
+                      </a>
+                      <a
+                        href={`tel:${member.phone.phone}`}
+                        className="hover:text-blue-500 transition"
+                      >
+                        {member.phone.icon}
+                      </a>
                     </div>
                   </CardContent>
                 </Card>

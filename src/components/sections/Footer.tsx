@@ -32,7 +32,7 @@ const Footer = () => {
         </Dialog>
       </div>
 
-      <div className="absolute bottom-32 w-full">
+      <div className="absolute bottom-52 sm:bottom-32 w-full">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
           <path
             fill="#333842"
@@ -42,7 +42,7 @@ const Footer = () => {
         </svg>
       </div>
 
-      <div className="bg-[#333842] absolute w-full h-[128px] bottom-0 opacity-50"></div>
+      <div className="bg-[#333842] absolute w-full h-[208px] sm:h-[128px] bottom-0 opacity-50"></div>
     </div>
   );
 };

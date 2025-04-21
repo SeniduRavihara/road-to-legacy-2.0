@@ -68,9 +68,9 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           trigger: section.current,
           pin: true,
           start: "50% center",
-          end: () => `+=${items.length * 100}%`,
+          end: () => `+=${items.length * 70}%`,
           scrub: 1,
-          invalidateOnRefresh: true,
+          // invalidateOnRefresh: true,
           // markers: true,
         },
         defaults: { ease: "none" },
@@ -79,9 +79,8 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
       items.forEach((item, index) => {
         timeline.to(item, { scale: 0.9, borderRadius: "10px" });
 
-        timeline.call(() => {
-          setCurrentSlide(index);
-        });
+        // Instant function trigger at this timeline point
+        timeline.add(() => setCurrentSlide(index), "+=0");
 
         if (items[index + 1]) {
           timeline.to(
@@ -91,6 +90,7 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           );
         }
       });
+
     }, section);
 
     return () => ctx.revert(); // Cleanup GSAP animations on unmount
@@ -143,7 +143,7 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           {speakers.map((speaker, index) => (
             <div
               key={index}
-              className="item bg-[#2C3039] w-[350px] xsm:w-[450px] sm:w-[550px] sm:h-[450px] absolute overflow-hidden rounded-xl shadow-lg  "
+              className="item bg-[#2C3039] w-[350px] h-[350px] xsm:w-[450px] sm:w-[550px] sm:h-[450px] absolute overflow-hidden rounded-xl shadow-lg  "
             >
               <div className="relative w-full h-full">
                 <ExportedImage

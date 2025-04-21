@@ -14,16 +14,21 @@ export type AuthContextType = {
 
 export type DelegatesType = {
   id: string;
-  name: string;
+  firstName: string;
   email: string;
   arrived: boolean;
+  confirmArrival: boolean;
+  selected: boolean;
+  // contactNumber: string;
   role?: "ADMIN" | "USER";
 };
 
 export type DelegatesTableType = {
-  name: string;
+  firstName: string;
   email: string;
-  arrived: boolean
+  arrived: boolean;
+  confirmArrival: boolean;
+  selected: boolean;
 };
 
 export type AdminDataType = {

@@ -6,12 +6,19 @@ import { DelegatesTableType, DelegatesType } from "@/types";
 
 export const columns: (
   delegatesData: DelegatesType[],
-  toggleArrived: (selectedDelegate: DelegatesType | null) => void
-) => ColumnDef<DelegatesTableType>[] = (deldelegatesData, toggleArrived) => [
+  toggleArrived: (selectedDelegate: DelegatesType | null) => void,
+  toggleSelect: (selectedDelegate: DelegatesType | null) => void
+) => ColumnDef<DelegatesTableType>[] = (
+  delegatesData,
+  toggleArrived,
+  toggleSelect
+) => [
   {
-    accessorKey: "name",
+    accessorKey: "firstName",
     header: "Name",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("firstName")}</div>
+    ),
   },
   {
     accessorKey: "email",
@@ -36,7 +43,7 @@ export const columns: (
         <Button
           className="text-white w-[50%] bg-blue-500"
           onClick={() => {
-            const selectedDelegate = deldelegatesData.find(
+            const selectedDelegate = delegatesData.find(
               (admin) => admin.email === delegateInRow.email
             );
 
@@ -62,6 +69,42 @@ export const columns: (
       );
     },
   },
+  {
+    accessorKey: "selected",
+    header: "Selected Status",
+    cell: ({ row }) => {
+      const delegateInRow = row.original;
+
+      return (
+        <Button
+          className="text-white w-[50%] bg-blue-500"
+          onClick={() => {
+            const selectedDelegate = delegatesData.find(
+              (deligate) => deligate.email === delegateInRow.email
+            );
+
+            if (!selectedDelegate) {
+              console.warn("Deligate not found:", delegateInRow.email);
+              return;
+            }
+
+            // Show a confirmation dialog before toggling
+            const confirmToggle = window.confirm(
+              `Are you sure you want to mark ${selectedDelegate.email} as ${
+                selectedDelegate.arrived ? "not Selected" : "Selected"
+              }`
+            );
+
+            if (confirmToggle) {
+              toggleSelect(selectedDelegate);
+            }
+          }}
+        >
+          {delegateInRow.selected ? "Selected" : "Not Selected"}
+        </Button>
+      );
+    },
+  },
 ];
 
 {
@@ -77,7 +120,7 @@ export const columns: (
     <DropdownMenuItem
       onClick={() => {
         const selectedDelegate =
-          deldelegatesData?.find(
+          delegatesData?.find(
             (delegate) => delegate.email === delegateInRow.email
           ) || null;
         toggleArrived(selectedDelegate);

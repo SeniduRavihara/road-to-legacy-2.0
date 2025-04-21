@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 // import tShirtImage from "../../public/assets/tshirt.jpg";
 import { FormDataType } from "@/types";
-import { useRouter } from "next/navigation";
 import styles from "./Form.module.css";
 import GradientText from "./GradientText/GradientText";
 import Step1 from "./steps/Step1";
@@ -33,7 +32,7 @@ interface FormErrors {
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const RegistrationForm: React.FC = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [submited, setSubmited] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -156,7 +155,7 @@ const RegistrationForm: React.FC = () => {
 
   const nextStep = () => {
     if (validateForm()) {
-    setStep(step + 1);
+      setStep(step + 1);
     }
   };
 
@@ -175,11 +174,11 @@ const RegistrationForm: React.FC = () => {
         await delay(1000);
         // alert("Form submitted successfully!");
 
-        router.push(
-          `/thankyou?email=${encodeURIComponent(
-            formData.email
-          )}&name=${encodeURIComponent(formData.certificateName)}&uni=${encodeURIComponent(formData.university)}`
-        );
+        // router.push(
+        //   `/thankyou?email=${encodeURIComponent(
+        //     formData.email
+        //   )}&name=${encodeURIComponent(formData.certificateName)}&uni=${encodeURIComponent(formData.university)}`
+        // );
 
         setStep(1);
         setFormData({
