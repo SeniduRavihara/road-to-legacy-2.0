@@ -1,6 +1,7 @@
 "use client";
 
 import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ExportedImage from "next-image-export-optimizer";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -8,6 +9,7 @@ import NET, { VantaEffect } from "vanta/dist/vanta.net.min";
 import { BackgroundBeams } from "../ui/background-beams";
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollToPlugin);
 
 const timelineEvents = [
   { event: "SE Session" },
@@ -29,6 +31,7 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
 
   const [vantaEffect, setVantaEffect] = useState<VantaEffect | null>(null); // Corrected type
   const myRef = useRef<HTMLDivElement | null>(null); // Typing useRef for HTMLDivElement specifically
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     if (!vantaEffect && myRef.current) {
@@ -58,7 +61,7 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
         if (index !== 0) {
           gsap.set(
             item,
-            direction === "horizontal" ? { xPercent: 200 } : { yPercent: 200 }
+            direction === "horizontal" ? { xPercent: 200 } : { yPercent: 150 }
           );
         }
       });
@@ -73,11 +76,16 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           // invalidateOnRefresh: true,
           // markers: true,
         },
-        defaults: { ease: "none" },
+        // defaults: { ease: "none" },
       });
 
       items.forEach((item, index) => {
-        timeline.to(item, { scale: 0.9, borderRadius: "10px" });
+        timeline.to(item, {
+          scale: 0.9,
+          borderRadius: "10px",
+          stagger: 0.2,
+          // ease: "power2.out",
+        });
 
         // Instant function trigger at this timeline point
         timeline.add(() => setCurrentSlide(index), "+=0");
@@ -90,11 +98,32 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           );
         }
       });
-
     }, section);
 
     return () => ctx.revert(); // Cleanup GSAP animations on unmount
   }, [direction]);
+
+  const scrollToSlide = (index: number) => {
+    if (!section.current || !itemRefs.current[index]) return;
+
+    const scrollAmount = index * 500;
+    const targetPosition = 1968 + scrollAmount;
+
+    const distance = Math.abs(currentSlide - index);
+    console.log(distance);
+
+    const scrollDuration = distance === 1 ? 0.5 : distance === 2 ? 1 : 1.5;
+
+    gsap.to(window, {
+      scrollTo: { y: targetPosition },
+      duration: scrollDuration,
+      // ease: "power2.inOut",
+    });
+
+    setTimeout(() => {
+      setCurrentSlide(index);
+    }, scrollDuration * 1000); // convert to ms
+  };
 
   return (
     <div
@@ -111,16 +140,20 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
         <div className="w-full bg-blue-20 relative">
           <div className="flex flex-row gap-5 w-full justify-center">
             {timelineEvents.map((item, index) => (
-              <div key={index} className="flex flex-col items-center mb-6">
+              <div
+                onClick={() => scrollToSlide(index)}
+                key={index}
+                className="flex flex-col items-center mb-6"
+              >
                 <div
-                  className={`w-5 h-5 bg-[#191b1f] rounded-full left-2 relative -top-3 border-2 border-[#333842] ${
+                  className={`w-5 h-5 cursor-pointer bg-[#191b1f] rounded-full left-2 relative -top-3 border-2 border-[#333842] ${
                     currentSlide === index ? "bg-[#333842]" : ""
                   }`}
                 ></div>
 
                 <div className="left-2 relative -top-3 ">
                   <p
-                    className={`text-xs text-center mt-2 ${
+                    className={`text-xs text-center mt-2 cursor-pointer ${
                       currentSlide === index
                         ? "text-white font-semibold"
                         : "text-[#a0a4a8]"
@@ -143,6 +176,9 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
           {speakers.map((speaker, index) => (
             <div
               key={index}
+              ref={(el) => {
+                itemRefs.current[index] = el;
+              }}
               className="item bg-[#2C3039] w-[350px] h-[350px] xsm:w-[450px] sm:w-[550px] sm:h-[450px] absolute overflow-hidden rounded-xl shadow-lg  "
             >
               <div className="relative w-full h-full">
@@ -169,14 +205,18 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
         <div className="w-[200px] h-[350px] relative">
           <div className="mt-24 flex flex-col gap-5 h-full">
             {timelineEvents.map((item, index) => (
-              <div key={index} className="ml-4 mb-6">
+              <div
+                key={index}
+                onClick={() => scrollToSlide(index)}
+                className="ml-4 mb-6"
+              >
                 <div
-                  className={`absolute -left-[12px] w-5 h-5 bg-[#191b1f] rounded-full border-2 border-[#333842] ${
+                  className={`absolute cursor-pointer -left-[12px] w-5 h-5 bg-[#191b1f] rounded-full border-2 border-[#333842] ${
                     currentSlide === index ? "bg-[#333842]" : ""
                   }`}
                 ></div>
                 <p
-                  className={`${currentSlide === index ? "text-white font-semibold" : "text-[#a0a4a8]"}`}
+                  className={`cursor-pointer ${currentSlide === index ? "text-white font-semibold" : "text-[#a0a4a8]"}`}
                 >
                   {item.event}
                 </p>

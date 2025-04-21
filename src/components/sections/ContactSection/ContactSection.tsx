@@ -163,7 +163,7 @@ const ContactSection = () => {
                 }}
               >
                 <Card className="rounded-xl shadow-md w-[250px] h-[300px]">
-                  <CardContent className="flex flex-col text-center items-center justify-center p-6 space-y-4">
+                  <CardContent className="w-full h-full flex flex-col text-center items-center justify-between p-6 space-y-">
                     <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-[#333842] shadow">
                       <ExportedImage
                         src={member.image}
