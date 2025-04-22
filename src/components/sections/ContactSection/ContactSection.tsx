@@ -38,7 +38,7 @@ const ContactSection = () => {
       },
     },
     {
-      name: "Pasindu Udana",
+      name: "Pasindu Mendis",
       position: "Co chief organizer",
       image: "/images/contacts/Pasindu.jpg",
       email: { email: "pasinduudana12m2@gmail.com", icon: <FiMail /> },
@@ -52,7 +52,7 @@ const ContactSection = () => {
       },
     },
     {
-      name: "Oshadi Pesala Naimana Liyanage",
+      name: "Oshadi Liyanage",
       position: "Co chief organizer",
       image: "/images/contacts/Oshadi.jpg",
       email: { email: "liyanageoshadi99@gmail.com", icon: <FiMail /> },
@@ -81,7 +81,7 @@ const ContactSection = () => {
       },
     },
     {
-      name: "A.P.R.Asiri Harischandra",
+      name: "Asiri Harischandra",
       position: "Co chief organizer",
       image: "/images/contacts/Harischandra.jpg",
       email: { email: "asiriharischandra33@gmail.com", icon: <FiMail /> },
@@ -90,12 +90,12 @@ const ContactSection = () => {
         icon: <FaLinkedin />,
       },
       phone: {
-        phone: "0714835998",
+        phone: "0705758091",
         icon: <IoIosCall />,
       },
     },
     {
-      name: "LEYANA DABARE",
+      name: "Hesanda Nimneth",
       position: "Co chief organizer",
       image: "/images/contacts/Hesanda.jpg",
       email: { email: "nhesanda@gmail.com", icon: <FiMail /> },
@@ -119,7 +119,8 @@ const ContactSection = () => {
         ease: "power2.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%",
+          start: "top 70%",
+          toggleActions: "play reverse play reverse",
         },
       });
 
@@ -131,7 +132,8 @@ const ContactSection = () => {
         stagger: 0.2,
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%",
+          start: "top 70%",
+          toggleActions: "play reverse play reverse",
         },
       });
     }, sectionRef);

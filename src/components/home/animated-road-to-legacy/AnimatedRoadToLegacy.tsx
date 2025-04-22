@@ -117,6 +117,8 @@ const AnimatedRoadToLegacy = () => {
             id="13"
             vectorEffect="non-scaling-stroke"
           />
+
+      
         </g>
       </svg>
     </div>

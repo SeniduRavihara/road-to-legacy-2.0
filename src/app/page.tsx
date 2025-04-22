@@ -1,7 +1,7 @@
 "use client";
 
 import AgendaSheet from "@/components/agenda/AgendaSheet";
-import FAQ from "@/components/FAQ/FAQ";
+import FAQ from "@/components/sections/FAQ/FAQ";
 import Navbar from "@/components/navbar/Navbar";
 import ContactSection from "@/components/sections/ContactSection/ContactSection";
 import Footer from "@/components/sections/Footer";

@@ -8,6 +8,7 @@ import svgImg from "../../assets/svg-patterns/45.svg";
 import FlipCounter from "../flip-count/FlipCounter";
 import AnimatedRoadToLegacy from "../home/animated-road-to-legacy/AnimatedRoadToLegacy";
 import RegisterButton from "../home/RegisterButton";
+import Animated2 from "../home/animated-road-to-legacy/Animated2";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -67,10 +68,11 @@ const HeroSection = () => {
       <div className="mt">
         {/* <AnimatedITLEGACY /> */}
         <AnimatedRoadToLegacy />
+        <Animated2 />
       </div>
 
-      <p className="relative hero-text backdrop-blur-sm p-5 mt-10 z-10">
-        Welcome to IT Legacy—where innovation, collaboration, and growth bring
+      <p className="relative hero-text backdrop-blur-sm p-5 text-sm mt-10 z-10">
+        Welcome to RTL—where innovation, collaboration, and growth bring
         Tech minds together.
       </p>
 

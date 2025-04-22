@@ -50,7 +50,8 @@ const MemorisSection = () => {
         ease: "power2.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 60%",
+          start: "top 70%",
+          toggleActions: "play reverse play reverse",
           // markers: true
         },
       });
@@ -63,7 +64,8 @@ const MemorisSection = () => {
         stagger: 0.2,
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 60%",
+          start: "top 70%",
+          toggleActions: "play reverse play reverse",
         },
       });
     }, sectionRef);

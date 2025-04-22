@@ -103,6 +103,27 @@ const VerticalTimeLine = ({ direction = "vertical" }) => {
     return () => ctx.revert(); // Cleanup GSAP animations on unmount
   }, [direction]);
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Fade-in & slide-up animation on scroll
+      gsap.from("#sessions", {
+        opacity: 0,
+        y: 60,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: "#sessions",
+          start: "top 70%", // when the top of the box hits 80% of the viewport height
+          toggleActions: "play none none none",
+          // scrub: true,
+          // markers: true,
+        },
+      });
+    });
+
+    return () => ctx.revert(); // clean up animations
+  }, []);
+
   const scrollToSlide = (index: number) => {
     if (!section.current || !itemRefs.current[index]) return;
 

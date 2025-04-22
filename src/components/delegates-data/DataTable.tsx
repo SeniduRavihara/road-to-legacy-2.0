@@ -54,7 +54,7 @@ export function DataTable<TData, TValue>({
     // Hide specific columns on mobile
     setColumnVisibility({
       email: !isMobile,
-      lastResult: !isMobile,
+      selected: !isMobile
     });
   }, [isMobile]);
 
