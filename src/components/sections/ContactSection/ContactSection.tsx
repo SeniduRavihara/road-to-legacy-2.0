@@ -120,7 +120,7 @@ const ContactSection = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 70%",
-          toggleActions: "play reverse play reverse",
+          // toggleActions: "play reverse play reverse",
         },
       });
 
@@ -133,7 +133,7 @@ const ContactSection = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 70%",
-          toggleActions: "play reverse play reverse",
+          // toggleActions: "play reverse play reverse",
         },
       });
     }, sectionRef);
@@ -151,7 +151,10 @@ const ContactSection = () => {
         CONTACT US
       </h2>
 
-      <Carousel opts={{ align: "start" }} className="w-full">
+      <Carousel
+        opts={{ align: "start" }}
+        className="w-full cursor-grab active:cursor-grabbing"
+      >
         <CarouselContent>
           {teamMembers.map((member, index) => (
             <CarouselItem

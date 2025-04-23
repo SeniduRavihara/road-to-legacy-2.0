@@ -8,10 +8,15 @@ import {
 } from "@/components/ui/dialog";
 import Social from "../Social"; // Assuming this component handles Google login or other social logins
 import { Button } from "../ui/button";
+import SponsersSection from "./SponsersSection";
 
 const Footer = () => {
   return (
     <div className="text-white py-6 text-center relative pb-20">
+
+
+      <SponsersSection />
+
       <div className="mx-auto relative z-10">
         <p className="text-lg">
           © 2025 Road To Legacy 2.0. All Rights Reserved.

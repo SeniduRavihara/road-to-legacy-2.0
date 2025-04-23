@@ -6,9 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,7 +57,6 @@ export default function FAQ() {
         scrollTrigger: {
           trigger: faqRef.current,
           start: "top 80%", // when the top of the FAQ hits 80% of the viewport
-          toggleActions: "play reverse play reverse",
         },
       }
     );

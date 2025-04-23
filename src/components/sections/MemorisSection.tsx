@@ -51,7 +51,6 @@ const MemorisSection = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 70%",
-          toggleActions: "play reverse play reverse",
           // markers: true
         },
       });
@@ -65,7 +64,6 @@ const MemorisSection = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 70%",
-          toggleActions: "play reverse play reverse",
         },
       });
     }, sectionRef);
@@ -84,7 +82,7 @@ const MemorisSection = () => {
 
       <Carousel
         opts={{ align: "start" }}
-        className="w-full"
+        className="w-full cursor-grab active:cursor-grabbing"
         setApi={onApiReady}
       >
         <CarouselContent>

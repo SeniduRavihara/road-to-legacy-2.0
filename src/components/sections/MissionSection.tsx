@@ -22,7 +22,7 @@ const MissionSection = () => {
         scrollTrigger: {
           trigger: "#mission-box",
           start: "top 70%", // when the top of the box hits 80% of the viewport height
-          toggleActions: "play reverse play reverse",
+          toggleActions: "play none none none",
           // scrub: true,
           // markers: true,
         },
@@ -38,7 +38,6 @@ const MissionSection = () => {
         scrollTrigger: {
           trigger: "#mission-box",
           start: "top 80%",
-          toggleActions: "play reverse play reverse",
           // scrub: true,
         },
       });

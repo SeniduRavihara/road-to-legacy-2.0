@@ -13,6 +13,7 @@ import Step3 from "./steps/Step3";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { registerDelegates } from "@/firebase/api";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface FormErrors {
   firstName?: string;
@@ -32,7 +33,7 @@ interface FormErrors {
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const RegistrationForm: React.FC = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [submited, setSubmited] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -180,6 +181,8 @@ const RegistrationForm: React.FC = () => {
         //   )}&name=${encodeURIComponent(formData.certificateName)}&uni=${encodeURIComponent(formData.university)}`
         // );
 
+         router.push("/");
+
         setStep(1);
         setFormData({
           firstName: "",
@@ -213,7 +216,7 @@ const RegistrationForm: React.FC = () => {
       setSubmited(false);
       setOpenDialog(false);
 
-      // router.push("/");
+     
     }
   };
 
@@ -363,10 +366,10 @@ const RegistrationForm: React.FC = () => {
             )}
           </div>
 
-          <p className="text-center">
+          {/* <p className="text-center">
             Please kindly wait while we redirect you to the next page. Your
             ticket will be available for download shortly.
-          </p>
+          </p> */}
         </DialogContent>
       </Dialog>
     </div>
