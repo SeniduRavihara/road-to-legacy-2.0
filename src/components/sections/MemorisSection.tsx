@@ -1,14 +1,13 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import { motion } from "framer-motion";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import ExportedImage from "next-image-export-optimizer";
@@ -21,14 +20,17 @@ const memories = [
   { id: 2, src: "/images/memories/mem1-2.jpg", alt: "Memory 2" },
   { id: 3, src: "/images/memories/mem1-3.jpg", alt: "Memory 3" },
   { id: 4, src: "/images/memories/mem1-4.jpg", alt: "Memory 4" },
-  { id: 5, src: "/images/memories/mem1-5.jpg", alt: "Memory 5" },
+  { id: 5, src: "/images/memories/mem6.jpg", alt: "Memory 5" },
 ];
 
-const MemorisSection = () => {
+const MemorySection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [api, setApi] = useState<CarouselApi | null>(null);
+  const [isHovering, setIsHovering] = useState<number | null>(null);
 
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const onApiReady = (api: CarouselApi) => {
     if (!api) return;
@@ -43,29 +45,62 @@ const MemorisSection = () => {
   // GSAP animation using context
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".section-title", {
-        opacity: 0,
-        y: 30,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
-          // markers: true
+      // Title animation with clip path
+      gsap.fromTo(
+        titleRef.current,
+        {
+          clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)",
+          opacity: 0,
         },
-      });
+        {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.inOut",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
+        }
+      );
 
-      gsap.from(".memory-card", {
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        ease: "power2.out",
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
+      // Subtitle line animation
+      gsap.fromTo(
+        ".title-line",
+        { width: 0 },
+        {
+          width: "80px",
+          duration: 1,
+          ease: "power2.out",
+          delay: 0.5,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
+        }
+      );
+
+      // Staggered card animations
+      gsap.fromTo(
+        cardsRef.current,
+        {
+          y: 80,
+          opacity: 0,
+          scale: 0.9,
         },
-      });
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: ".cards-container",
+            start: "top 85%",
+          },
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -74,58 +109,137 @@ const MemorisSection = () => {
   return (
     <div
       ref={sectionRef}
-      className="w-full h-[500px] px-4 mt-10 mb-20 flex flex-col items-center justify-center"
+      className="w-full h-full px-6 md:px-10"
+      // style={{ backgroundColor: "#191b1f" }}
     >
-      <h2 className="section-title text-4xl font-bold text-center mb-6">
-        OUR MEMORIES
-      </h2>
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center overflow-hidden">
+          <h2 ref={titleRef} className="text-5xl font-bold mb-4 text-white">
+            OUR MEMORIES
+          </h2>
+          <div className="flex justify-center mb-8">
+            <div
+              className="title-line h-1 rounded-full"
+              style={{ backgroundColor: "#333842" }}
+            ></div>
+          </div>
+          <p className="text-gray-400 max-w-xl mx-auto">
+            Relive the unforgettable moments from our journey together
+          </p>
+        </div>
 
-      <Carousel
-        opts={{ align: "start" }}
-        className="w-full cursor-grab active:cursor-grabbing"
-        setApi={onApiReady}
-      >
-        <CarouselContent>
-          {memories.map((memory) => (
-            <CarouselItem
-              key={memory.id}
-              className="memory-card basis-full xsm:basis-1/2 md:basis-1/3"
+        <div className="cards-container relative w-full mt-6">
+          <Carousel
+            opts={{ align: "start", loop: true }}
+            className="w-full"
+            setApi={onApiReady}
+          >
+            <CarouselContent className="-ml-4">
+              {memories.map((memory, index) => (
+                <CarouselItem
+                  key={memory.id}
+                  className="pl-4 basis-full xsm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+                >
+                  <div
+                    ref={(el) => {
+                      cardsRef.current[index] = el;
+                    }}
+                    className="h-full"
+                    onMouseEnter={() => setIsHovering(index)}
+                    onMouseLeave={() => setIsHovering(null)}
+                  >
+                    <Card
+                      className="border-0 overflow-hidden"
+                      style={{ backgroundColor: "transparent" }}
+                    >
+                      <div className="relative overflow-hidden rounded-xl">
+                        {/* Overlay that appears on hover */}
+                        <motion.div
+                          className="absolute inset-0 z-10 flex items-center justify-center"
+                          initial={{ opacity: 0 }}
+                          animate={{
+                            opacity: isHovering === index ? 0.7 : 0,
+                          }}
+                          transition={{ duration: 0.3 }}
+                          style={{ backgroundColor: "#191b1f" }}
+                        >
+                          <motion.div
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{
+                              scale: isHovering === index ? 1 : 0.8,
+                              opacity: isHovering === index ? 1 : 0,
+                            }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <button className="text-white border border-white rounded-full p-3 hover:bg-white hover:text-black transition-colors duration-300">
+                              View
+                            </button>
+                          </motion.div>
+                        </motion.div>
+
+                        {/* Image */}
+                        <div className="aspect-square">
+                          <ExportedImage
+                            src={memory.src}
+                            alt={memory.alt}
+                            width={400}
+                            height={400}
+                            className={`object-cover w-full h-full transition-transform duration-700 ${
+                              isHovering === index ? "scale-110" : "scale-100"
+                            }`}
+                            priority={memory.id === 1}
+                            unoptimized={true}
+                          />
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+
+            {/* <div className="flex justify-center mt-8 gap-4">
+              <CarouselPrevious
+                className="static translate-y-0 border-none flex items-center justify-center"
+                style={{ backgroundColor: "#2c3039" }}
+              >
+                <IoIosArrowBack className="text-white" />
+              </CarouselPrevious>
+
+              <CarouselNext
+                className="static translate-y-0 border-none flex items-center justify-center"
+                style={{ backgroundColor: "#2c3039" }}
+              >
+                <IoIosArrowForward className="text-white" />
+              </CarouselNext>
+            </div> */}
+          </Carousel>
+        </div>
+
+        {/* Modern dot indicators with animated active state */}
+        <div className="flex justify-center mt-10">
+          {memories.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => api?.scrollTo(index)}
+              className="relative w-8 h-2 mx-1 focus:outline-none"
+              aria-label={`Go to slide ${index + 1}`}
             >
-              <div className="p-2">
-                <Card className="transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden">
-                  <CardContent className="relative aspect-square p-0">
-                    <ExportedImage
-                      src={memory.src}
-                      alt={memory.alt}
-                      className="object-cover"
-                      fill
-                      priority={memory.id === 1}
-                    />
-                  </CardContent>
-                </Card>
-              </div>
-            </CarouselItem>
+              <span
+                className="absolute inset-0 rounded-full transition-all duration-300"
+                style={{
+                  backgroundColor:
+                    currentIndex === index ? "#333842" : "#262930",
+                  transform:
+                    currentIndex === index ? "scaleX(1.2)" : "scaleX(1)",
+                }}
+              />
+            </button>
           ))}
-        </CarouselContent>
-
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-
-      {/* Navigation Dots */}
-      <div className="flex justify-center mt-4">
-        {memories.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => api?.scrollTo(index)}
-            className={`w-3 h-3 mx-2 rounded-full transition-colors duration-200 ${
-              currentIndex === index ? "bg-gray-400" : "bg-[#333842]"
-            }`}
-          />
-        ))}
+        </div>
       </div>
     </div>
   );
 };
 
-export default MemorisSection;
+export default MemorySection;

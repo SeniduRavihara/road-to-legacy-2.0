@@ -11,6 +11,7 @@ import MemorisSection from "@/components/sections/MemorisSection";
 import MissionSection from "@/components/sections/MissionSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
 import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
+import SponsersSection from "@/components/sections/SponsersSection";
 
 export default function Home() {
   return (
@@ -32,19 +33,15 @@ export default function Home() {
 
       {/* <RTLBanner /> */}
 
-      <div className="md:h-[450px] h-[400px]">
+      <div className="md:h-[450px] h-[500px] xsm:h-[400px] mt-20 mb-20">
         <MemorisSection />
       </div>
 
       <VerticalTimeLine />
 
-      <AgendaSheet>
-        <div className="w-screen relative -top-20 md:-top-5 flex justify-center">
-          <h1 className="text-white bg-[#262930] px-6 py-3 rounded-full shadow-lg text-xl font-bold hover:bg-[#333] transition duration-300 cursor-pointer">
-            Full Agenda
-          </h1>
-        </div>
-      </AgendaSheet>
+      <div className="flex items-center justify-center w-full relative -top-6">
+        <AgendaSheet />
+      </div>
 
       {/* <SessionsStack /> */}
 
@@ -55,6 +52,8 @@ export default function Home() {
       {/* <TestaimonialSection /> */}
 
       <ContactSection />
+
+      <SponsersSection />
 
       <Footer />
 

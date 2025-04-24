@@ -8,7 +8,9 @@ import {
 } from "@/components/ui/accordion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { IoIosArrowDown } from "react-icons/io";
+import { motion } from "framer-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -40,44 +42,180 @@ const faqData: FAQItem[] = [
   },
 ];
 
+// Custom motion variants for animations
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1.0],
+    },
+  },
+};
+
 export default function FAQ() {
   const faqRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!faqRef.current) return;
+    const ctx = gsap.context(() => {
+      // Title animation
+      gsap.fromTo(
+        titleRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: "top 85%",
+          },
+        }
+      );
 
-    gsap.fromTo(
-      faqRef.current,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: faqRef.current,
-          start: "top 80%", // when the top of the FAQ hits 80% of the viewport
-        },
+      // Line animation
+      gsap.fromTo(
+        ".title-line",
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          duration: 1.5,
+          ease: "power2.out",
+          delay: 0.3,
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: "top 85%",
+          },
+        }
+      );
+    }, faqRef);
+
+    // Add custom CSS to hide the default arrow
+    const style = document.createElement("style");
+    style.innerHTML = `
+      .custom-accordion-trigger[data-state="open"] > svg,
+      .custom-accordion-trigger[data-state="closed"] > svg {
+        display: none !important;
       }
-    );
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      ctx.revert();
+      document.head.removeChild(style);
+    };
   }, []);
 
-  return (
-    <div ref={faqRef} className="p-10">
-      <h2 className="text-4xl font-bold text-center mb-8 section-title">
-        FAQs
-      </h2>
+  const handleAccordionChange = (value: string) => {
+    setActiveAccordion(value === activeAccordion ? null : value);
+  };
 
-      <Accordion type="single" collapsible className="w-full">
-        {faqData.map((item, index) => (
-          <AccordionItem key={index} value={String(index + 1)}>
-            <AccordionTrigger className="hover:no-underline">
-              {item.question}
-            </AccordionTrigger>
-            <AccordionContent>{item.answer}</AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
+  return (
+    <div
+      ref={faqRef}
+      className="py-20 px-6 md:px-12 lg:px-20"
+      style={{ backgroundColor: "#191b1f" }}
+    >
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 ref={titleRef} className="text-5xl font-bold mb-6 text-white">
+            FAQs
+          </h2>
+          <div className="flex justify-center">
+            <div
+              className="title-line h-1 w-24 rounded-full mb-10"
+              style={{ backgroundColor: "#333842" }}
+            ></div>
+          </div>
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+            Everything you need to know about our services and processes
+          </p>
+        </div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={containerVariants}
+          className="space-y-4"
+        >
+          {faqData.map((item, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              className="overflow-hidden"
+            >
+              <div
+                className="rounded-lg mb-4"
+                style={{
+                  backgroundColor: "#262930",
+                  borderLeft:
+                    activeAccordion === String(index + 1)
+                      ? "4px solid #333842"
+                      : "4px solid transparent",
+                  transition: "border-left 0.3s ease",
+                }}
+              >
+                <Accordion
+                  type="single"
+                  collapsible
+                  value={activeAccordion || ""}
+                  onValueChange={handleAccordionChange}
+                  className="w-full"
+                >
+                  <AccordionItem
+                    value={String(index + 1)}
+                    className="border-none"
+                  >
+                    <AccordionTrigger className="custom-accordion-trigger px-6 py-5 hover:no-underline group flex items-center justify-between text-lg font-medium text-white">
+                      <span>{item.question}</span>
+                      <div
+                        className={`flex items-center justify-center rounded-full transition-all duration-300 p-2 ${
+                          activeAccordion === String(index + 1)
+                            ? "bg-opacity-100"
+                            : "bg-opacity-60"
+                        }`}
+                        style={{
+                          backgroundColor:
+                            activeAccordion === String(index + 1)
+                              ? "#333842"
+                              : "#2c3039",
+                        }}
+                      >
+                        <IoIosArrowDown
+                          className={`text-white transition-transform duration-300 ${
+                            activeAccordion === String(index + 1)
+                              ? "rotate-180"
+                              : ""
+                          }`}
+                        />
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-6 pb-5 text-gray-400">
+                      {item.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
     </div>
   );
 }

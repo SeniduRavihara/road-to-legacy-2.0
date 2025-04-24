@@ -3,110 +3,156 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ExportedImage from "next-image-export-optimizer";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import svgImg from "../../assets/svg-patterns/45.svg";
 import FlipCounter from "../flip-count/FlipCounter";
+import Animated2 from "../home/animated-road-to-legacy/Animated2";
 import AnimatedRoadToLegacy from "../home/animated-road-to-legacy/AnimatedRoadToLegacy";
 import RegisterButton from "../home/RegisterButton";
-import Animated2 from "../home/animated-road-to-legacy/Animated2";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection = () => {
+  const sectionRef = useRef(null);
+  const bgRef = useRef(null);
+
   useEffect(() => {
-    // Hero section animations
-    // gsap.from(".hero-title", {
-    //   opacity: 0,
-    //   y: 50,
-    //   duration: 1,
-    //   delay: 2,
-    //   ease: "power2.out",
-    // });
+    const section = sectionRef.current;
+    const bg = bgRef.current;
 
-    // gsap.from(".hero-text", {
-    //   opacity: 0,
-    //   y: 30,
-    //   duration: 1.5,
-    //   delay: 2,
-    //   ease: "power2.out",
-    // });
-
-    // gsap.from(".register-btn", {
-    //   opacity: 0,
-    //   scale: 0.8,
-    //   duration: 1.5,
-    //   delay: 2,
-    //   ease: "back.out(1.7)",
-    // });
-
-    // Parallax Effect for Background Image
-    gsap.to(".parallax-bg", {
-      y: 100, // Adjust this value to control the parallax depth
-      ease: "none",
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: ".hero-section",
+        trigger: section,
         start: "top top",
         end: "bottom top",
-        scrub: true, // Smooth parallax effect
+        scrub: 1,
       },
     });
+
+    tl.to(bg, { y: 100, ease: "none" });
+
+    return () => {
+      tl.kill();
+    };
   }, []);
 
+  // Text animation variants
+  // const textVariants = {
+  //   hidden: { opacity: 0, y: 50 },
+  //   visible: {
+  //     opacity: 1,
+  //     y: 0,
+  //     transition: {
+  //       duration: 0.8,
+  //       ease: "easeOut",
+  //       delay: 1.5, // Keeping the same delay as your GSAP timeline
+  //     },
+  //   },
+  // };
+
+  // Button animation variants
+  const buttonVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        delay: 1.7, // Slightly after text animation starts (matches your GSAP delay + 0.2)
+      },
+    },
+  };
+
+  // Word animation variants for text reveal effect
+  const wordVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 1.5 + i * 0.1,
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    }),
+  };
+
+  const text =
+    "Welcome to RTL—where innovation, collaboration, and growth bring Tech minds together. Join us in shaping the future of technology.";
+  const words = text.split(" ");
+
   return (
-    <section className="hero-section relative h-screen w-full overflow-hidden flex flex-col justify-center items-center text-white text-center px-6 ">
-      {/* Background Image with Parallax Effect */}
+    <section
+      ref={sectionRef}
+      className="relative h-screen w-full overflow-hidde flex flex-col justify-center items-center text-white text-center px-6"
+    >
       <ExportedImage
+        ref={bgRef}
         src={svgImg}
         alt="Background Pattern"
-        className="parallax-bg absolute opacity-20 w-full object-cover -top-20 h-[800px]"
+        className="absolute opacity-20 w-full object-cover -top-20 h-[800px]"
       />
 
-      {/* <h1 className="relative -top-10 hero-title text-4xl sm:text-6xl font-bold">
-        ROAD TO LEGACY 2.0
-      </h1> */}
-
-      <div className="mt">
-        {/* <AnimatedITLEGACY /> */}
+      <div className="mt-10 z-10">
         <AnimatedRoadToLegacy />
         <Animated2 />
       </div>
 
-      <p className="relative hero-text backdrop-blur-sm p-5 text-sm mt-10 z-10">
-        Welcome to RTL—where innovation, collaboration, and growth bring
-        Tech minds together.
-      </p>
+      <motion.p
+        className="relative backdrop-blur-sm p-5 text-sm mt-10 z-10 max-w-2xl"
+        initial="hidden"
+        animate="visible"
+      >
+        {words.map((word, i) => (
+          <motion.span
+            key={i}
+            custom={i}
+            variants={wordVariants}
+            className="inline-block"
+            style={{ marginRight: "4px" }}
+          >
+            {word}
+          </motion.span>
+        ))}
+      </motion.p>
 
-      <div className="register-btn z-10 mt-5">
+      <motion.div
+        className="z-10 mt-8"
+        variants={buttonVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <RegisterButton />
-      </div>
+      </motion.div>
 
       <FlipCounter />
 
-      {/* <div className="w-full flex justify-center items-center opacity-30 absolute bottom-5">
-        <a
-          href="#begin"
-          onClick={(e) => {
-            e.preventDefault();
-            document.querySelector("#begin")?.scrollIntoView({
-              behavior: "smooth",
-            });
-          }}
-        >
-          <div className="w-[35px] h-[64px]  rounded-3xl border-4 border-primary flex justify-center items-start p-2">
-            <motion.div
-              animate={{ y: [0, 24, 0] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                repeatType: "loop",
-              }}
-              className="w-3 h-3 rounded-full bg-primary mb-1"
-            />
-          </div>
-        </a>
-      </div> */}
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+        <ScrollIndicator />
+      </div>
     </section>
   );
 };
+
+const ScrollIndicator = () => (
+  <div className="animate-bounce">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-6 w-6 text-white opacity-50"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M19 14l-7 7m0 0l-7-7m7 7V3"
+      />
+    </svg>
+  </div>
+);
 
 export default HeroSection;
