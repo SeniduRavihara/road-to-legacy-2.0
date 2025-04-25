@@ -15,7 +15,8 @@ type AgendaCategory =
   | "keynote"
   | "discussion"
   | "ceremony"
-  | "admin";
+  | "admin"
+  | "entertainment";
 
 interface AgendaItemProps {
   time: string;
@@ -54,15 +55,20 @@ const Agenda: React.FC = () => {
     { time: "12:15 - 1:00", title: "Interval", category: "break" },
     {
       time: "1:00 - 2:15",
-      title: "Game / Gaming Development",
-      category: "technical",
+      title: "Game",
+      category: "entertainment",
     },
     {
       time: "2:15 - 3:00",
+      title: "Gaming Development",
+      category: "technical",
+    },
+    {
+      time: "3:00 - 3:30",
       title: "Q&A Session and Panel Discussion",
       category: "discussion",
     },
-    { time: "3:00 - 3:30", title: "Vote of Thanks", category: "ceremony" },
+    { time: "3:30 - 4:00", title: "Vote of Thanks", category: "ceremony" },
   ];
 
   const getCategoryColor = (category: AgendaCategory): string => {

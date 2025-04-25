@@ -107,7 +107,7 @@ const EventSpeakerSessions = () => {
     {
       id: 1,
       title: "Software Engineering Session",
-      time: "10:00 AM - 11:30 AM",
+      time: "9:00 AM - 9:50 AM",
       speaker: "Dr. Sarah Johnson",
       role: "CTO at TechInnovate",
       image: "/images/speakers/se-domain.png",
@@ -118,7 +118,7 @@ const EventSpeakerSessions = () => {
     {
       id: 2,
       title: "Cybersecurity & AI",
-      time: "12:00 PM - 1:30 PM",
+      time: "9:50 AM - 10:40 AM",
       speaker: "Michael Chen",
       role: "Security Researcher",
       image: "/images/speakers/cyber-domain.png",
@@ -129,7 +129,7 @@ const EventSpeakerSessions = () => {
     {
       id: 3,
       title: "Project Management & Business Analysis",
-      time: "2:00 PM - 3:30 PM",
+      time: "11:30 AM - 12:15 PM",
       speaker: "Emily Rodriguez",
       role: "Senior PM at GlobalTech",
       image: "/images/speakers/business-domain.png",
@@ -140,7 +140,7 @@ const EventSpeakerSessions = () => {
     {
       id: 4,
       title: "Gaming Development",
-      time: "4:00 PM - 5:30 PM",
+      time: "2:15 PM - 3:00 PM",
       speaker: "Alex Thompson",
       role: "Lead Game Developer",
       image: "/images/speakers/game-domain.png",
