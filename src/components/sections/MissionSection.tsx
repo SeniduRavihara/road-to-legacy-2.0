@@ -149,10 +149,9 @@ const MissionSection = () => {
       className="w-screen h-[580px] xsm:h-[380px] mt-20"
     >
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-purple-500/10 to-blue-500/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-indigo-500/10 to-teal-500/5 rounded-full blur-3xl"></div>
+      {/* <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-purple-500/10 to-blue-500/5 rounded-full blur-3xl"></div> */}
 
-      <div className="-top-16 xsm:top-10 w-full h-[550px] xsm:h-[300px] flex flex-col items-start justify-center relative">
+      <div className="-top-16 xsm:top-10 w-full h-[550px] xsm:h-[400px] md:h-[380px] flex flex-col items-start justify-center relative">
         {/* Floating decorative circles */}
         <div className="decorative-circle absolute -top-10 right-10 w-20 h-20 border border-white/10 rounded-full opacity-0"></div>
         <div className="decorative-circle absolute top-20 right-40 w-12 h-12 border border-white/10 rounded-full opacity-0"></div>

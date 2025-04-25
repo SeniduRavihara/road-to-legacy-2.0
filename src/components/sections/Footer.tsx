@@ -1,6 +1,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -159,15 +160,12 @@ const Footer = () => {
                 Admin Portal
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md bg-gray-900/95 backdrop-blur-lg border-gray-800 p-6 gap-8 flex flex-col items-center justify-center sm:rounded-2xl rounded-2xl">
+            <DialogContent className="sm:max-w-[425px] p-5 gap-10 flex flex-col items-center justify-center sm:rounded-xl rounded-xl">
               <DialogHeader>
-                <DialogTitle className="text-xl font-medium text-white">
-                  Admin Access
-                </DialogTitle>
+                <DialogTitle>Login with Google</DialogTitle>
               </DialogHeader>
-              <div className="w-full max-w-xs">
-                <Social />
-              </div>
+              <Social />
+              <DialogFooter />
             </DialogContent>
           </Dialog>
         </div>

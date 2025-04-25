@@ -135,7 +135,7 @@ const MemorySection = () => {
   return (
     <div
       ref={sectionRef}
-      className="w-full h-full px-6 md:px-10"
+      className="w-full h-full px-6 md:px-10 mt-0 md:mt-40"
       // style={{ backgroundColor: "#191b1f" }}
     >
       <div className="max-w-6xl mx-auto">

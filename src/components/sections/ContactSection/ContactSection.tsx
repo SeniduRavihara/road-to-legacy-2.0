@@ -211,7 +211,7 @@ const ContactSection = () => {
     <div
       id="contact"
       ref={sectionRef}
-      className="px-4 md:px-10  flex flex-col items-center justify-start"
+      className="px-4 md:px-10  flex flex-col items-center justify-start cursor-grab active:cursor-grabbing"
       style={{ backgroundColor: "#191b1f" }}
     >
       <div className="max-w-6xl w-full mx-auto">
