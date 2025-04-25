@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import ExportedImage from "next-image-export-optimizer";
+import { AnimatePresence, motion } from "framer-motion";
 import gsap from "gsap";
+import ExportedImage from "next-image-export-optimizer";
+import { useEffect, useRef, useState } from "react";
 
 const EventSpeakerSessions = () => {
   const [activeSession, setActiveSession] = useState(0);
@@ -10,56 +10,57 @@ const EventSpeakerSessions = () => {
   const sectionRef = useRef(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
-    useEffect(() => {
-      const ctx = gsap.context(() => {
-        // Title animation
-        gsap.fromTo(
-          titleRef.current,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1.2,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: titleRef.current,
-              start: "top 85%",
-            },
-          }
-        );
+  useEffect(() => {
+    if (!titleRef) return;
+    const ctx = gsap.context(() => {
+      // Title animation
+      gsap.fromTo(
+        titleRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: "top 85%",
+          },
+        }
+      );
 
-        // Line animation
-        gsap.fromTo(
-          ".title-line",
-          { scaleX: 0 },
-          {
-            scaleX: 1,
-            duration: 1.5,
-            ease: "power2.out",
-            delay: 0.3,
-            scrollTrigger: {
-              trigger: titleRef.current,
-              start: "top 85%",
-            },
-          }
-        );
-      }, sectionRef);
-  
-      // Add custom CSS to hide the default arrow
-      const style = document.createElement("style");
-      style.innerHTML = `
+      // Line animation
+      gsap.fromTo(
+        ".title-line",
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          duration: 1.5,
+          ease: "power2.out",
+          delay: 0.3,
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: "top 85%",
+          },
+        }
+      );
+    }, sectionRef);
+
+    // Add custom CSS to hide the default arrow
+    const style = document.createElement("style");
+    style.innerHTML = `
         .custom-accordion-trigger[data-state="open"] > svg,
         .custom-accordion-trigger[data-state="closed"] > svg {
           display: none !important;
         }
       `;
-      document.head.appendChild(style);
-  
-      return () => {
-        ctx.revert();
-        document.head.removeChild(style);
-      };
-    }, []);
+    document.head.appendChild(style);
+
+    return () => {
+      ctx.revert();
+      document.head.removeChild(style);
+    };
+  }, []);
 
   // Check for mobile viewport on component mount and window resize
   useEffect(() => {
@@ -109,7 +110,7 @@ const EventSpeakerSessions = () => {
       time: "10:00 AM - 11:30 AM",
       speaker: "Dr. Sarah Johnson",
       role: "CTO at TechInnovate",
-      image: "/images/speakers/1.png",
+      image: "/images/speakers/se-domain.png",
       description:
         "Exploring modern development practices and the future of software engineering with hands-on examples and case studies.",
       location: "Main Hall",
@@ -120,7 +121,7 @@ const EventSpeakerSessions = () => {
       time: "12:00 PM - 1:30 PM",
       speaker: "Michael Chen",
       role: "Security Researcher",
-      image: "/images/speakers/2.png",
+      image: "/images/speakers/cyber-domain.png",
       description:
         "Uncovering the intersection between artificial intelligence and cybersecurity challenges in today's digital landscape.",
       location: "Workshop Room A",
@@ -131,7 +132,7 @@ const EventSpeakerSessions = () => {
       time: "2:00 PM - 3:30 PM",
       speaker: "Emily Rodriguez",
       role: "Senior PM at GlobalTech",
-      image: "/images/speakers/3.png",
+      image: "/images/speakers/business-domain.png",
       description:
         "Strategic approaches to project execution and effective business analysis techniques for modern organizations.",
       location: "Conference Room B",
@@ -142,7 +143,7 @@ const EventSpeakerSessions = () => {
       time: "4:00 PM - 5:30 PM",
       speaker: "Alex Thompson",
       role: "Lead Game Developer",
-      image: "/images/speakers/4.png",
+      image: "/images/speakers/game-domain.png",
       description:
         "Building immersive gaming experiences: from concept to deployment with the latest tools and technologies.",
       location: "Innovation Lab",
@@ -191,6 +192,7 @@ const EventSpeakerSessions = () => {
 
   return (
     <section
+      id="sessions"
       ref={sectionRef}
       className="py-8 pb-16 md:pb-16 bg-gradient-to-b from-[#191b1f] to-[#1f2227] relative overflow-hidden"
     >
@@ -209,21 +211,8 @@ const EventSpeakerSessions = () => {
           initial="hidden"
           animate="visible"
         >
-          {/* <motion.div
-            className="text-center mb-8 md:mb-12"
-            variants={headerVariants}
-          >
-            <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4">
-              Event Sessions
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
-              Join our industry-leading speakers for insightful sessions
-              throughout the day
-            </p>
-          </motion.div> */}
-
-          <motion.div className="text-center mb-16" variants={headerVariants}>
-            <h2 ref={titleRef} className="text-5xl font-bold mb-6 text-white">
+          <motion.div className="text-center mb-5" variants={headerVariants}>
+            <h2 ref={titleRef} className="text-5xl font-bold mb-4 text-white">
               Event Sessions
             </h2>
             <div className="flex justify-center">
@@ -311,7 +300,6 @@ const EventSpeakerSessions = () => {
                         >
                           {session.title}
                         </p>
-                        {/* <p className="text-sm text-gray-500">{session.time}</p> */}
                       </div>
                     </div>
                   </motion.div>
@@ -337,7 +325,23 @@ const EventSpeakerSessions = () => {
                   <div className="flex flex-col md:grid md:grid-cols-7 h-full">
                     {/* Speaker Image */}
                     <div className="md:col-span-3 h-48 sm:h-64 md:h-auto relative">
+                      {/* Enhanced Image Overlay - Multiple gradient layers */}
                       <div className="absolute inset-0 bg-gradient-to-tr from-[#191b1f] via-transparent to-transparent z-10"></div>
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#191b1f]/70 z-10"></div>
+                      <div className="absolute inset-0 bg-[#191b1f]/20 z-10"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#333842]/50 z-10"></div>
+
+                      {/* Mesh pattern overlay */}
+                      <div className="absolute inset-0 mix-blend-overlay opacity-10 z-10">
+                        <div
+                          className="w-full h-full"
+                          style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cline x1='0' y1='0' x2='100' y2='100' stroke='%23ffffff' stroke-width='0.5'/%3E%3Cline x1='100' y1='0' x2='0' y2='100' stroke='%23ffffff' stroke-width='0.5'/%3E%3C/svg%3E")`,
+                            backgroundSize: "20px 20px",
+                          }}
+                        ></div>
+                      </div>
+
                       <ExportedImage
                         src={sessions[activeSession].image}
                         alt={sessions[activeSession].speaker}
@@ -362,15 +366,12 @@ const EventSpeakerSessions = () => {
                       </h3>
 
                       <div className="flex items-center flex-wrap gap-2 mb-4">
-                        {/* <div className="px-3 py-1 bg-[#2c3039] border border-[#333842]/50 rounded-full text-xs sm:text-sm text-gray-300">
-                          {sessions[activeSession].location}
-                        </div> */}
                         <div className="px-3 py-1 bg-[#2c3039] border border-[#333842]/50 rounded-full text-xs sm:text-sm text-gray-300">
                           {sessions[activeSession].time}
                         </div>
                       </div>
 
-                      <div className="flex items-center mb-4">
+                      {/* <div className="flex items-center mb-4">
                         <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#2c3039] border border-[#333842] flex items-center justify-center text-white font-bold text-sm sm:text-base">
                           {sessions[activeSession].speaker.charAt(0)}
                         </div>
@@ -382,29 +383,11 @@ const EventSpeakerSessions = () => {
                             {sessions[activeSession].role}
                           </p>
                         </div>
-                      </div>
+                      </div> */}
 
                       <p className="text-gray-300 mb-6 text-sm sm:text-base">
                         {sessions[activeSession].description}
                       </p>
-
-                      {/* <button className="inline-flex items-center px-4 py-2 bg-[#333842] hover:bg-[#333842]/80 text-white rounded-lg transition-colors duration-300 border border-[#333842] text-sm sm:text-base">
-                        <span>Add to calendar</span>
-                        <svg
-                          className="ml-2 w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                          ></path>
-                        </svg>
-                      </button> */}
                     </div>
                   </div>
                 </motion.div>

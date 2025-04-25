@@ -132,8 +132,8 @@ export default function FAQ() {
       style={{ backgroundColor: "#191b1f" }}
     >
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 ref={titleRef} className="text-5xl font-bold mb-6 text-white">
+        <div className="text-center mb-5">
+          <h2 ref={titleRef} className="text-5xl font-bold mb-4 text-white">
             FAQs
           </h2>
           <div className="flex justify-center">

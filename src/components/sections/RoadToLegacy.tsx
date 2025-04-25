@@ -197,7 +197,7 @@ const RoadToLegacy: React.FC = () => {
                     y2={node.cy}
                     stroke="url(#lineGrad)"
                     strokeWidth={Math.max(0.5, 2 - distance / 100)}
-                    opacity={opacity * 0.7}
+                    opacity={opacity * 200}
                     strokeDasharray={distance > 100 ? "4 2" : "none"}
                   />
                 );

@@ -16,11 +16,36 @@ import { useEffect, useRef, useState } from "react";
 gsap.registerPlugin(ScrollTrigger);
 
 const memories = [
-  { id: 1, src: "/images/memories/mem1-1.jpg", alt: "Memory 1" },
-  { id: 2, src: "/images/memories/mem1-2.jpg", alt: "Memory 2" },
-  { id: 3, src: "/images/memories/mem1-3.jpg", alt: "Memory 3" },
-  { id: 4, src: "/images/memories/mem1-4.jpg", alt: "Memory 4" },
-  { id: 5, src: "/images/memories/mem6.jpg", alt: "Memory 5" },
+  {
+    id: 1,
+    src: "/images/memories/mem6.jpg",
+    alt: "Memory 1",
+    link: "https://web.facebook.com/photo/?fbid=122128819454091765&set=pcb.122128823096091765",
+  },
+  {
+    id: 5,
+    src: "/images/memories/mem1-1.jpg",
+    alt: "Memory 5",
+    link: "https://web.facebook.com/photo/?fbid=122128783280091765&set=pcb.122128823096091765",
+  },
+  {
+    id: 2,
+    src: "/images/memories/mem1-2.jpg",
+    alt: "Memory 2",
+    link: "https://web.facebook.com/photo?fbid=122128788746091765&set=pcb.122128823096091765",
+  },
+  {
+    id: 3,
+    src: "/images/memories/mem1-3.jpg",
+    alt: "Memory 3",
+    link: "https://www.facebook.com/photo/?fbid=323456789",
+  },
+  {
+    id: 4,
+    src: "/images/memories/mem1-4.jpg",
+    alt: "Memory 4",
+    link: "https://www.facebook.com/photo/?fbid=423456789",
+  },
 ];
 
 const MemorySection = () => {
@@ -59,7 +84,8 @@ const MemorySection = () => {
           ease: "power3.inOut",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 80%",
+            start: "top 90%",
+            // markers: true,
           },
         }
       );
@@ -75,7 +101,7 @@ const MemorySection = () => {
           delay: 0.5,
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 80%",
+            start: "top 90%",
           },
         }
       );
@@ -171,9 +197,14 @@ const MemorySection = () => {
                             }}
                             transition={{ duration: 0.3 }}
                           >
-                            <button className="text-white border border-white rounded-full p-3 hover:bg-white hover:text-black transition-colors duration-300">
+                            <a
+                              href={memory.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-white border border-white rounded-full p-3 hover:bg-white hover:text-black transition-colors duration-300 inline-block"
+                            >
                               View
-                            </button>
+                            </a>
                           </motion.div>
                         </motion.div>
 
@@ -188,7 +219,7 @@ const MemorySection = () => {
                               isHovering === index ? "scale-110" : "scale-100"
                             }`}
                             priority={memory.id === 1}
-                            unoptimized={true}
+                            // unoptimized={true}
                           />
                         </div>
                       </div>
@@ -197,22 +228,6 @@ const MemorySection = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-
-            {/* <div className="flex justify-center mt-8 gap-4">
-              <CarouselPrevious
-                className="static translate-y-0 border-none flex items-center justify-center"
-                style={{ backgroundColor: "#2c3039" }}
-              >
-                <IoIosArrowBack className="text-white" />
-              </CarouselPrevious>
-
-              <CarouselNext
-                className="static translate-y-0 border-none flex items-center justify-center"
-                style={{ backgroundColor: "#2c3039" }}
-              >
-                <IoIosArrowForward className="text-white" />
-              </CarouselNext>
-            </div> */}
           </Carousel>
         </div>
 

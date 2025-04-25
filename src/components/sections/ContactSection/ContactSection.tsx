@@ -165,29 +165,29 @@ const ContactSection = () => {
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Title animation
-      gsap.from(".section-title", {
-        opacity: 0,
-        y: 30,
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 75%",
-        },
-      });
+      // gsap.from(".section-title", {
+      //   opacity: 0,
+      //   y: 30,
+      //   duration: 1.2,
+      //   ease: "power3.out",
+      //   scrollTrigger: {
+      //     trigger: sectionRef.current,
+      //     start: "top 75%",
+      //   },
+      // });
 
       // Subtitle animation
-      gsap.from(".section-subtitle", {
-        opacity: 0,
-        y: 20,
-        duration: 1,
-        delay: 0.3,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 75%",
-        },
-      });
+      // gsap.from(".section-subtitle", {
+      //   opacity: 0,
+      //   y: 20,
+      //   duration: 1,
+      //   delay: 0.3,
+      //   ease: "power2.out",
+      //   scrollTrigger: {
+      //     trigger: sectionRef.current,
+      //     start: "top 75%",
+      //   },
+      // });
 
       // Card animations with staggered effect
       gsap.from(cardsRef.current, {
@@ -215,8 +215,8 @@ const ContactSection = () => {
       style={{ backgroundColor: "#191b1f" }}
     >
       <div className="max-w-6xl w-full mx-auto">
-        <div className="text-center mb-16">
-          <h2 ref={titleRef} className="text-5xl font-bold mb-6 text-white">
+        <div className="text-center mb-5">
+          <h2 ref={titleRef} className="text-5xl font-bold mb-4 text-white">
             CONTACT US
           </h2>
           <div className="flex justify-center">
@@ -225,7 +225,7 @@ const ContactSection = () => {
               style={{ backgroundColor: "#333842" }}
             ></div>
           </div>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg ">
             Connect with our team of organizers
           </p>
         </div>
@@ -285,7 +285,7 @@ const ContactSection = () => {
                           alt={member.name}
                           width={300}
                           height={300}
-                          className="object-cover w-full h-full transition-transform duration-500 ease-out"
+                          className="object-cover w-full h-full transition-transform duration-500 ease-out object-[50%_35%]"
                           style={{
                             transform:
                               hoveredIndex === index
@@ -293,7 +293,7 @@ const ContactSection = () => {
                                 : "scale(1)",
                           }}
                           priority
-                          unoptimized={true}
+                          // unoptimized={true}
                         />
                       </div>
 

@@ -1,17 +1,17 @@
 "use client";
 
 import AgendaSheet from "@/components/agenda/AgendaSheet";
-import FAQ from "@/components/sections/FAQ/FAQ";
 import Navbar from "@/components/navbar/Navbar";
 import ContactSection from "@/components/sections/ContactSection/ContactSection";
+import FAQ from "@/components/sections/FAQ/FAQ";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/header/Header";
 import HeroSection from "@/components/sections/HeroSection";
 import MemorisSection from "@/components/sections/MemorisSection";
 import MissionSection from "@/components/sections/MissionSection";
 import RoadToLegacy from "@/components/sections/RoadToLegacy";
-import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
 import SponsersSection from "@/components/sections/SponsersSection";
+import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
 
 export default function Home() {
   return (
