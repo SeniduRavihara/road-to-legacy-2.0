@@ -19,6 +19,11 @@ export const metadata: Metadata = {
     "Join Road to Legacy 2.0, the transformative IT career event in Sri Lanka. Connect with experts, explore hands-on workshops, and shape your tech future with insights from top universities.",
   keywords: [
     "Road to Legacy",
+    "IT Legacy",
+    "RTL",
+    "IT Legacy 2.0",
+    "IT Legacy 2025",
+    "RTL 2.0",
     "Legacy 2.0",
     "ITLegacy",
     "IT career event",

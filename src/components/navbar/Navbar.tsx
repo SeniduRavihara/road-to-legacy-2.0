@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 interface DotProps {
@@ -20,12 +22,10 @@ const Navbar: React.FC = () => {
   const router = useRouter();
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [hoverItem, setHoverItem] = useState<string | null>(null);
-
-  // For animated dots in background
   const [dots, setDots] = useState<DotProps[]>([]);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // Create animated background dots
     const newDots: DotProps[] = [];
     for (let i = 0; i < 12; i++) {
       newDots.push({
@@ -34,12 +34,12 @@ const Navbar: React.FC = () => {
         y: Math.random() * 100,
         size: Math.random() * 3 + 1,
         opacity: Math.random() * 0.3 + 0.1,
-        speed: Math.random() * 0.4 + 0.1,
+        speed: Math.random() * 0.2 + 0.05, // slightly slower for smoother
       });
     }
     setDots(newDots);
 
-    // Animate dots
+    let animationFrameId: number;
     const animateDots = () => {
       setDots((prevDots) =>
         prevDots.map((dot) => ({
@@ -47,13 +47,16 @@ const Navbar: React.FC = () => {
           x: (dot.x + dot.speed) % 100,
         }))
       );
+      animationFrameId = requestAnimationFrame(animateDots);
     };
 
-    const intervalId = setInterval(animateDots, 100);
-    return () => clearInterval(intervalId);
+    animateDots();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
   }, []);
 
-  // SVG pattern for button backgrounds
   const AccentPattern: React.FC = () => (
     <svg
       className="absolute inset-0 w-full h-full opacity-20"
@@ -70,7 +73,7 @@ const Navbar: React.FC = () => {
     </svg>
   );
 
-  const handleClick = (destination: string, id: string): void => {
+  const handleClick = (destination: string, id: string) => {
     setActiveItem(id);
 
     if (destination === "register") {
@@ -81,8 +84,11 @@ const Navbar: React.FC = () => {
       });
     }
 
-    // Reset active after animation completes
-    setTimeout(() => setActiveItem(null), 600);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => setActiveItem(null), 600);
   };
 
   const navItems: NavItemProps[] = [
@@ -101,14 +107,13 @@ const Navbar: React.FC = () => {
         {dots.map((dot) => (
           <div
             key={dot.id}
-            className="absolute rounded-full bg-red-500"
+            className="absolute rounded-full bg-red-500 transition-all duration-500 ease-linear"
             style={{
               left: `${dot.x}%`,
               top: `${dot.y}%`,
               width: `${dot.size}px`,
               height: `${dot.size}px`,
               opacity: dot.opacity,
-              transition: "left 0.5s linear",
             }}
           ></div>
         ))}
@@ -132,11 +137,11 @@ const Navbar: React.FC = () => {
             {/* Button background */}
             <div
               className={`
-              absolute inset-0 rounded-lg bg-gradient-to-tr from-[#2c3039] to-[#191B1F] 
-              transition-all duration-300
-              ${hoverItem === item.id ? "opacity-100" : "opacity-90"}
-              overflow-hidden
-            `}
+                absolute inset-0 rounded-lg bg-gradient-to-tr from-[#2c3039] to-[#191B1F] 
+                transition-all duration-300
+                ${hoverItem === item.id ? "opacity-100" : "opacity-90"}
+                overflow-hidden
+              `}
             >
               <AccentPattern />
 
@@ -148,10 +153,10 @@ const Navbar: React.FC = () => {
             <div className="relative z-10 flex items-center justify-center">
               <span
                 className={`
-                font-medium tracking-wide
-                transition-all duration-300
-                ${hoverItem === item.id ? "text-gray-200" : "text-gray-300"}
-              `}
+                  font-medium tracking-wide
+                  transition-all duration-300
+                  ${hoverItem === item.id ? "text-gray-200" : "text-gray-300"}
+                `}
               >
                 {item.label}
               </span>
@@ -160,19 +165,19 @@ const Navbar: React.FC = () => {
             {/* Animated highlight effect */}
             <div
               className={`
-              absolute -inset-0.5 rounded-lg bg-gradient-to-r from-red-500/20 to-red-500/0 opacity-0
-              transition-opacity duration-300 -z-10
-              ${hoverItem === item.id ? "opacity-60" : ""}
-            `}
+                absolute -inset-0.5 rounded-lg bg-gradient-to-r from-red-500/20 to-red-500/0 opacity-0
+                transition-opacity duration-300 -z-10
+                ${hoverItem === item.id ? "opacity-60" : ""}
+              `}
             ></div>
 
             {/* Subtle animated indicator */}
             <div
               className={`
-              absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-0 bg-red-500
-              transition-all duration-300
-              ${hoverItem === item.id ? "h-1/2" : ""}
-            `}
+                absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-0 bg-red-500
+                transition-all duration-300
+                ${hoverItem === item.id ? "h-1/2" : ""}
+              `}
             ></div>
           </li>
         ))}

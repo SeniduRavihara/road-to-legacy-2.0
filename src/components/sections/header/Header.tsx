@@ -1,40 +1,28 @@
 "use client";
 
-import gsap from "gsap";
+import { useLoading } from "@/context/LoadingContext";
 import ExportedImage from "next-image-export-optimizer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import "./Header.css";
 
 const Header = () => {
+  const { loading } = useLoading();
+  const [animationEnabled, setAnimationEnabled] = useState<boolean>(false);
+
+  // Start animations after loading is complete
   useEffect(() => {
-    // Header fade-in animation
-    const ctx = gsap.context(() => {
-      gsap.from("#header", {
-        opacity: 0,
-        delay: 2,
-        x: 20,
-        duration: 1,
-      });
-
-      // Sea wave effect on social media icons
-      gsap.to(".social-icon", {
-        y: -5, // Move up slightly
-        duration: 1.5, // Smooth animation
-        repeat: -1, // Infinite loop
-        yoyo: true, // Reverse animation
-        ease: "sine.inOut", // Smooth wave motion
-        stagger: 0.5,
-      });
-    });
-
-    return () => ctx.revert(); // Cleanup animation
-  }, []);
+    if (!loading) {
+      setAnimationEnabled(true);
+    }
+  }, [loading]);
 
   return (
     <header
       id="header"
-      className="text-white py-4 px-6 flex justify-between items-center bg-transparent absolute left-0 top-0 w-full z-10 "
+      className={`text-white py-4 px-6 flex justify-between items-center bg-transparent absolute left-0 top-0 w-full z-10 ${
+        animationEnabled ? "header-animation" : "header-hidden"
+      }`}
     >
       <div id="floating-logo" className="flex">
         <a href="#">
@@ -60,23 +48,34 @@ const Header = () => {
           href="http://instagram.com/itlegacy.team"
           target="_blank"
           rel="noopener noreferrer"
-          // className="cursor-pointer"
         >
-          <FaInstagram className="w-8 h-8 sm:w-10 sm:h-10 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
+          <div
+            className={`social-icon-wrapper ${animationEnabled ? "social-icon-container instagram-icon" : ""}`}
+          >
+            <FaInstagram className="w-8 h-8 sm:w-10 sm:h-10 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
+          </div>
         </a>
         <a
           href="http://facebook.com/ITlegacySL"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <FaFacebook className="w-8 h-8 sm:w-10 sm:h-10 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
+          <div
+            className={`social-icon-wrapper ${animationEnabled ? "social-icon-container facebook-icon" : ""}`}
+          >
+            <FaFacebook className="w-8 h-8 sm:w-10 sm:h-10 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
+          </div>
         </a>
         <a
           href="http://linkedin.com/company/it-legacy"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <FaLinkedin className="w-8 h-8 sm:w-10 sm:h-10 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
+          <div
+            className={`social-icon-wrapper ${animationEnabled ? "social-icon-container linkedin-icon" : ""}`}
+          >
+            <FaLinkedin className="w-8 h-8 sm:w-10 sm:h-10 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
+          </div>
         </a>
       </div>
     </header>

@@ -1,0 +1,70 @@
+/* Add these animations to your global CSS or tailwind.config.js */
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  70% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+}
+
+@keyframes expandWidth {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) translateX(5px) rotate(2deg);
+  }
+  100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+}
+
+/* Add these to your tailwind.config.js extend.animation section */
+/* 
+extend: {
+  animation: {
+    'slideUp': 'slideUp 1.2s ease-out forwards',
+    'fadeIn': 'fadeIn 1s ease-out forwards',
+    'scaleIn': 'scaleIn 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards',
+    'expandWidth': 'expandWidth 1.2s ease-out forwards',
+    'float': 'float 6s ease-in-out infinite',
+  }
+}
+*/

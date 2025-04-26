@@ -1,18 +1,56 @@
-
-#floating-navbar{
-    animation: float 4s ease-in-out infinite;
+/* Header initial hidden state */
+.header-hidden {
+  opacity: 0;
+  transform: translateX(20px);
 }
 
-
-@keyframes float {
-    0%{
-        transform: translateY(0);
-    }
-    50%{
-        transform: translateY(-4px);
-    }
-    100%{
-        transform: translateY(0px);
-    }
-    
+/* Header fade-in animation */
+.header-animation {
+  animation: headerFadeIn 1s ease-out forwards;
+  opacity: 0;
+  transform: translateX(20px);
 }
+
+@keyframes headerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Social icon wrapper - always present */
+.social-icon-wrapper {
+  opacity: 0;
+}
+
+/* Social icon animations with staggered delays */
+.social-icon-container {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.instagram-icon {
+  animation-delay: 0.2s;
+}
+
+.facebook-icon {
+  animation-delay: 0.7s;
+}
+
+.linkedin-icon {
+  animation-delay: 1.2s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Add any existing styles from your original Header.css here */

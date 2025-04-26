@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 
 // Define types for component props and state
 interface MousePosition {
@@ -21,6 +20,7 @@ const RoadToLegacy: React.FC = () => {
   });
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent): void => {
@@ -40,6 +40,29 @@ const RoadToLegacy: React.FC = () => {
     return () => {
       if (container) {
         container.removeEventListener("mousemove", handleMouseMove);
+      }
+    };
+  }, []);
+
+  // Visibility observer effect to replace whileInView
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    const container = containerRef.current;
+    if (container) {
+      observer.observe(container);
+    }
+
+    return () => {
+      if (container) {
+        observer.unobserve(container);
       }
     };
   }, []);
@@ -67,13 +90,11 @@ const RoadToLegacy: React.FC = () => {
 
   return (
     <div className="w-full flex items-center justify-center p-8">
-      <motion.div
+      <div
         ref={containerRef}
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.3 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative w-full max-w-4xl rounded-2xl overflow-hidden bg-[#1f2227] text-white p-8"
+        className={`relative w-full max-w-4xl rounded-2xl overflow-hidden bg-[#1f2227] text-white p-8 transition-all duration-1000 ease-out ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
         style={{ minHeight: "240px" }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -199,6 +220,7 @@ const RoadToLegacy: React.FC = () => {
                     strokeWidth={Math.max(0.5, 2 - distance / 100)}
                     opacity={opacity * 200}
                     strokeDasharray={distance > 100 ? "4 2" : "none"}
+                    className="transition-all duration-200"
                   />
                 );
               }
@@ -246,7 +268,9 @@ const RoadToLegacy: React.FC = () => {
                   cy={node.cy}
                   r={4 * scale}
                   fill={fillColor}
-                  className={`transition-all duration-100 ${pulseAnimation ? "animate-pulse" : ""}`}
+                  className={`transition-all duration-100 ${
+                    pulseAnimation ? "animate-pulse" : ""
+                  }`}
                 />
 
                 {/* Node outer ring */}
@@ -317,18 +341,7 @@ const RoadToLegacy: React.FC = () => {
 
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center">
-          <motion.div
-            initial={{ scale: 1 }}
-            animate={{
-              scale: [1, 1.03, 1],
-              transition: {
-                duration: 5,
-                repeat: Infinity,
-                repeatType: "mirror",
-              },
-            }}
-            className="mb-6"
-          >
+          <div className="mb-6 icon-pulse">
             <svg width="80" height="80" viewBox="0 0 200 200">
               <path
                 d="M100,20 L160,50 L160,150 L100,180 L40,150 L40,50 Z"
@@ -360,33 +373,20 @@ const RoadToLegacy: React.FC = () => {
                 IT
               </text>
             </svg>
-          </motion.div>
+          </div>
 
-          <motion.h2
-            className="text-2xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-100"
-            whileHover={{ scale: 1.03 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
+          <h2 className="text-2xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-100 hover-scale">
             Road To Legacy Connection
-          </motion.h2>
+          </h2>
 
-          <motion.p
-            className="text-base text-center max-w-2xl leading-relaxed opacity-80"
-            initial={{ opacity: 0.7 }}
-            whileHover={{ opacity: 1 }}
-          >
+          <p className="text-base text-center max-w-2xl leading-relaxed opacity-80 hover:opacity-100 transition-opacity duration-300">
             Road To Legacy connects IT students from UOM, USJ, and UOC,
             fostering collaboration, networking, and professional growth. Our
             platform unites tech enthusiasts, keeping them informed and engaged
             with the evolving industry.
-          </motion.p>
+          </p>
 
-          <motion.button
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            className="mt-6 px-6 py-2 bg-[#262930] hover:bg-[#2c3039] rounded-lg text-white font-medium flex items-center border border-[#333842]"
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-          >
+          <button className="mt-6 px-6 py-2 bg-[#262930] hover:bg-[#2c3039] rounded-lg text-white font-medium flex items-center border border-[#333842] button-hover">
             <span>Join the Network</span>
             <svg
               className="ml-2 w-4 h-4"
@@ -399,9 +399,79 @@ const RoadToLegacy: React.FC = () => {
                 clipRule="evenodd"
               />
             </svg>
-          </motion.button>
+          </button>
         </div>
-      </motion.div>
+      </div>
+
+      {/* Adding CSS animations as style tag */}
+      <style jsx>{`
+        .icon-pulse {
+          animation: pulse 5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+          }
+          33% {
+            transform: scale(1.03);
+          }
+          66% {
+            transform: scale(1);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+
+        .hover-scale {
+          transition: transform 0.3s;
+        }
+
+        .hover-scale:hover {
+          transform: scale(1.03);
+        }
+
+        .button-hover {
+          transition:
+            transform 0.2s,
+            box-shadow 0.2s;
+        }
+
+        .button-hover:hover {
+          transform: scale(1.05) translateY(-2px);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-hover:active {
+          transform: scale(0.98);
+        }
+
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes animate-pulse {
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+
+        .animate-pulse {
+          animation: animate-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+      `}</style>
     </div>
   );
 };

@@ -165,6 +165,7 @@ export const registerDelegates = async (formData: FormDataType) => {
       ...formData,
       arrived: false,
       confirmArrival: false,
+      selected: false,
       createdAt: new Date().toISOString(),
     });
 

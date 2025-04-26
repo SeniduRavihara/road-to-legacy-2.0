@@ -1,22 +1,39 @@
 "use client";
 
-import AgendaSheet from "@/components/agenda/AgendaSheet";
+import dynamic from "next/dynamic";
+
+// 🧠 Direct imports for first view
 import Navbar from "@/components/navbar/Navbar";
-import ContactSection from "@/components/sections/ContactSection/ContactSection";
-import FAQ from "@/components/sections/FAQ/FAQ";
-import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/header/Header";
-import HeroSection from "@/components/sections/HeroSection";
-import MemorisSection from "@/components/sections/MemorisSection";
-import MissionSection from "@/components/sections/MissionSection";
-import RoadToLegacy from "@/components/sections/RoadToLegacy";
-import SponsersSection from "@/components/sections/SponsersSection";
-import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
+import HeroSection from "@/components/sections/hero-section/HeroSection";
+
+// 🧠 Lazy (dynamic) imports for other sections
+const RoadToLegacy = dynamic(
+  () => import("@/components/sections/road-to-legacy/RoadToLegacy")
+);
+const MissionSection = dynamic(
+  () => import("@/components/sections/mission-section/MissionSection")
+);
+const MemorisSection = dynamic(
+  () => import("@/components/sections/MemorisSection")
+);
+const VerticalTimeLine = dynamic(
+  () => import("@/components/sections/VerticalTimeLine")
+);
+const AgendaSheet = dynamic(() => import("@/components/agenda/AgendaSheet"));
+const FAQ = dynamic(() => import("@/components/sections/FAQ/FAQ"));
+const ContactSection = dynamic(
+  () => import("@/components/sections/contact-section/ContactSection")
+);
+const SponsersSection = dynamic(
+  () => import("@/components/sections/SponsersSection")
+);
+const Footer = dynamic(() => import("@/components/sections/Footer"));
 
 export default function Home() {
   return (
     <div className="bg-[#191b1f] text-white">
-      <div className="">
+      <div>
         <Header />
         <HeroSection />
       </div>
@@ -38,11 +55,8 @@ export default function Home() {
       </div>
 
       <FAQ />
-
       <ContactSection />
-
       <SponsersSection />
-
       <Footer />
 
       <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-[1000]">
