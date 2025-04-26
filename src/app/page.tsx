@@ -25,13 +25,7 @@ export default function Home() {
         <RoadToLegacy />
       </div>
 
-      {/* <div className="relative " id="about">
-        <Uni3Section />
-      </div> */}
-
       <MissionSection />
-
-      {/* <RTLBanner /> */}
 
       <div className="md:h-[450px] h-[500px] xsm:h-[400px] mt-20 mb-20">
         <MemorisSection />
@@ -43,13 +37,7 @@ export default function Home() {
         <AgendaSheet />
       </div>
 
-      {/* <SessionsStack /> */}
-
-      {/* <SpeakerSection /> */}
-
       <FAQ />
-
-      {/* <TestaimonialSection /> */}
 
       <ContactSection />
 

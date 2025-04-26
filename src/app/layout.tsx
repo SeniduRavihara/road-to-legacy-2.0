@@ -14,9 +14,45 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "RoadToLegacy",
+  title: "Road to Legacy 2.0",
   description:
-    "Road to Legacy 2.0 is a transformative IT career event uniting top universities in Sri Lanka. Explore industry insights, hands-on sessions, and expert guidance to shape your future in tech.",
+    "Join Road to Legacy 2.0, the transformative IT career event in Sri Lanka. Connect with experts, explore hands-on workshops, and shape your tech future with insights from top universities.",
+  keywords: [
+    "Road to Legacy",
+    "Legacy 2.0",
+    "ITLegacy",
+    "IT career event",
+    "Sri Lanka events",
+    "university workshops",
+    "tech networking",
+    "career guidance",
+    "student IT events",
+    "tech events Sri Lanka",
+  ],
+  openGraph: {
+    title: "Road to Legacy 2.0",
+    description:
+      "Join the biggest IT career event in Sri Lanka. Workshops, networking, and expert guidance await you!",
+    url: "https://roadtolegacy.team",
+    siteName: "Road to Legacy",
+    images: [
+      {
+        url: "/logo.png", // make sure you add a good image for social sharing
+        width: 1200,
+        height: 630,
+        alt: "Road to Legacy Event Poster",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Road to Legacy 2.0",
+    description:
+      "Sri Lanka's biggest student IT career event. Explore, learn, and connect at Road to Legacy 2.0!",
+    images: ["/logo.png"], // same image
+  },
 };
 
 export default function RootLayout({
