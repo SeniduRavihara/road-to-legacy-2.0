@@ -1,7 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Boldonse&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -97,35 +93,13 @@
   }
 }
 
-.test {
-  --size: 45px;
-  --line: rgba(
-    255,
-    255,
-    255,
-    0.274
-  ); /* Change grid color to white with transparency */
-
-  background: linear-gradient(
-        90deg,
-        var(--line) 1px,
-        transparent 1px var(--size)
-      )
-      50% 50% / var(--size) var(--size),
-    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
-      var(--size) var(--size);
-
-  mask: linear-gradient(-20deg, transparent 50%, white);
-  top: 0;
-  transform-style: flat;
-  pointer-events: none;
-}
 
 body {
   -ms-user-select: text;
   -webkit-user-select: text;
   user-select: text;
-   font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-montserrat);
+   /* font-family: 'Montserrat', sans-serif; */
 }
 
 

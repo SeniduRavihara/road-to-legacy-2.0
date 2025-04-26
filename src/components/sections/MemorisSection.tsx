@@ -21,30 +21,42 @@ const memories = [
     src: "/images/memories/mem6.jpg",
     alt: "Memory 1",
     link: "https://web.facebook.com/photo/?fbid=122128819454091765&set=pcb.122128823096091765",
-  },
-  {
-    id: 5,
-    src: "/images/memories/mem1-1.jpg",
-    alt: "Memory 5",
-    link: "https://web.facebook.com/photo/?fbid=122128783280091765&set=pcb.122128823096091765",
+    type: "image",
   },
   {
     id: 2,
-    src: "/images/memories/mem1-2.jpg",
-    alt: "Memory 2",
-    link: "https://web.facebook.com/photo?fbid=122128788746091765&set=pcb.122128823096091765",
+    src: "/images/memories/mem1-1.jpg",
+    alt: "Memory 5",
+    link: "https://web.facebook.com/photo/?fbid=122128783280091765&set=pcb.122128823096091765",
+    type: "image",
   },
   {
     id: 3,
-    src: "/images/memories/mem1-3.jpg",
-    alt: "Memory 3",
-    link: "https://www.facebook.com/photo/?fbid=323456789",
+    src: "/images/memories/mem1-2.jpg",
+    alt: "Memory 2",
+    link: "https://web.facebook.com/photo?fbid=122128788746091765&set=pcb.122128823096091765",
+    type: "image",
   },
   {
     id: 4,
-    src: "/images/memories/mem1-4.jpg",
+    src: "/images/memories/mem2-1.jpg",
+    alt: "Memory 3",
+    link: "https://web.facebook.com/photo?fbid=122185867700091765&set=a.122119007798091765",
+    type: "image",
+  },
+  {
+    id: 5,
+    src: "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fweb.facebook.com%2FITlegacySL%2Fvideos%2F3981889265430372%2F&show_text=false&width=267&t=0",
     alt: "Memory 4",
-    link: "https://www.facebook.com/photo/?fbid=423456789",
+    link: "https://www.facebook.com/ITlegacySL/videos/3981889265430372/",
+    type: "video",
+  },
+  {
+    id: 6,
+    src: "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fweb.facebook.com%2FITlegacySL%2Fvideos%2F993873982069040%2F&show_text=false&width=267&t=0",
+    alt: "Memory 6",
+    link: "https://www.facebook.com/ITlegacySL/videos/993873982069040/",
+    type: "video",
   },
 ];
 
@@ -179,48 +191,61 @@ const MemorySection = () => {
                       style={{ backgroundColor: "transparent" }}
                     >
                       <div className="relative overflow-hidden rounded-xl">
-                        {/* Overlay that appears on hover */}
-                        <motion.div
-                          className="absolute inset-0 z-10 flex items-center justify-center"
-                          initial={{ opacity: 0 }}
-                          animate={{
-                            opacity: isHovering === index ? 0.7 : 0,
-                          }}
-                          transition={{ duration: 0.3 }}
-                          style={{ backgroundColor: "#191b1f" }}
-                        >
+                        {/* Overlay that appears on hover - only for images */}
+                        {memory.type === "image" && (
                           <motion.div
-                            initial={{ scale: 0.8, opacity: 0 }}
+                            className="absolute inset-0 z-10 flex items-center justify-center"
+                            initial={{ opacity: 0 }}
                             animate={{
-                              scale: isHovering === index ? 1 : 0.8,
-                              opacity: isHovering === index ? 1 : 0,
+                              opacity: isHovering === index ? 0.7 : 0,
                             }}
                             transition={{ duration: 0.3 }}
+                            style={{ backgroundColor: "#191b1f" }}
                           >
-                            <a
-                              href={memory.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-white border border-white rounded-full p-3 hover:bg-white hover:text-black transition-colors duration-300 inline-block"
+                            <motion.div
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{
+                                scale: isHovering === index ? 1 : 0.8,
+                                opacity: isHovering === index ? 1 : 0,
+                              }}
+                              transition={{ duration: 0.3 }}
                             >
-                              View
-                            </a>
+                              <a
+                                href={memory.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white border border-white rounded-full p-3 hover:bg-white hover:text-black transition-colors duration-300 inline-block"
+                              >
+                                View
+                              </a>
+                            </motion.div>
                           </motion.div>
-                        </motion.div>
+                        )}
 
-                        {/* Image */}
+                        {/* Image or Video based on type */}
                         <div className="aspect-square">
-                          <ExportedImage
-                            src={memory.src}
-                            alt={memory.alt}
-                            width={400}
-                            height={400}
-                            className={`object-cover w-full h-full transition-transform duration-700 ${
-                              isHovering === index ? "scale-110" : "scale-100"
-                            }`}
-                            priority={memory.id === 1}
-                            // unoptimized={true}
-                          />
+                          {memory.type === "image" ? (
+                            <ExportedImage
+                              src={memory.src}
+                              alt={memory.alt}
+                              width={400}
+                              height={400}
+                              className={`object-cover w-full h-full transition-transform duration-700 ${
+                                isHovering === index ? "scale-110" : "scale-100"
+                              }`}
+                            />
+                          ) : (
+                            <iframe
+                              src={memory.src}
+                              width="100%"
+                              height="100%"
+                              style={{ border: "none", overflow: "hidden" }}
+                              scrolling="no"
+                              frameBorder="0"
+                              allowFullScreen={true}
+                              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                            ></iframe>
+                          )}
                         </div>
                       </div>
                     </Card>

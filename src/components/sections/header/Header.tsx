@@ -57,7 +57,7 @@ const Header = () => {
 
       <div className="flex gap-2 z-[1000]">
         <a
-          href="https://www.instagram.com"
+          href="http://instagram.com/itlegacy.team"
           target="_blank"
           rel="noopener noreferrer"
           // className="cursor-pointer"
@@ -65,14 +65,14 @@ const Header = () => {
           <FaInstagram className="w-8 h-8 sm:w-10 sm:h-10 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
         </a>
         <a
-          href="https://www.facebook.com"
+          href="http://facebook.com/ITlegacySL"
           target="_blank"
           rel="noopener noreferrer"
         >
           <FaFacebook className="w-8 h-8 sm:w-10 sm:h-10 social-icon hover:text-gray-400 transition-colors duration-300 cursor-pointer" />
         </a>
         <a
-          href="https://www.linkedin.com"
+          href="http://linkedin.com/company/it-legacy"
           target="_blank"
           rel="noopener noreferrer"
         >

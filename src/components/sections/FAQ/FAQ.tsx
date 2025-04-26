@@ -6,11 +6,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import { motion } from "framer-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,24 +21,24 @@ type FAQItem = {
 
 const faqData: FAQItem[] = [
   {
-    question: "Question text goes here",
+    question: "What is Road to Legacy?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.",
+      "Road to Legacy is an event designed to bridge the gap between industry leaders and aspiring IT professionals, providing students with valuable insights, essential skills, and career guidance.",
+  },
+  {
+    question: "Who are the collaboration partners for Road to Legacy?",
+    answer:
+      "he event is a collaboration between the University of Sri Jayewardenepura, the University of Colombo School of Computing, and the University of Moratuwa.",
   },
   {
     question: "Question text goes here",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.",
+      "What is the purpose of Road to Legacy? A: The purpose is to unlock potential and shape futures, guiding first-year undergraduates to shape their journey with purpose while forging lasting connections across universities.",
   },
   {
-    question: "Question text goes here",
+    question: "What is IT Legacy?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.",
-  },
-  {
-    question: "Question text goes here",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.",
+      "IT Legacy is a community that brings together first-year students from leading universities, fostering collaboration, learning, and professional growth across diverse IT fields.",
   },
 ];
 

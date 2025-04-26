@@ -292,7 +292,7 @@ const ContactSection = () => {
                                 ? "scale(1.05)"
                                 : "scale(1)",
                           }}
-                          priority
+                          // priority
                           // unoptimized={true}
                         />
                       </div>

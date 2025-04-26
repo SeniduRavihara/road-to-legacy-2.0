@@ -367,7 +367,7 @@ const RoadToLegacy: React.FC = () => {
             whileHover={{ scale: 1.03 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            IT Legacy Connection
+            Road To Legacy Connection
           </motion.h2>
 
           <motion.p
@@ -375,10 +375,10 @@ const RoadToLegacy: React.FC = () => {
             initial={{ opacity: 0.7 }}
             whileHover={{ opacity: 1 }}
           >
-            IT Legacy connects IT students from UOM, USJ, and UOC, fostering
-            collaboration, networking, and professional growth. Our platform
-            unites tech enthusiasts, keeping them informed and engaged with the
-            evolving industry.
+            Road To Legacy connects IT students from UOM, USJ, and UOC,
+            fostering collaboration, networking, and professional growth. Our
+            platform unites tech enthusiasts, keeping them informed and engaged
+            with the evolving industry.
           </motion.p>
 
           <motion.button

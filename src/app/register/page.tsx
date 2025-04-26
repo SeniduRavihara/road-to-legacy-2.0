@@ -1,12 +1,11 @@
-import VantaBackgroundProvider from "@/components/backgrounds/VantaBackground"
+import NetworkBackground from "@/components/backgrounds/NetworkBackground";
 import RegistrationForm from "@/components/registrationForm/RegistrationForm"
 
 const RefisterPage = () => {
   return (
     <div>
-      <VantaBackgroundProvider>
         <RegistrationForm />
-      </VantaBackgroundProvider>
+        <NetworkBackground />
     </div>
   );
 }
