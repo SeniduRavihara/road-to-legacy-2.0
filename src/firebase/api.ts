@@ -210,7 +210,7 @@ export const registerDelegates = async (formData: FormDataType) => {
 
     const documentRef = doc(collection(db, "delegates"));
 
-    const confirmationUrl = `https://roadtolegacy.team/confirm?email=${encodeURIComponent(formData.email)}&name=${encodeURIComponent(formData.firstName)}`;
+    const confirmationUrl = `https://roadtolegacy.team/confirm?email=${encodeURIComponent(formData.email)}&name=${encodeURIComponent(formData.firstName)}&uni=${encodeURIComponent(formData.university)}`;
 
     await setDoc(documentRef, {
       ...formData,

@@ -5,6 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+
 export const createEmailHTML = (name: string, confirmationUrl: string) => {
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #1f2227; border-radius: 12px; overflow: hidden; color: #ffffff; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); border: 1px solid #333842;">

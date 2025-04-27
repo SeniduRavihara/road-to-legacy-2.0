@@ -1,6 +1,9 @@
+// Modified ConfirmPage.tsx
 "use client";
 
+import GenerateTicket from "@/components/GenerateTicket";
 import { ArrivalConfirmationToggle } from "@/firebase/api";
+import { delay } from "@/lib/utils";
 import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import ExportedImage from "next-image-export-optimizer";
 import { useEffect, useState } from "react";
@@ -8,14 +11,18 @@ import { useEffect, useState } from "react";
 export default function ConfirmPage() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [uni, setUni] = useState(""); // Add university state
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
+  const [showTicket, setShowTicket] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setName(params.get("name") || "");
     setEmail(params.get("email") || "");
+    setUni(params.get("uni") || ""); // Get university from URL params
   }, []);
 
   const handleSubmit = async (response: "yes" | "no") => {
@@ -25,11 +32,18 @@ export default function ConfirmPage() {
     try {
       if (response === "yes") {
         await ArrivalConfirmationToggle(email, true);
+        // First show the thank you message
+        setStatus("success");
+        setShowThankYou(true);
+
+        // Then after a delay, show the ticket
+        await delay(500); // 1.5 seconds to make the thank you message more noticeable
+        setShowThankYou(false);
+        setShowTicket(true);
       } else {
         await ArrivalConfirmationToggle(email, false);
+        setStatus("success");
       }
-
-      setStatus("success");
     } catch (err) {
       console.error(err);
       setStatus("error");
@@ -39,28 +53,30 @@ export default function ConfirmPage() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-[#191b1f] p-4">
       <div className="w-full max-w-md bg-[#1f2227] rounded-xl shadow-xl border border-[#333842]/20 p-8">
-        <div className="mb-8 flex flex-col items-center justify-center">
-          <ExportedImage
-            src="/images/logos/full_logo.png"
-            alt="UOM-USJ-UOC logo"
-            priority
-            className="w-20 h-20 sm:w-32 sm:h-32 cursor-pointer"
-            width={64}
-            height={64}
-            placeholder="blur"
-            // unoptimized
-          />
-          {/* <div className="h-1 w-16 bg-[#2c3039] mx-auto mt-3 rounded-full"></div> */}
-        </div>
+        {status !== "success" && (
+          <div className="mb-8 flex flex-col items-center justify-center">
+            <ExportedImage
+              src="/images/logos/full_logo.png"
+              alt="UOM-USJ-UOC logo"
+              priority
+              className="w-20 h-20 sm:w-32 sm:h-32 cursor-pointer"
+              width={64}
+              height={64}
+              placeholder="blur"
+            />
+          </div>
+        )}
 
-        <div className="text-center mb-8">
-          <h2 className="text-xl font-medium text-gray-200">
-            {name ? `Hello ${name}!` : "Hello!"}
-          </h2>
-          <p className="text-gray-400 mt-2">
-            We&apos;d like to confirm your attendance at our upcoming event.
-          </p>
-        </div>
+        {status !== "success" && (
+          <div className="text-center mb-8">
+            <h2 className="text-xl font-medium text-gray-200">
+              {name ? `Hello ${name}!` : "Hello!"}
+            </h2>
+            <p className="text-gray-400 mt-2">
+              We&apos;d like to confirm your attendance at our upcoming event.
+            </p>
+          </div>
+        )}
 
         {status === "idle" && (
           <div className="space-y-4">
@@ -93,7 +109,17 @@ export default function ConfirmPage() {
           </div>
         )}
 
-        {status === "success" && (
+        {status === "success" && showThankYou && (
+          <div className="bg-[#262930] rounded-lg p-6 text-center border border-green-500/20">
+            <CheckCircle className="h-12 w-12 text-green-400 mx-auto mb-4" />
+            <h3 className="text-xl font-medium text-white">Thank You!</h3>
+            <p className="text-gray-300 mt-2">
+              Your response has been recorded successfully.
+            </p>
+          </div>
+        )}
+
+        {status === "success" && !showThankYou && !showTicket && (
           <div className="bg-[#262930] rounded-lg p-6 text-center border border-green-500/20">
             <CheckCircle className="h-12 w-12 text-green-400 mx-auto mb-4" />
             <h3 className="text-xl font-medium text-white">Thank You!</h3>
@@ -118,6 +144,19 @@ export default function ConfirmPage() {
             >
               Try Again
             </button>
+          </div>
+        )}
+
+        {/* Show ticket if user confirmed yes */}
+        {status === "success" && showTicket && (
+          <div className="mt-4">
+            <h3 className="text-xl font-medium text-white text-center mb-4">
+              Your Ticket
+            </h3>
+            <p className="text-gray-300 text-center mb-6">
+              Please download or save your ticket for the event entrance.
+            </p>
+            <GenerateTicket name={name} email={email} uni={uni} />
           </div>
         )}
 
