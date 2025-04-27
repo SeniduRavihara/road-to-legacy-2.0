@@ -172,7 +172,7 @@ const RegistrationForm: React.FC = () => {
       const { success, error } = await registerDelegates(formData);
       if (success) {
         setSubmited(true);
-        await delay(1000);
+        await delay(3000);
         // alert("Form submitted successfully!");
 
         // router.push(
@@ -346,30 +346,87 @@ const RegistrationForm: React.FC = () => {
       </motion.div>
 
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent className="sm:max-w-[425px] flex flex-col items-center justify-center">
-          <DialogTitle>Please Wait...</DialogTitle>
+        <DialogContent className="sm:max-w-[425px] flex flex-col items-center justify-center bg-[#1f2227] border border-[#333842] text-white">
+          <DialogTitle className="text-center text-white text-lg font-medium">
+            {submited ? "Registration Complete" : "Please Wait..."}
+          </DialogTitle>
 
-          <div>
+          <div className="py-6 flex justify-center items-center">
             {isLoading && !submited && (
-              <video autoPlay muted loop playsInline width="30">
-                <source src="/aprove-loading.webm" type="video/webm" />
-                Your browser does not support the video tag.
-              </video>
+              <div className="relative">
+                <div className="w-16 h-16 rounded-full border-4 border-[#262930] border-t-[#4079ff] animate-spin"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <div className="w-12 h-12 rounded-full border-4 border-[#262930] border-b-[#40ffaa] animate-spin animate-delay-150"></div>
+                </div>
+              </div>
             )}
 
             {/* ✅ Approved Animation */}
             {submited && (
-              <video autoPlay muted playsInline width="30">
-                <source src="/aprove-animate.webm" type="video/webm" />
-                Your browser does not support the video tag.
-              </video>
+              <div className="relative">
+                <div className="w-16 h-16 bg-[#262930] rounded-full flex items-center justify-center">
+                  <svg
+                    className="checkmark w-8 h-8 text-[#40ffaa]"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 52 52"
+                  >
+                    <circle
+                      className="checkmark__circle"
+                      cx="26"
+                      cy="26"
+                      r="25"
+                      fill="none"
+                      stroke="#262930"
+                      strokeWidth="2"
+                    />
+                    <path
+                      className="checkmark__check"
+                      fill="none"
+                      stroke="#40ffaa"
+                      strokeWidth="4"
+                      d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                      strokeDasharray="48"
+                      strokeDashoffset="48"
+                      style={{
+                        animation: "dash 0.8s ease-in-out forwards",
+                      }}
+                    />
+                  </svg>
+                </div>
+              </div>
             )}
           </div>
 
-          {/* <p className="text-center">
-            Please kindly wait while we redirect you to the next page. Your
-            ticket will be available for download shortly.
-          </p> */}
+          <p className="text-center text-gray-400 text-sm px-4">
+            {isLoading && !submited
+              ? "Please wait while we process your registration..."
+              : "Your registration is complete! If you are selected for the event, you will be notified via email."}
+          </p>
+
+          <style jsx>{`
+            @keyframes dash {
+              from {
+                stroke-dashoffset: 48;
+              }
+              to {
+                stroke-dashoffset: 0;
+              }
+            }
+
+            @keyframes delay-spin {
+              0% {
+                transform: rotate(0deg);
+              }
+              100% {
+                transform: rotate(360deg);
+              }
+            }
+
+            .animate-delay-150 {
+              animation-delay: 150ms;
+              animation-direction: reverse;
+            }
+          `}</style>
         </DialogContent>
       </Dialog>
     </div>

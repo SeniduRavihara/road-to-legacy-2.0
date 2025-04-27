@@ -146,6 +146,55 @@ export const AdminToggle = async (id: string, isAdmin: boolean) => {
 
 // --------------------------------------------------------------------
 
+export const ArrivalConfirmationToggle = async (
+  email: string,
+  confirmArrival: boolean
+) => {
+  try {
+    const id = await getIdfromEmail(email);
+
+    // console.log("Delegate ID:", id);
+
+    if (id) {
+      const delegateDocRef = doc(db, "delegates", id);
+      await updateDoc(delegateDocRef, {
+        confirmArrival: confirmArrival, // ✅ just set it directly
+      });
+      console.log("Arrival confirmation updated successfully.");
+    } else {
+      console.log("No delegate found with this email.");
+    }
+  } catch (error) {
+    console.error("Error updating arrival confirmation:", error);
+  }
+};
+
+// --------------------------------------------------------------------
+
+export const getIdfromEmail = async (email: string) => {
+  try {
+    const q = query(
+      collection(db, "delegates"), // 👈 your collection name here
+      where("email", "==", email)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return null; // not found
+    }
+
+    // Assuming you want the first matching document's ID
+    const docSnap = querySnapshot.docs[0];
+    return docSnap.id; // 🔥 Return document ID
+  } catch (error) {
+    console.error("Error getting ID from email:", error);
+    return null;
+  }
+};
+
+// --------------------------------------------------------------------
+
 export const registerDelegates = async (formData: FormDataType) => {
   try {
     const delegatesQuery = query(
@@ -161,12 +210,15 @@ export const registerDelegates = async (formData: FormDataType) => {
 
     const documentRef = doc(collection(db, "delegates"));
 
+    const confirmationUrl = `https://roadtolegacy.team/confirm?email=${encodeURIComponent(formData.email)}&name=${encodeURIComponent(formData.firstName)}`;
+
     await setDoc(documentRef, {
       ...formData,
       arrived: false,
       confirmArrival: false,
       selected: false,
       createdAt: new Date().toISOString(),
+      confirmationUrl,
     });
 
     console.log("Delegate registered successfully.");

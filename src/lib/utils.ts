@@ -28,3 +28,4 @@ export const createEmailHTML = (name: string, downloadUrl: string) => {
     </div>
   `;
 };
+
