@@ -34,7 +34,7 @@ app.post("/send", async (req: Request, res: Response) => {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
+      from: "confirm@roadtolegacy.team",
       to,
       subject,
       html,

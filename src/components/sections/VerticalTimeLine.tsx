@@ -351,8 +351,8 @@ const EventSpeakerSessions = () => {
                       />
 
                       {/* Mobile session title overlay on image */}
-                      <div className="md:hidden absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#191b1f] to-transparent">
-                        <h3 className="text-xl font-bold text-white truncate">
+                      <div className="md:hidden absolute top-0 left-0 right-0 p-4 pt-6 bg-gradient-to-b from-[#191b1f] to-transparent">
+                        <h3 className="text-xl font-bold z-10 text-white truncate">
                           {sessions[activeSession].title}
                         </h3>
                       </div>
