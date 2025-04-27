@@ -103,10 +103,10 @@ export default function GenerateTicket({
   return (
     <div className="flex flex-col items-center justify-center w-full">
       {/* Ticket Preview */}
-      <div className="relative bg-[#262930] p-4 rounded-xl shadow-lg border border-[#333842] mb-6">
+      <div className="relative bg-[#262930] p-4 rounded-xl shadow-lg border border-[#333842] mb-6 w-[330px] md:w-[430px] h-[570px] md:h-[750px]">
         <div className="inline-block">
           <div
-            className="relative rounded-lg transform translate-x-[50px] md:translate-x-0 scale-75 md:scale-100 origin-top-left w-[400px] h-[710px]"
+            className="relative rounded-lg  scale-75 md:scale-100 origin-top-left w-[400px] h-[710px]"
             id="ticket"
           >
             <ExportedImage
