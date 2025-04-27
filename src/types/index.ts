@@ -19,6 +19,8 @@ export type DelegatesType = {
   arrived: boolean;
   confirmArrival: boolean;
   selected: boolean;
+  confirmationUrl: string;
+  confirmationEmailSended: boolean;
   // contactNumber: string;
   role?: "ADMIN" | "USER";
 };

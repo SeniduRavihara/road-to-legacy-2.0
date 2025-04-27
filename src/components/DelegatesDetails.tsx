@@ -1,6 +1,8 @@
 "use client";
 
+import { sendEmail } from "@/firebase/api";
 import { db } from "@/firebase/config";
+import { createEmailHTML } from "@/lib/utils";
 import { DelegatesType } from "@/types";
 import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -10,12 +12,13 @@ import { DataTable } from "./delegates-data/DataTable";
 import { Card, CardContent } from "./ui/card";
 
 const DelegatesDetails = () => {
+  const [emailSendding, setEmailSending] = useState(false);
   const [delegatesData, setDelegatesData] = useState<DelegatesType[] | null>(
     []
   );
 
   const toggleArrived = async (selectedDelegate: DelegatesType | null) => {
-    console.log("Arrived:", selectedDelegate);
+    // console.log("Arrived:", selectedDelegate);
     if (!selectedDelegate) return;
 
     try {
@@ -30,7 +33,7 @@ const DelegatesDetails = () => {
   };
 
   const toggleSelect = async (selectedDelegate: DelegatesType | null) => {
-    console.log("Arrived:", selectedDelegate);
+    // console.log("Arrived:", selectedDelegate);
     if (!selectedDelegate) return;
 
     try {
@@ -44,26 +47,63 @@ const DelegatesDetails = () => {
     }
   };
 
+  const sendConfirmationEmail = async (
+    selectedDelegate: DelegatesType | null
+  ) => {
+    if (!selectedDelegate) return;
+
+    try {
+      console.log("Arrived:", selectedDelegate);
+
+      // Set email sending state to true
+      setEmailSending(true);
+
+      // Send the email (assuming sendEmail is a function you've defined)
+      await sendEmail(
+        selectedDelegate.email,
+        "Event Arrival Confirmation - RTL 2.0",
+        createEmailHTML(
+          selectedDelegate.firstName,
+          selectedDelegate.confirmationUrl
+        )
+      );
+
+      // Update Firestore after sending the email
+      const delegateDocRef = doc(db, "delegates", selectedDelegate.id); // Use the correct reference to the document
+      await updateDoc(delegateDocRef, {
+        confirmationEmailSended: true, // Update the confirmationEmailSended field to true
+      });
+
+      console.log(`Confirmation email sent to ${selectedDelegate.email}`);
+
+      // Set email sending state to false
+      setEmailSending(false);
+    } catch (error) {
+      console.error("Error sending email:", error);
+      setEmailSending(false);
+    }
+  };
+
   const exportToExcel = (data: DelegatesType[]) => {
-  if (!data || data.length === 0) {
-    alert("No data to export");
-    return;
-  }
+    if (!data || data.length === 0) {
+      alert("No data to export");
+      return;
+    }
 
-  const worksheetData = data.map((delegate) => ({
-    "First Name": delegate.firstName,
-    Email: delegate.email,
-    Arrived: delegate.arrived ? "Yes" : "No",
-    "Confirm Arrival": delegate.confirmArrival ? "Yes" : "No",
-    Selected: delegate.selected ? "Yes" : "No",
-  }));
+    const worksheetData = data.map((delegate) => ({
+      "First Name": delegate.firstName,
+      Email: delegate.email,
+      Arrived: delegate.arrived ? "Yes" : "No",
+      "Confirm Arrival": delegate.confirmArrival ? "Yes" : "No",
+      Selected: delegate.selected ? "Yes" : "No",
+    }));
 
-  const worksheet = XLSX.utils.json_to_sheet(worksheetData);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Delegates");
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Delegates");
 
-  XLSX.writeFile(workbook, "Delegates_List.xlsx");
-};
+    XLSX.writeFile(workbook, "Delegates_List.xlsx");
+  };
 
   useEffect(() => {
     const collectionRef = collection(db, "delegates");
@@ -87,7 +127,13 @@ const DelegatesDetails = () => {
         <CardContent>
           {delegatesData && (
             <DataTable
-              columns={columns(delegatesData, toggleArrived, toggleSelect)}
+              columns={columns(
+                delegatesData,
+                toggleArrived,
+                toggleSelect,
+                sendConfirmationEmail,
+                emailSendding
+              )}
               data={delegatesData?.map((delegate) => ({
                 firstName: delegate.firstName,
                 email: delegate.email,

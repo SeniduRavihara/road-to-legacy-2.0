@@ -85,7 +85,7 @@ const Footer = () => {
       </div>
 
       {/* Footer content */}
-      <div className="z-[1000] relative container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="z-[10] relative container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center space-y-4">
           {/* Social media icons */}
           <div className="flex space-x-4">

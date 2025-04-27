@@ -219,6 +219,7 @@ export const registerDelegates = async (formData: FormDataType) => {
       selected: false,
       createdAt: new Date().toISOString(),
       confirmationUrl,
+      confirmationEmailSended: false,
     });
 
     console.log("Delegate registered successfully.");
