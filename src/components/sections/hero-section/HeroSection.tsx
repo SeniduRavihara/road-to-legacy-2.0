@@ -1,17 +1,16 @@
 "use client";
 
+import FlipCounter from "@/components/flip-count/FlipCounter";
+import Animated2 from "@/components/home/animated-road-to-legacy/Animated2";
+import AnimatedRoadToLegacy from "@/components/home/animated-road-to-legacy/AnimatedRoadToLegacy";
+import RegisterButton from "@/components/home/register-button/RegisterButton";
 import { useLoading } from "@/context/LoadingContext";
 import ExportedImage from "next-image-export-optimizer";
 import { useEffect, useRef, useState } from "react";
-import FlipCounter from "../../flip-count/FlipCounter";
-import Animated2 from "../../home/animated-road-to-legacy/Animated2";
-import AnimatedRoadToLegacy from "../../home/animated-road-to-legacy/AnimatedRoadToLegacy";
-import RegisterButton from "../../home/RegisterButton";
 import "./HeroSection.css";
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const [scrollProgress, setScrollProgress] = useState<number>(0);
   const { loading } = useLoading();
   const [animationEnabled, setAnimationEnabled] = useState<boolean>(false);
 
@@ -22,29 +21,6 @@ const HeroSection = () => {
     }
   }, [loading]);
 
-  // Handle scroll for parallax effect
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-
-      const section = sectionRef.current;
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      const scrollPosition = window.scrollY;
-
-      // Calculate scroll progress (0 to 1)
-      const progress = Math.min(
-        Math.max(scrollPosition - sectionTop, 0) / sectionHeight,
-        1
-      );
-
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const text =
     "Welcome to RTL—where innovation, collaboration, and growth bring Tech minds together. Join us in shaping the future of technology.";
   const words = text.split(" ");
@@ -52,21 +28,22 @@ const HeroSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden flex flex-col justify-center items-center text-white text-center px-6"
+      className="relative h-screen w-full overflow-hidden flex flex-col justify-center items-center text-white text-center px-6 bg-[#191b1f]"
     >
-      {/* Background with CSS-based parallax effect */}
-      <div
-        className="absolute inset-0 w-full h-full parallax-background"
-        style={{ transform: `translateY(${scrollProgress * 100}px)` }}
-      >
+      {/* Background container with fade effect */}
+      <div className="absolute inset-0 w-full h-full background-container">
+        {/* Image with animation */}
         <ExportedImage
-          src="/images/herobackground.png"
+          src="/images/legacyCover.jpg"
           fill
-          alt="Background Pattern"
+          alt="Team Legacy"
           loading="eager"
           priority
-          className="absolute opacity-20 w-full object-cover -top-20 h-[800px]"
+          className="absolute opacity-20 w-full object-cover background-image object-[50%_100%]"
         />
+
+        {/* Gradient overlay to fade bottom of image */}
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#191b1f] to-transparent"></div>
       </div>
 
       <div className="mt-10 z-10">

@@ -120,12 +120,12 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* Navigation items */}
-      <ul className="flex justify-around sm:gap-5 items-center h-full relative z-10">
+      <ul className="flex justify-around gap-4 sm:gap-10 items-center h-full relative z-10">
         {navItems.map((item) => (
           <li
             key={item.id}
             className={`
-              relative cursor-pointer px-5 py-2 rounded-lg 
+              relative cursor-pointer px-3 sm:px-5 py-2 rounded-lg 
               transition duration-300 ease-in-out
               ${activeItem === item.id ? "scale-95" : "hover:scale-105"}
               group
@@ -150,7 +150,7 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Text content */}
-            <div className="relative z-10 flex items-center justify-center">
+            <div className="relative z-10 flex items-center justify-center text-sm sm:text-base">
               <span
                 className={`
                   font-medium tracking-wide
