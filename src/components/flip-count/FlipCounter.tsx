@@ -16,7 +16,7 @@ const FlipCounter = () => {
   if (!targetTime) return null; // or a loading spinner
 
   return (
-    <div className="relative top-5">
+    <div className="relative top-1 md:top-5">
       <FlipClockCountdown className="flip-clock relative" to={targetTime} />
     </div>
   );

@@ -54,7 +54,7 @@ export default function NetworkBackground(): JSX.Element {
     canvas.height = height;
 
     // Theme colors - Change these to modify the background gradient
-    const colors = ["#191b1f", "#1f2227", "#262930", "#2c3039", "#333842"];
+    const colors = ["#191b1f", "#1f2227", "#262930", "#1f2227", "#191b1f"];
 
     // Create a grid of points
     const gridSpacing = 120;

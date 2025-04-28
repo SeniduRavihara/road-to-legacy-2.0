@@ -1,13 +1,13 @@
 "use client";
 
+import FlipCounter from "@/components/flip-count/FlipCounter";
+import Animated2 from "@/components/home/animated-road-to-legacy/Animated2";
+import AnimatedRoadToLegacy from "@/components/home/animated-road-to-legacy/AnimatedRoadToLegacy";
+import RegisterButton from "@/components/home/register-button/RegisterButton";
 import { useLoading } from "@/context/LoadingContext";
 import ExportedImage from "next-image-export-optimizer";
 import { useEffect, useRef, useState } from "react";
 import "./HeroSection.css";
-import AnimatedRoadToLegacy from "@/components/home/animated-road-to-legacy/AnimatedRoadToLegacy";
-import Animated2 from "@/components/home/animated-road-to-legacy/Animated2";
-import RegisterButton from "@/components/home/register-button/RegisterButton";
-import FlipCounter from "@/components/flip-count/FlipCounter";
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -91,7 +91,7 @@ const HeroSection = () => {
       </p>
 
       <div
-        className={`z-10 mt-8 ${animationEnabled ? "register-button-container" : "invisible"}`}
+        className={`z-10 mt-4 md:mt-8 ${animationEnabled ? "register-button-container" : "invisible"}`}
       >
         <RegisterButton />
       </div>
