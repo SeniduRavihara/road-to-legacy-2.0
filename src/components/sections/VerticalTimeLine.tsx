@@ -1,5 +1,4 @@
 import { AnimatePresence, motion } from "framer-motion";
-import gsap from "gsap";
 import ExportedImage from "next-image-export-optimizer";
 import { useEffect, useRef, useState } from "react";
 
@@ -10,57 +9,57 @@ const EventSpeakerSessions = () => {
   const sectionRef = useRef(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
-  useEffect(() => {
-    if (!titleRef) return;
-    const ctx = gsap.context(() => {
-      // Title animation
-      gsap.fromTo(
-        titleRef.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: "top 85%",
-          },
-        }
-      );
+  // useEffect(() => {
+  //   if (!titleRef) return;
+  //   const ctx = gsap.context(() => {
+  //     // Title animation
+  //     gsap.fromTo(
+  //       titleRef.current,
+  //       { opacity: 0, y: 30 },
+  //       {
+  //         opacity: 1,
+  //         y: 0,
+  //         duration: 1.2,
+  //         ease: "power3.out",
+  //         scrollTrigger: {
+  //           trigger: titleRef.current,
+  //           start: "top 85%",
+  //         },
+  //       }
+  //     );
 
-      // Line animation
-      gsap.fromTo(
-        ".title-line",
-        { scaleX: 0 },
-        {
-          scaleX: 1,
-          duration: 1.5,
-          ease: "power2.out",
-          delay: 0.3,
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: "top 85%",
-          },
-        }
-      );
-    }, sectionRef);
+  //     // Line animation
+  //     gsap.fromTo(
+  //       ".title-line",
+  //       { scaleX: 0 },
+  //       {
+  //         scaleX: 1,
+  //         duration: 1.5,
+  //         ease: "power2.out",
+  //         delay: 0.3,
+  //         scrollTrigger: {
+  //           trigger: titleRef.current,
+  //           start: "top 85%",
+  //         },
+  //       }
+  //     );
+  //   }, sectionRef);
 
-    // Add custom CSS to hide the default arrow
-    const style = document.createElement("style");
-    style.innerHTML = `
-        .custom-accordion-trigger[data-state="open"] > svg,
-        .custom-accordion-trigger[data-state="closed"] > svg {
-          display: none !important;
-        }
-      `;
-    document.head.appendChild(style);
+  //   // Add custom CSS to hide the default arrow
+  //   const style = document.createElement("style");
+  //   style.innerHTML = `
+  //       .custom-accordion-trigger[data-state="open"] > svg,
+  //       .custom-accordion-trigger[data-state="closed"] > svg {
+  //         display: none !important;
+  //       }
+  //     `;
+  //   document.head.appendChild(style);
 
-    return () => {
-      ctx.revert();
-      document.head.removeChild(style);
-    };
-  }, []);
+  //   return () => {
+  //     ctx.revert();
+  //     document.head.removeChild(style);
+  //   };
+  // }, []);
 
   // Check for mobile viewport on component mount and window resize
   useEffect(() => {

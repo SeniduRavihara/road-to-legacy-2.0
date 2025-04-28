@@ -11,18 +11,19 @@ import { useEffect, useState } from "react";
 export default function ConfirmPage() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [uni, setUni] = useState(""); // Add university state
+  const [uni, setUni] = useState("");
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [showTicket, setShowTicket] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
+  
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setName(params.get("name") || "");
     setEmail(params.get("email") || "");
-    setUni(params.get("uni") || ""); // Get university from URL params
+    setUni(params.get("uni") || "");
   }, []);
 
   const handleSubmit = async (response: "yes" | "no") => {
@@ -37,7 +38,7 @@ export default function ConfirmPage() {
         setShowThankYou(true);
 
         // Then after a delay, show the ticket
-        await delay(500); // 1.5 seconds to make the thank you message more noticeable
+        await delay(1000); // 1 seconds to make the thank you message more noticeable
         setShowThankYou(false);
         setShowTicket(true);
       } else {
@@ -109,6 +110,7 @@ export default function ConfirmPage() {
           </div>
         )}
 
+
         {status === "success" && showThankYou && (
           <div className="bg-[#262930] rounded-lg p-6 text-center border border-green-500/20">
             <CheckCircle className="h-12 w-12 text-green-400 mx-auto mb-4" />
@@ -119,6 +121,8 @@ export default function ConfirmPage() {
           </div>
         )}
 
+
+        {/* No */}
         {status === "success" && !showThankYou && !showTicket && (
           <div className="bg-[#262930] rounded-lg p-6 text-center border border-green-500/20">
             <CheckCircle className="h-12 w-12 text-green-400 mx-auto mb-4" />
@@ -150,7 +154,44 @@ export default function ConfirmPage() {
         {/* Show ticket if user confirmed yes */}
         {status === "success" && showTicket && (
           <div className="mt-4">
-            <h3 className="text-xl font-medium text-white text-center mb-4">
+            <h3 className="text-xl font-medium text-white text-center mb-4 flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mr-3 text-green-400"
+              >
+                <style>
+                  {`
+            @keyframes gentleShake {
+              0% { transform: rotate(0deg); }
+              25% { transform: rotate(-5deg); }
+              50% { transform: rotate(0deg); }
+              75% { transform: rotate(5deg); }
+              100% { transform: rotate(0deg); }
+            }
+            .ticket-icon {
+              animation: gentleShake 1.5s ease-in-out forwards;
+              transform-origin: center;
+            }
+          `}
+                </style>
+                <g className="ticket-icon">
+                  <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+                  <path d="M13 5v2" />
+                  <path d="M13 17v2" />
+                  <path d="M13 11v2" />
+                  <circle cx="13" cy="6" r="0.5" fill="currentColor" />
+                  <circle cx="13" cy="12" r="0.5" fill="currentColor" />
+                  <circle cx="13" cy="18" r="0.5" fill="currentColor" />
+                </g>
+              </svg>
               Your Ticket
             </h3>
             <p className="text-gray-300 text-center mb-6">

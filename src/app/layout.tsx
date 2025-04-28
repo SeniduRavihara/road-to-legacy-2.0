@@ -14,6 +14,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://roadtolegacy.team/"),
   title: "Road to Legacy 2.0",
   description:
     "Join Road to Legacy 2.0, the transformative IT career event in Sri Lanka. Connect with experts, explore hands-on workshops, and shape your tech future with insights from top universities.",

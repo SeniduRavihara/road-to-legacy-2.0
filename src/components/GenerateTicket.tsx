@@ -2,10 +2,10 @@ import { invitation } from "@/assets";
 import { storage } from "@/firebase/config"; // Adjust path to Firebase config
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import html2canvas from "html2canvas";
-import { CheckCircle, Download, Loader2, Share2 } from "lucide-react";
+import { Download, Loader2, Share2 } from "lucide-react";
 import ExportedImage from "next-image-export-optimizer";
 import { QRCodeCanvas } from "qrcode.react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function GenerateTicket({
   name = "sen",
@@ -17,11 +17,38 @@ export default function GenerateTicket({
   uni: string;
 }) {
   const [imageUrl, setImageUrl] = useState<string>("");
-  const [isGenerating, setIsGenerating] = useState(true);
-  const [downloadComplete, setDownloadComplete] = useState(false);
+  const [imageData, setImageData] = useState<string | null>(null);
 
-  const generateTicketImage = async () => {
-    setIsGenerating(true);
+  const handleDownload = async () => {
+    const element = document.getElementById("ticket");
+    if (!element) return;
+
+    await document.fonts.ready;
+
+    const canvas = await html2canvas(element, {
+      useCORS: true,
+      scale: 2,
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+    setImageData(imgData);
+
+    // Trigger the download
+    const link = document.createElement("a");
+    link.href = imgData;
+    link.download = "invitation.png";
+    link.click();
+  };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      handleDownload();
+    }, 1500);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const generateTicketImage = useCallback(async () => {
     const element = document.getElementById("ticket");
     if (!element) return null;
 
@@ -43,58 +70,17 @@ export default function GenerateTicket({
       const downloadURL = await getDownloadURL(storageRef);
       console.log("Image URL:", downloadURL);
       setImageUrl(downloadURL);
-
-      setIsGenerating(false);
-      return imgData;
     } catch (error) {
       console.error("Error generating ticket:", error);
-      setIsGenerating(false);
       return null;
     }
-  };
+  }, [name]);
 
-  const triggerDownload = (imgData: string) => {
-    // Trigger the download
-    const link = document.createElement("a");
-    link.href = imgData;
-    link.download = `${name}-invitation.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    setDownloadComplete(true);
-    setTimeout(() => setDownloadComplete(false), 2000);
-  };
-
-  const handleManualDownload = async () => {
-    setDownloadComplete(false);
-    const imgData = await generateTicketImage();
-    if (imgData) {
-      triggerDownload(imgData);
-    }
-  };
-
-  // const handleSendEmail = async () => {
-  //   setIsSending(true);
-  //   await sendEmail(email, "Welcome", createEmailHTML(name, imageUrl));
-  //   setIsSending(false);
-  // };
+  useEffect(() => {
+    generateTicketImage();
+  }, [generateTicketImage]);
 
   // Auto-generate and download on component mount
-  useEffect(() => {
-    const autoGenerateAndDownload = async () => {
-      // Wait a moment for components to render properly
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      const imgData = await generateTicketImage();
-      if (imgData) {
-        triggerDownload(imgData);
-      }
-    };
-
-    autoGenerateAndDownload();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // Share URLs (WhatsApp, Telegram) with the download URL
   const shareUrl = `Check out my event ticket! Here it is: ${encodeURIComponent(imageUrl)}`;
@@ -137,36 +123,40 @@ export default function GenerateTicket({
       </div>
 
       {/* Action Buttons */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-md">
+      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
         <button
-          onClick={handleManualDownload}
-          disabled={isGenerating}
-          className="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium rounded-lg shadow-md transition-all duration-300 disabled:opacity-70"
+          onClick={handleDownload}
+          className="flex z-[100] items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium rounded-lg shadow-md transition-all duration-300 disabled:opacity-70"
         >
-          {isGenerating ? (
+          {!imageData ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-          ) : downloadComplete ? (
-            <CheckCircle className="mr-2 h-5 w-5" />
           ) : (
             <Download className="mr-2 h-5 w-5" />
           )}
-          {isGenerating
-            ? "Generating..."
-            : downloadComplete
-              ? "Downloaded!"
-              : "Download Ticket"}
+          Download Ticket
         </button>
 
-        {imageUrl && (
+        {imageUrl ? (
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium rounded-lg shadow-md transition-all duration-300"
+            className="flex z-[100] items-center justify-center px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium rounded-lg shadow-md transition-all duration-300"
           >
             <Share2 className="mr-2 h-5 w-5" />
             Share on WhatsApp
           </a>
+        ) : (
+          <button
+            disabled
+            className="flex items-center justify-center px-4 py-3 
+             bg-gradient-to-r from-green-500 to-green-600 
+             text-white font-medium rounded-lg shadow-md 
+             opacity-50 cursor-not-allowed transition-all duration-300"
+          >
+            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+            <span>Share on WhatsApp</span>
+          </button>
         )}
       </div>
 

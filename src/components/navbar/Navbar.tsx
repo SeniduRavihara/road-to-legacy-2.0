@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface DotProps {
   id: number;
@@ -18,25 +18,45 @@ interface NavItemProps {
   destination: string;
 }
 
+// Move this OUTSIDE to avoid re-creating on every render
+const AccentPattern: React.FC = () => (
+  <svg
+    className="absolute inset-0 w-full h-full opacity-20"
+    preserveAspectRatio="none"
+    viewBox="0 0 100 100"
+  >
+    <rect width="100" height="100" fill="#191B1F" />
+    <path
+      d="M0,0 L100,100 M20,0 L100,80 M0,20 L80,100 M40,0 L100,60 M0,40 L60,100 M60,0 L100,40 M0,60 L40,100 M80,0 L100,20 M0,80 L20,100"
+      stroke="#333842"
+      strokeWidth="0.5"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
 const Navbar: React.FC = () => {
   const router = useRouter();
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [hoverItem, setHoverItem] = useState<string | null>(null);
   const [dots, setDots] = useState<DotProps[]>([]);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [showDots, setShowDots] = useState(false);
 
   useEffect(() => {
-    const newDots: DotProps[] = [];
-    for (let i = 0; i < 12; i++) {
-      newDots.push({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 3 + 1,
-        opacity: Math.random() * 0.3 + 0.1,
-        speed: Math.random() * 0.2 + 0.05, // slightly slower for smoother
-      });
-    }
+    const timeout = setTimeout(() => setShowDots(true), 2000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    const newDots: DotProps[] = Array.from({ length: 12 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 1,
+      opacity: Math.random() * 0.3 + 0.1,
+      speed: Math.random() * 0.2 + 0.05,
+    }));
     setDots(newDots);
 
     let animationFrameId: number;
@@ -57,39 +77,33 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
-  const AccentPattern: React.FC = () => (
-    <svg
-      className="absolute inset-0 w-full h-full opacity-20"
-      preserveAspectRatio="none"
-      viewBox="0 0 100 100"
-    >
-      <rect width="100" height="100" fill="#191B1F" />
-      <path
-        d="M0,0 L100,100 M20,0 L100,80 M0,20 L80,100 M40,0 L100,60 M0,40 L60,100 M60,0 L100,40 M0,60 L40,100 M80,0 L100,20 M0,80 L20,100"
-        stroke="#333842"
-        strokeWidth="0.5"
-        strokeLinecap="round"
-      />
-    </svg>
+  const handleClick = useCallback(
+    (destination: string, id: string) => {
+      setActiveItem(id);
+
+      if (destination === "register") {
+        router.push("/register");
+      } else {
+        document.querySelector(`#${destination}`)?.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = setTimeout(() => setActiveItem(null), 600);
+    },
+    [router]
   );
 
-  const handleClick = (destination: string, id: string) => {
-    setActiveItem(id);
+  const handleMouseEnter = useCallback((id: string) => {
+    setHoverItem(id);
+  }, []);
 
-    if (destination === "register") {
-      router.push("/register");
-    } else {
-      document.querySelector(`#${destination}`)?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    timeoutRef.current = setTimeout(() => setActiveItem(null), 600);
-  };
+  const handleMouseLeave = useCallback(() => {
+    setHoverItem(null);
+  }, []);
 
   const navItems: NavItemProps[] = [
     { id: "register", label: "Register", destination: "register" },
@@ -103,21 +117,23 @@ const Navbar: React.FC = () => {
       className="relative bg-[#1f2227] bg-opacity-70 p-3 w-full backdrop-blur-lg border border-[#333842]/30 rounded-2xl shadow-lg shadow-black/20 overflow-hidden"
     >
       {/* Animated background dots */}
-      <div className="absolute inset-0 overflow-hidden">
-        {dots.map((dot) => (
-          <div
-            key={dot.id}
-            className="absolute rounded-full bg-red-500 transition-all duration-500 ease-linear"
-            style={{
-              left: `${dot.x}%`,
-              top: `${dot.y}%`,
-              width: `${dot.size}px`,
-              height: `${dot.size}px`,
-              opacity: dot.opacity,
-            }}
-          ></div>
-        ))}
-      </div>
+      {showDots && (
+        <div className="absolute inset-0 overflow-hidden">
+          {dots.map((dot) => (
+            <div
+              key={dot.id}
+              className="absolute rounded-full bg-red-500 transition-all duration-500 ease-linear"
+              style={{
+                left: `${dot.x}%`,
+                top: `${dot.y}%`,
+                width: `${dot.size}px`,
+                height: `${dot.size}px`,
+                opacity: dot.opacity,
+              }}
+            ></div>
+          ))}
+        </div>
+      )}
 
       {/* Navigation items */}
       <ul className="flex justify-around gap-4 sm:gap-10 items-center h-full relative z-10">
@@ -131,8 +147,8 @@ const Navbar: React.FC = () => {
               group
             `}
             onClick={() => handleClick(item.destination, item.id)}
-            onMouseEnter={() => setHoverItem(item.id)}
-            onMouseLeave={() => setHoverItem(null)}
+            onMouseEnter={() => handleMouseEnter(item.id)}
+            onMouseLeave={handleMouseLeave}
           >
             {/* Button background */}
             <div

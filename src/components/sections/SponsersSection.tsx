@@ -1,29 +1,29 @@
 import { useState, useEffect, useRef } from "react";
 import SponsorCard from "../SponserCard";
+import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const sponsors = [
   {
     id: 1,
-    name: "WSO2",
-    image: "/images/sponsers/wso2-logo.png",
+    name: "HackSL",
+    image: "/images/sponsers/hacksl-logo.png",
     width: 100,
     height: 50,
-    tier: "GOLD",
-    website: "https://wso2.com",
+    partnerType: "Official Media Partner",
+    // website: "https://wso2.com",
   },
   {
     id: 2,
-    name: "Fortude",
-    image: "/images/sponsers/fortude-logo.png",
+    name: "Metropolitan",
+    image: "/images/sponsers/metropoliton-logo.png",
     width: 200,
     height: 50,
-    tier: "GOLD",
-    website: "https://fortude.co",
+    partnerType: "Official Photography Partner",
+    // website: "https://fortude.co",
   },
 ];
-
 
 // Register the ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -31,20 +31,18 @@ if (typeof window !== "undefined") {
 }
 
 const SponsorsSection = () => {
-  // Data centralization for easier management
-  
   const [hoveredSponsor, setHoveredSponsor] = useState<number | null>(null);
 
-  // Create refs for animated elements
+  // Refs for animated elements
   const sectionRef = useRef<HTMLElement>(null);
-  const badgeRef = useRef<HTMLSpanElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const badgeRef = useRef<HTMLSpanElement>(null);
   const dividerRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const sponsorsRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const sponsorRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Animation setup
   useEffect(() => {
     // Initial state - hide elements
     gsap.set(
@@ -98,7 +96,7 @@ const SponsorsSection = () => {
       .to(
         dividerRef.current,
         {
-          width: 96, // 24rem in pixels
+          width: 120,
           duration: 0.8,
           ease: "power2.inOut",
         },
@@ -130,119 +128,130 @@ const SponsorsSection = () => {
         "-=0.3"
       );
 
-    // Create individual animations for each sponsor card with staggered effect
-    if (sponsorRefs.current.length > 0) {
-      gsap.fromTo(
-        sponsorRefs.current,
-        {
-          y: 40,
-          autoAlpha: 0,
-        },
-        {
-          y: 0,
-          autoAlpha: 1,
-          duration: 0.6,
-          stagger: 0.15,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sponsorsRef.current,
-            start: "top 80%",
-            once: true,
-          },
-        }
-      );
-    }
-
     return () => {
       // Clean up ScrollTrigger
       if (ScrollTrigger) ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, []);
 
-  // Set up sponsor refs array when sponsors data changes
-  useEffect(() => {
-    sponsorRefs.current = sponsorRefs.current.slice(0, sponsors.length);
-  }, []);
+  // Container variants for staggered appearance
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
 
   return (
     <section
       ref={sectionRef}
-      className="pt-10 top-10 mb-20 px-6 text-center relative overflow-hidden bg-[#191b1f] text-white"
+      className="pt-20 pb-24 px-6 relative overflow-hidden bg-[#191b1f] text-white"
     >
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <span
-          ref={badgeRef}
-          className="inline-block px-4 py-1 rounded-full bg-[#333842] text-white font-medium text-sm mb-4"
-        >
-          SUPPORTERS
-        </span>
-
-        <h2
-          ref={titleRef}
-          className="text-4xl md:text-5xl font-bold mb-6 text-white"
-        >
-          Our Valued Sponsors
-        </h2>
-
+      {/* Background pattern overlay */}
+      <div className="absolute inset-0 opacity-5">
         <div
-          ref={dividerRef}
-          className="h-1 bg-[#FFD700] mx-auto mb-8 rounded-full"
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "radial-gradient(#333842 1px, transparent 1px)",
+            backgroundSize: "20px 20px",
+          }}
         ></div>
+      </div>
 
-        <p
-          ref={descriptionRef}
-          className="text-gray-300 max-w-2xl mx-auto mb-16"
-        >
-          We extend our heartfelt gratitude to our sponsors who make Road to
-          Legacy 2.0 possible. Their support helps us empower the next
-          generation of IT professionals.
-        </p>
+      {/* Subtle glow elements */}
+      <div
+        className="absolute top-1/3 left-1/4 w-64 h-64 rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(77,150,255,0.05) 0%, rgba(0,0,0,0) 70%)",
+        }}
+      ></div>
+      <div
+        className="absolute bottom-1/4 right-1/3 w-80 h-80 rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(255,215,0,0.05) 0%, rgba(0,0,0,0) 70%)",
+        }}
+      ></div>
 
-        <div
+      <div className="relative z-10 max-w-6xl mx-auto">
+        {/* Header content with animation */}
+        <div className="text-center mb-16">
+          <span
+            ref={badgeRef}
+            className="inline-block px-4 py-1 rounded-full bg-[#262930] text-white font-medium text-sm mb-4 border border-[#333842]"
+          >
+            PARTNERS
+          </span>
+
+          <h2
+            ref={titleRef}
+            className="text-4xl md:text-5xl font-bold mb-6 text-white"
+          >
+            Our Valued Partners
+          </h2>
+
+          <div
+            ref={dividerRef}
+            className="h-1 bg-[#FFD700] mx-auto mb-8 rounded-full"
+          ></div>
+
+          <p ref={descriptionRef} className="text-gray-300 max-w-2xl mx-auto">
+            We extend our heartfelt gratitude to our partners who make Road to
+            Legacy 2.0 possible. Their support helps us empower the next
+            generation of IT professionals.
+          </p>
+        </div>
+
+        {/* Partners grid with staggered animations */}
+        <motion.div
           ref={sponsorsRef}
-          className="flex flex-wrap justify-center items-center gap-10"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="gap-8 mb-16 flex flex-col sm:flex-row items-center justify-center"
         >
-          {sponsors.map((sponsor, index) => (
-            <div
-              key={sponsor.id}
-              ref={(el) => {
-                sponsorRefs.current[index] = el;
-              }}
-              className="sponsor-card-wrapper"
-            >
+          {sponsors.map((sponsor) => (
+            <div key={sponsor.id} className="sponsor-card-wrapper">
               <SponsorCard
                 image={sponsor.image}
                 width={sponsor.width}
                 height={sponsor.height}
-                tier={sponsor.tier}
+                partnerType={sponsor.partnerType}
                 name={sponsor.name}
-                website={sponsor.website}
+                // website={sponsor.website}
                 isHovered={hoveredSponsor === sponsor.id}
                 onHover={() => setHoveredSponsor(sponsor.id)}
                 onLeave={() => setHoveredSponsor(null)}
               />
             </div>
           ))}
-        </div>
+        </motion.div>
 
-        <button
-          ref={buttonRef}
-          className="mt-16 inline-flex items-center px-6 py-3 rounded-full bg-[#262930] hover:bg-[#333842] text-white font-medium transition-all border border-[#333842]"
-        >
-          Become a Sponsor
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 ml-2"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+        {/* Become a partner button */}
+        <div className="text-center">
+          <button
+            ref={buttonRef}
+            className="inline-flex items-center px-6 py-3 rounded-full bg-[#262930] hover:bg-[#2c3039] text-white font-medium transition-all border border-[#333842] shadow-lg hover:shadow-xl"
           >
-            <path
-              fillRule="evenodd"
-              d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
+            Become a Partner
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 ml-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </section>
   );
