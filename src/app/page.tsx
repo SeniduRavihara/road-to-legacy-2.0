@@ -61,7 +61,7 @@ export default function Home() {
       {/* <AiChatIcon /> */}
       <ChatbotUI />
 
-      <div className="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-[1000]">
+      <div className="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-[999]">
         <Navbar />
       </div>
     </div>
