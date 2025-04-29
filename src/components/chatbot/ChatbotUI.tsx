@@ -57,7 +57,7 @@ const ChatbotUI: React.FC = () => {
     setIsMounted(true);
     // Set initial position after component mounts on client-side
     setPosition({
-      x: typeof window !== "undefined" ? window.innerWidth - 80 : 20,
+      x: typeof window !== "undefined" ? window.innerWidth - 110 : 20,
       y: typeof window !== "undefined" ? window.innerHeight - 100 : 20,
     });
   }, []);
@@ -317,7 +317,7 @@ const ChatbotUI: React.FC = () => {
   };
 
   // Adjust position for mobile
-  const isMobile = isMounted && window.innerWidth <= 768;
+  // const isMobile = isMounted && window.innerWidth <= 768;
 
   // Improved function to calculate the best position for the chat window
   const calculateChatWindowPosition = () => {

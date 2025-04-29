@@ -1,0 +1,130 @@
+[debug] [2025-04-29T11:13:04.151Z] ----------------------------------------------------------------------
+[debug] [2025-04-29T11:13:04.156Z] Command:       C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2025-04-29T11:13:04.157Z] CLI Version:   14.1.0
+[debug] [2025-04-29T11:13:04.157Z] Platform:      win32
+[debug] [2025-04-29T11:13:04.157Z] Node Version:  v22.14.0
+[debug] [2025-04-29T11:13:04.158Z] Time:          Tue Apr 29 2025 16:43:04 GMT+0530 (India Standard Time)
+[debug] [2025-04-29T11:13:04.158Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-04-29T11:13:04.711Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-04-29T11:13:04.712Z] > authorizing via signed-in user (senidumee16@gmail.com)
+[debug] [2025-04-29T11:13:04.712Z] [iam] checking project roadtolecacy for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2025-04-29T11:13:04.715Z] Checked if tokens are valid: false, expires at: 1745925401391
+[debug] [2025-04-29T11:13:04.715Z] Checked if tokens are valid: false, expires at: 1745925401391
+[debug] [2025-04-29T11:13:04.716Z] > refreshing access token with scopes: []
+[debug] [2025-04-29T11:13:04.719Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-04-29T11:13:04.720Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-04-29T11:13:05.634Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-04-29T11:13:05.634Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-04-29T11:13:05.683Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/roadtolecacy:testIamPermissions [none]
+[debug] [2025-04-29T11:13:05.683Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/roadtolecacy:testIamPermissions x-goog-quota-user=projects/roadtolecacy
+[debug] [2025-04-29T11:13:05.684Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/roadtolecacy:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-04-29T11:13:07.644Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/roadtolecacy:testIamPermissions 200
+[debug] [2025-04-29T11:13:07.644Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/roadtolecacy:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-04-29T11:13:07.645Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:07.645Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:07.645Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/roadtolecacy/serviceAccounts/roadtolecacy@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-04-29T11:13:07.645Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/roadtolecacy/serviceAccounts/roadtolecacy@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-04-29T11:13:09.973Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/roadtolecacy/serviceAccounts/roadtolecacy@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-04-29T11:13:09.973Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/roadtolecacy/serviceAccounts/roadtolecacy@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'roadtolecacy'...
+[info] 
+[info] i  deploying functions 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run build
+[info] +  functions: Finished running predeploy script. 
+[debug] [2025-04-29T11:13:36.092Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:36.092Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:36.093Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/roadtolecacy [none]
+[debug] [2025-04-29T11:13:36.831Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/roadtolecacy 200
+[debug] [2025-04-29T11:13:36.831Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/roadtolecacy {"projectNumber":"158084955363","projectId":"roadtolecacy","lifecycleState":"ACTIVE","name":"RoadToLecacy","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-02-23T18:39:56.032850Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2025-04-29T11:13:36.837Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:36.838Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:36.838Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:36.838Z] Checked if tokens are valid: true, expires at: 1745928784637
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2025-04-29T11:13:36.839Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:36.840Z] Checked if tokens are valid: true, expires at: 1745928784637
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2025-04-29T11:13:36.842Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:36.842Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:36.843Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-04-29T11:13:36.843Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/roadtolecacy
+[debug] [2025-04-29T11:13:36.849Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-04-29T11:13:36.849Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/roadtolecacy
+[debug] [2025-04-29T11:13:36.853Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/cloudbuild.googleapis.com [none]
+[debug] [2025-04-29T11:13:36.853Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/cloudbuild.googleapis.com x-goog-quota-user=projects/roadtolecacy
+[debug] [2025-04-29T11:13:36.856Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/artifactregistry.googleapis.com [none]
+[debug] [2025-04-29T11:13:36.856Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/artifactregistry.googleapis.com x-goog-quota-user=projects/roadtolecacy
+[debug] [2025-04-29T11:13:39.141Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/runtimeconfig.googleapis.com 200
+[debug] [2025-04-29T11:13:39.142Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-04-29T11:13:39.771Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/artifactregistry.googleapis.com 200
+[debug] [2025-04-29T11:13:39.772Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/artifactregistry.googleapis.com [omitted]
+[info] +  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2025-04-29T11:13:40.033Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/cloudfunctions.googleapis.com 200
+[debug] [2025-04-29T11:13:40.033Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/cloudfunctions.googleapis.com [omitted]
+[info] +  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2025-04-29T11:13:40.238Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/cloudbuild.googleapis.com 200
+[debug] [2025-04-29T11:13:40.238Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/roadtolecacy/services/cloudbuild.googleapis.com [omitted]
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2025-04-29T11:13:40.248Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:40.249Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:40.249Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/roadtolecacy/adminSdkConfig [none]
+[debug] [2025-04-29T11:13:41.688Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/roadtolecacy/adminSdkConfig 200
+[debug] [2025-04-29T11:13:41.688Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/roadtolecacy/adminSdkConfig {"projectId":"roadtolecacy","storageBucket":"roadtolecacy.firebasestorage.app"}
+[debug] [2025-04-29T11:13:41.690Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:41.692Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:41.693Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/roadtolecacy/configs [none]
+[debug] [2025-04-29T11:13:42.946Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/roadtolecacy/configs 200
+[debug] [2025-04-29T11:13:42.947Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/roadtolecacy/configs {"configs":[{"name":"projects/roadtolecacy/configs/resend"}]}
+[debug] [2025-04-29T11:13:42.948Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:42.948Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:42.948Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/roadtolecacy/configs/resend/variables [none]
+[debug] [2025-04-29T11:13:43.408Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/roadtolecacy/configs/resend/variables 200
+[debug] [2025-04-29T11:13:43.408Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/roadtolecacy/configs/resend/variables {"variables":[{"name":"projects/roadtolecacy/configs/resend/variables/key","updateTime":"2025-04-07T20:39:53.160866792Z"}]}
+[debug] [2025-04-29T11:13:43.408Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:43.409Z] Checked if tokens are valid: true, expires at: 1745928784637
+[debug] [2025-04-29T11:13:43.409Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/roadtolecacy/configs/resend/variables/key [none]
+[debug] [2025-04-29T11:13:43.835Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/roadtolecacy/configs/resend/variables/key 200
+[debug] [2025-04-29T11:13:43.836Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/roadtolecacy/configs/resend/variables/key {"name":"projects/roadtolecacy/configs/resend/variables/key","updateTime":"2025-04-07T20:39:53.160866792Z","text":"re_P4Dcj9SX_LSMsNsjrAtsBZDwoCkRuHyA6"}
+[debug] [2025-04-29T11:13:43.844Z] Validating nodejs source
+[debug] [2025-04-29T11:13:46.217Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1",
+    "openai": "^4.96.0",
+    "resend": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^5.8.3"
+  },
+  "private": true
+}
+[debug] [2025-04-29T11:13:46.217Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2025-04-29T11:13:46.221Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-04-29T11:13:46.261Z] Found firebase-functions binary at 'C:\Users\senid\Documents\MY_PROJECTS\ROAD_TO_LEGACY\road-to-legacy-2.0\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8536
+
+[debug] [2025-04-29T11:13:48.167Z] Got response from /__/functions.yaml {"endpoints":{"api":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"api"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
