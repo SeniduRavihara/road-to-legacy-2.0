@@ -60,6 +60,40 @@ const ChatbotUI: React.FC = () => {
       x: typeof window !== "undefined" ? window.innerWidth - 110 : 20,
       y: typeof window !== "undefined" ? window.innerHeight - 100 : 20,
     });
+
+    // Add custom scrollbar styles to document head
+    const styleElement = document.createElement("style");
+    styleElement.textContent = `
+      /* Custom scrollbar styles for the chat container */
+      .chat-scrollbar::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .chat-scrollbar::-webkit-scrollbar-track {
+        background-color: #1F2227;
+        border-radius: 4px;
+      }
+
+      .chat-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #333842;
+        border-radius: 4px;
+      }
+
+      .chat-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: #3E4451;
+      }
+
+      /* For Firefox */
+      .chat-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: #333842 #1F2227;
+      }
+    `;
+    document.head.appendChild(styleElement);
+
+    return () => {
+      document.head.removeChild(styleElement);
+    };
   }, []);
 
   // Update position for different screen sizes
@@ -543,10 +577,10 @@ const ChatbotUI: React.FC = () => {
             />
           </div>
 
-          {/* Messages Area */}
+          {/* Messages Area - Added chat-scrollbar class */}
           <div
             ref={chatContainerRef}
-            className="h-80 overflow-y-auto p-3"
+            className="h-80 overflow-y-auto p-3 chat-scrollbar"
             style={{ backgroundColor: "#262930" }}
           >
             {messages.map((msg, index) => (
