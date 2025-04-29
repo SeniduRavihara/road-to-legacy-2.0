@@ -104,7 +104,7 @@ app.get("/ask-gemi", async (req: Request, res: Response) => {
         role: "user",
         parts: [
           {
-            text: `Here is some important context:\n\n${systemPrompt}\n\nNow, answer the following question:\n${question}`,
+            text: `Here is some important context:\n\n${systemPrompt}\n\nNow, answer the following question: (if the question is not in the context try to match to the context as a chat assistant bot related to this context or if can not match however give a normal reply: EX:hello? reply: How are you How can i assist you with RTL <- this is how it shoud be , and remember act as a chatbot assistant and do not say "The provided document does not contain.., I am sorry, the provided document does not include ..." like things you can simple say sorry i can not assist that for you like thing) \n${question}`,
           },
         ],
       },

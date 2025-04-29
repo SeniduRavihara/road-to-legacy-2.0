@@ -512,8 +512,8 @@ const ChatbotUI: React.FC = () => {
           <ExportedImage
             src="/images/bot.png"
             className="w-20 h-20"
-            width={30}
-            height={30}
+            width={50}
+            height={50}
             alt="Bot"
           />
         </div>
@@ -534,7 +534,7 @@ const ChatbotUI: React.FC = () => {
           >
             <div className="flex items-center">
               <MessageSquare size={18} className="text-white mr-2" />
-              <h3 className="text-white font-medium">Chat Assistant</h3>
+              <h3 className="text-white font-medium">RTL Assistant</h3>
             </div>
             <X
               size={18}
@@ -573,13 +573,50 @@ const ChatbotUI: React.FC = () => {
             {isLoading && (
               <div className="mb-3 mr-auto">
                 <div
-                  className="p-2 rounded-lg inline-block"
+                  className="p-3 rounded-lg inline-block"
                   style={{ backgroundColor: "#2C3039", maxWidth: "80%" }}
                 >
-                  <div className="animate-pulse">
-                    <div className="h-4 bg-gray-500 rounded mb-2"></div>
-                    <div className="h-4 bg-gray-500 rounded w-3/4 mb-2"></div>
-                    <div className="h-4 bg-gray-500 rounded w-1/2"></div>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center gap-2">
+                      <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="text-white"
+                        >
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                      </div>
+                      <span className="text-gray-300 text-sm font-medium">
+                        RTL Assistant
+                      </span>
+                    </div>
+
+                    <div className="flex items-center space-x-1 pl-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></div>
+                      <div
+                        className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"
+                        style={{ animationDelay: "300ms" }}
+                      ></div>
+                      <div
+                        className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"
+                        style={{ animationDelay: "600ms" }}
+                      ></div>
+                    </div>
+
+                    <div className="mt-1 space-y-2">
+                      <div className="h-2 bg-gray-600 rounded w-3/4 animate-pulse"></div>
+                      <div className="h-2 bg-gray-600 rounded w-1/2 animate-pulse"></div>
+                    </div>
                   </div>
                 </div>
               </div>
