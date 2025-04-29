@@ -282,7 +282,7 @@ const ChatbotUI: React.FC = () => {
 
       try {
         const response = await axios.get(
-          `https://us-central1-roadtolecacy.cloudfunctions.net/api/ask?question=${encodeURIComponent(currentInputValue)}`
+          `https://us-central1-roadtolecacy.cloudfunctions.net/api/ask-gemi?question=${encodeURIComponent(currentInputValue)}`
         );
 
         if (response.data) {
