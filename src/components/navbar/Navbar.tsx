@@ -1,16 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-// interface DotProps {
-//   id: number;
-//   x: number;
-//   y: number;
-//   size: number;
-//   opacity: number;
-//   speed: number;
-// }
+interface DotProps {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  opacity: number;
+  speed: number;
+}
 
 interface NavItemProps {
   id: string;
@@ -39,37 +39,37 @@ const Navbar: React.FC = () => {
   const router = useRouter();
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [hoverItem, setHoverItem] = useState<string | null>(null);
-  // const [dots, setDots] = useState<DotProps[]>([]);
+  const [dots, setDots] = useState<DotProps[]>([]);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // useEffect(() => {
-  //   const newDots: DotProps[] = Array.from({ length: 12 }, (_, i) => ({
-  //     id: i,
-  //     x: Math.random() * 100,
-  //     y: Math.random() * 100,
-  //     size: Math.random() * 3 + 1,
-  //     opacity: Math.random() * 0.3 + 0.1,
-  //     speed: Math.random() * 0.2 + 0.05,
-  //   }));
-  //   setDots(newDots);
+  useEffect(() => {
+    const newDots: DotProps[] = Array.from({ length: 12 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 1,
+      opacity: Math.random() * 0.3 + 0.1,
+      speed: Math.random() * 0.2 + 0.05,
+    }));
+    setDots(newDots);
 
-  //   let animationFrameId: number;
-  //   const animateDots = () => {
-  //     setDots((prevDots) =>
-  //       prevDots.map((dot) => ({
-  //         ...dot,
-  //         x: (dot.x + dot.speed) % 100,
-  //       }))
-  //     );
-  //     animationFrameId = requestAnimationFrame(animateDots);
-  //   };
+    let animationFrameId: number;
+    const animateDots = () => {
+      setDots((prevDots) =>
+        prevDots.map((dot) => ({
+          ...dot,
+          x: (dot.x + dot.speed) % 100,
+        }))
+      );
+      animationFrameId = requestAnimationFrame(animateDots);
+    };
 
-  //   animateDots();
+    animateDots();
 
-  //   return () => {
-  //     cancelAnimationFrame(animationFrameId);
-  //   };
-  // }, []);
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
 
   const handleClick = useCallback(
     (destination: string, id: string) => {
@@ -112,7 +112,7 @@ const Navbar: React.FC = () => {
     >
       {/* Animated background dots */}
 
-      {/* <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden">
         {dots.map((dot) => (
           <div
             key={dot.id}
@@ -126,10 +126,10 @@ const Navbar: React.FC = () => {
             }}
           ></div>
         ))}
-      </div> */}
+      </div>
 
       {/* Navigation items */}
-      <ul className="flex justify-around gap-6 sm:gap-10 items-center h-full relative z-10">
+      <ul className="flex justify-around gap-4 sm:gap-10 items-center h-full relative z-10">
         {navItems.map((item) => (
           <li
             key={item.id}
@@ -161,7 +161,9 @@ const Navbar: React.FC = () => {
             {/* Text content */}
             <div className="relative z-10 flex items-center justify-center text-sm sm:text-base">
               <span
-                className={`${hoverItem === item.id ? "text-gray-200" : "text-gray-300"}`}
+                className={`
+                  ${hoverItem === item.id ? "text-gray-200" : "text-gray-300"}
+                `}
               >
                 {item.label}
               </span>

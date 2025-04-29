@@ -19,17 +19,17 @@ const Footer = () => {
     {
       name: "instagram",
       icon: <Instagram size={18} />,
-      url: "https://www.instagram.com",
+      url: "http://instagram.com/itlegacy.team",
     },
     {
       name: "facebook",
       icon: <Facebook size={18} />,
-      url: "https://www.facebook.com",
+      url: "http://facebook.com/ITlegacySL",
     },
     {
       name: "linkedin",
       icon: <Linkedin size={18} />,
-      url: "https://www.linkedin.com",
+      url: "http://linkedin.com/company/it-legacy",
     },
   ];
 

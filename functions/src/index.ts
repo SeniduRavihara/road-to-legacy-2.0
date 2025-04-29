@@ -1,12 +1,17 @@
 import cors from "cors";
+import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import * as functions from "firebase-functions";
+import OpenAI from "openai";
 import { Resend } from "resend";
-import dotenv from "dotenv";
 
 dotenv.config();
 
 const resend = new Resend(process.env.RESEND_KEY);
+const openai = new OpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 const app = express();
 
@@ -50,34 +55,125 @@ app.post("/send", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/send2", async (req: Request, res: Response) => {
+// app.post("/send2", async (req: Request, res: Response) => {
+//   try {
+//     const { to, subject, html } = req.body;
+
+//     const apiKey = process.env.RESEND_KEY;
+//     console.log("API Key:", apiKey);
+
+//     if (!to || !subject || !html) {
+//       return res.status(400).json({ error: "Missing required fields" });
+//     }
+
+//     if (!apiKey) {
+//       return res.status(500).json({ error: "Resend API key not configured" });
+//     }
+
+//     // Simulate email sending delay
+//     await new Promise((resolve) => setTimeout(resolve, 500));
+
+//     return res.status(200).json({
+//       message: `Mock email sent successfully!`,
+//       apiKeyPreview: apiKey.slice(0, 6) + "...", // Optional: don't expose full key
+//       preview: { to, subject, html },
+//     });
+//   } catch (err) {
+//     console.error("Mock error:", err);
+//     return res
+//       .status(500)
+//       .json({ error: "Unexpected error", details: (err as Error).message });
+//   }
+// });
+
+app.get("/ask", async (req: Request, res: Response) => {
+  const question = req.query.question || "What is Road to Legacy 2.0?";
+
   try {
-    const { to, subject, html } = req.body;
+    const completion = await openai.chat.completions.create({
+      model: "deepseek/deepseek-r1:free",
+      messages: [
+        {
+          role: "system",
+          content: `
+important -> give me answers with at around 20 words, more mimum are better, and i only need the answer to question i asked, i dont need any other information
 
-    const apiKey = process.env.RESEND_KEY;
-    console.log("API Key:", apiKey);
+You are an official representative of Road to Legacy 2.0 organized by the University of Sri Jayewardenepura, UCSC, and the University of Moratuwa. You must answer very politely, formally, and provide detailed information based strictly on the following (provided below). 
 
-    if (!to || !subject || !html) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
+HOWEVER, keep your answers concise, summarizing the information politely in 2–4 sentences maximum, unless the user specifically asks for a detailed explanation.
 
-    if (!apiKey) {
-      return res.status(500).json({ error: "Resend API key not configured" });
-    }
+(Information about Road to Legacy 2.0:)
+- Collaboration between University of Sri Jayewardenepura, University of Colombo School of Computing, and University of Moratuwa to build an IT legacy.
+- Aim: To provide career guidance, skills, and insights to IT undergraduates.
 
-    // Simulate email sending delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
+IT Legacy:
+- Community for first-year students from top universities.
+- Mission: Collaboration, teamwork, innovation, inclusivity, and global impact.
 
-    return res.status(200).json({
-      message: `Mock email sent successfully!`,
-      apiKeyPreview: apiKey.slice(0, 6) + "...", // Optional: don't expose full key
-      preview: { to, subject, html },
+Road to Legacy:
+- Guides first-year undergraduates to shape careers and build professional connections.
+- 90% of first-year IT students lack career direction — this event addresses it.
+- Provides real-world industry insights, expert sessions, career guidance.
+
+Collaboration Partners:
+- IEEE Student Branch of USJ.
+
+Event Details:
+- Date: 31/05/2025
+- Location: University of Colombo
+- Time: 8:00 AM to 4:30 PM
+- 700+ participants.
+
+Event Sessions:
+- Software Engineering
+- Cybersecurity & AI
+- Project Management & Business Analysis
+- Game Development
+
+Sponsorship Packages:
+- Diamond: LKR 250,000
+- Platinum: LKR 175,000
+- Gold: LKR 120,000
+- Silver: LKR 75,000
+- Bronze: LKR 50,000
+(Brand visibility, banners, promotions, speaker sessions.)
+
+Partnership Categories:
+- Official Printing Partner
+- Official Media Partner
+- Official Audio Partner
+- Official Photography Partner
+
+Contacts:
+- Umaya Walpola (Co-Chief Organizer): umayawalpola@gmail.com / 0765408463
+- Lithasa Jayamaha (Finance Team Leader): jlithasa@gmail.com / 0769496058
+
+Social Media:
+- LinkedIn: linkedin.com/company/it-legacy
+- Facebook: facebook.com/ITlegacySL
+- Instagram: instagram.com/itlegacy.team/
+
+
+important -> give me answers with at around 20 words, more mimum are better, and i only need the answer to question i asked, i dont need any other information
+`.trim(),
+        },
+        {
+          role: "user",
+          content: `${String(question)}`,
+        },
+      ],
     });
-  } catch (err) {
-    console.error("Mock error:", err);
-    return res
-      .status(500)
-      .json({ error: "Unexpected error", details: (err as Error).message });
+
+    const answer =
+      completion.choices[0].message?.content || "No response generated.";
+
+    res.status(200).json({ answer });
+  } catch (error) {
+    console.error("Chatbot Error:", error);
+    res.status(500).json({
+      error: "Error generating response",
+      details: (error as Error).message,
+    });
   }
 });
 

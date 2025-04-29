@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-import SponsorCard from "../SponserCard";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState } from "react";
+import SponsorCard from "../SponserCard";
 
 const sponsors = [
   {
@@ -145,6 +145,12 @@ const SponsorsSection = () => {
     },
   };
 
+  const handlePartnershipAction = () => {
+    // Email option - mailto link
+    window.location.href =
+      "mailto:itlegacy.team@gmail.com?subject=Partnership%20Inquiry&body=I'm%20interested%20in%20partnering%20with%20your%20event.";
+  };
+
   return (
     <section
       ref={sectionRef}
@@ -235,6 +241,7 @@ const SponsorsSection = () => {
         <div className="text-center">
           <button
             ref={buttonRef}
+            onClick={handlePartnershipAction}
             className="inline-flex items-center px-6 py-3 rounded-full bg-[#262930] hover:bg-[#2c3039] text-white font-medium transition-all border border-[#333842] shadow-lg hover:shadow-xl"
           >
             Become a Partner

@@ -386,20 +386,26 @@ const RoadToLegacy: React.FC = () => {
             with the evolving industry.
           </p>
 
-          <button className="mt-6 px-6 py-2 bg-[#262930] hover:bg-[#2c3039] rounded-lg text-white font-medium flex items-center border border-[#333842] button-hover">
-            <span>Join the Network</span>
-            <svg
-              className="ml-2 w-4 h-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
+          <a
+            href="https://chat.whatsapp.com/GIUzwh9BROGBPhbJCmmPxo"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="mt-6 px-6 py-2 bg-[#262930] hover:bg-[#2c3039] rounded-lg text-white font-medium flex items-center border border-[#333842] button-hover">
+              <span>Join the Network</span>
+              <svg
+                className="ml-2 w-4 h-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </a>
         </div>
       </div>
 

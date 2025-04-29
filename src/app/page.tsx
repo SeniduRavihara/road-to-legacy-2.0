@@ -1,11 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-// 🧠 Direct imports for first view
 import Navbar from "@/components/navbar/Navbar";
 import Header from "@/components/sections/header/Header";
 import HeroSection from "@/components/sections/hero-section/HeroSection";
+import dynamic from "next/dynamic";
 
 // 🧠 Lazy (dynamic) imports for other sections
 const RoadToLegacy = dynamic(
@@ -29,6 +27,7 @@ const SponsersSection = dynamic(
   () => import("@/components/sections/SponsersSection")
 );
 const Footer = dynamic(() => import("@/components/sections/Footer"));
+const ChatbotUI = dynamic(() => import("@/components/chatbot/ChatbotUI"));
 
 export default function Home() {
   return (
@@ -58,6 +57,9 @@ export default function Home() {
       <ContactSection />
       <SponsersSection />
       <Footer />
+
+      {/* <AiChatIcon /> */}
+      <ChatbotUI />
 
       <div className="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-[1000]">
         <Navbar />
