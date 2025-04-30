@@ -1,4 +1,4 @@
-import { AdminDataType, FormDataType } from "@/types";
+import { AdminDataType, FormDataType, GameResult } from "@/types";
 import { signInWithPopup, signOut, User } from "firebase/auth";
 import {
   collection,
@@ -258,19 +258,21 @@ export const sendEmail = async (to: string, subject: string, html: string) => {
   }
 };
 
+// ------------------------------------------------------------------------
+
 export const registerTeam = async (teamData: {
   teamName: string;
   leaderEmail: string;
   members: string[];
 }) => {
   try {
-    const teamRef = doc(db, "teams", teamData.teamName); 
+    const teamRef = doc(db, "teams", teamData.teamName);
 
-     const existingTeam = await getDoc(teamRef);
+    const existingTeam = await getDoc(teamRef);
 
-     if (existingTeam.exists()) {
-       return { success: false, message: "Team already registered" };
-     }
+    if (existingTeam.exists()) {
+      return { success: false, message: "Team already registered" };
+    }
 
     await setDoc(teamRef, {
       name: teamData.teamName,
@@ -280,12 +282,14 @@ export const registerTeam = async (teamData: {
     });
     console.log("Team registered with ID: ", teamRef.id);
 
-     return { success: true };
+    return { success: true };
   } catch (e) {
     console.error("Error creating document: ", e);
     return { success: false, message: "Failed to register team" };
   }
 };
+
+// ------------------------------------------------------------------------
 
 export const loginTeam = async (loginData: {
   teamName: string;
@@ -310,6 +314,8 @@ export const loginTeam = async (loginData: {
   }
 };
 
+// ------------------------------------------------------------------------
+
 export const getTeamData = async (teamName: string) => {
   try {
     const teamRef = doc(db, "teams", teamName);
@@ -323,5 +329,25 @@ export const getTeamData = async (teamName: string) => {
   } catch (e) {
     console.error("Error getting document: ", e);
     return null;
+  }
+};
+
+// ------------------------------------------------------------------------
+
+export const setGameResultsApi = async (
+  teamName: string,
+  result: GameResult[],
+  totalTimeTaken: number
+) => {
+  try {
+    const gameResultsRef = doc(db, "teams", teamName);
+
+    console.log("Game Results:", result);
+    
+
+    await updateDoc(gameResultsRef, { gameResults: result, totalTimeTaken });
+    console.log("Game results updated successfully.");
+  } catch (error) {
+    console.error("Error updating game results:", error);
   }
 };

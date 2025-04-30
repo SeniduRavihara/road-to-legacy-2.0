@@ -2,7 +2,11 @@
 
 import SudokuGame from "@/components/games/SudokuGame";
 import WordPuzzle from "@/components/games/WordPuzzle";
+import { setGameResultsApi } from "@/firebase/api";
+import { db } from "@/firebase/config";
 import { useData } from "@/hooks/useData";
+import { GameResult, TeamDataType } from "@/types";
+import { doc, onSnapshot } from "firebase/firestore";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -12,14 +16,6 @@ interface Game {
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: React.ComponentType<any>;
-}
-
-// Define game result interface
-interface GameResult {
-  gameId: string;
-  gameName: string;
-  timeInMs: number;
-  formattedTime: string;
 }
 
 // Define options from Firebase or other data sources
@@ -45,9 +41,12 @@ const GamePage: React.FC = () => {
 
   const [currentGameIndex, setCurrentGameIndex] = useState<number>(0);
   const [gameState, setGameState] = useState<
-    "waiting" | "countdown" | "playing" | "finished"
+    "waiting" | "countdown" | "playing" | "finished" | "submitting"
   >("waiting");
-  const [countdownTime, setCountdownTime] = useState<number>(5 * 60); // 5 minutes countdown (in seconds)
+
+  const [totalTimeTaken, setTotalTimeTaken] = useState<number>(0);
+
+  const [countdownTime, setCountdownTime] = useState<number>(3); // 3 seconds countdown
   const [gameStartTime, setGameStartTime] = useState<number | undefined>(
     options?.gameStartTime ? options.gameStartTime.getTime() : undefined
   );
@@ -61,6 +60,61 @@ const GamePage: React.FC = () => {
       router.push("/");
     }
   }, [teamName, router]);
+
+  // Load team data from Firebase and set the proper game state
+  useEffect(() => {
+    if (!teamName) return;
+    const documentRef = doc(db, "teams", teamName);
+
+    const unsubscribe = onSnapshot(documentRef, (documentSnapshot) => {
+      if (documentSnapshot.exists()) {
+        const data = documentSnapshot.data() as TeamDataType;
+
+        if (data.totalTimeTaken !== undefined) {
+          // Make sure we're getting a valid number
+          const parsedTotalTime =
+            typeof data.totalTimeTaken === "number" ? data.totalTimeTaken : 0;
+          setTotalTimeTaken(parsedTotalTime);
+        }
+
+        if (
+          data.gameResults &&
+          Array.isArray(data.gameResults) &&
+          data.gameResults.length > 0
+        ) {
+          // Validate game results before setting
+          const validatedResults = data.gameResults.map((result) => ({
+            ...result,
+            timeInMs: typeof result.timeInMs === "number" ? result.timeInMs : 0,
+            formattedTime: result.formattedTime || "0:00.00",
+          }));
+
+          setGameResults(validatedResults);
+
+          // Set the current game index to the NEXT game after the last completed one
+          const nextGameIndex = validatedResults.length;
+
+          // If all games completed, set to finished state
+          if (nextGameIndex >= GAMES.length) {
+            setAllGamesCompleted(true);
+            setGameState("finished");
+          } else {
+            // Otherwise, prepare to play the next game
+            setCurrentGameIndex(nextGameIndex);
+            // For games after the first one, we can go directly to playing state
+            if (nextGameIndex > 0) {
+              setGameState("playing");
+              setGameStartTime(Date.now()); // Start timing immediately
+            }
+            // For the first game, we maintain the waiting/countdown logic
+          }
+        }
+      } else {
+        console.log("Document does not exist.");
+      }
+    });
+    return unsubscribe;
+  }, [teamName]);
 
   // Initialize gameStartTime from Date object
   useEffect(() => {
@@ -82,14 +136,15 @@ const GamePage: React.FC = () => {
         currentGameIndex === 0 &&
         gameState === "waiting" &&
         gameStartTime &&
-        now >= gameStartTime
+        now >= gameStartTime &&
+        gameResults.length === 0 // Make sure we haven't already played games
       ) {
         setGameState("countdown");
       }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [gameState, gameStartTime, currentGameIndex]);
+  }, [gameState, gameStartTime, currentGameIndex, gameResults]);
 
   // Handle countdown timer for first game only
   useEffect(() => {
@@ -106,7 +161,9 @@ const GamePage: React.FC = () => {
   }, [gameState, countdownTime]);
 
   // Handle game completion
-  const handleGameComplete = (): void => {
+  const handleGameComplete = async () => {
+    if (!teamName) return;
+
     // Calculate time taken
     const endTime = Date.now();
     const timeTaken = gameStartTime ? endTime - gameStartTime : 0;
@@ -114,31 +171,45 @@ const GamePage: React.FC = () => {
     const secondsNum = (timeTaken % 60000) / 1000;
     const seconds = secondsNum.toFixed(2);
 
+    // Format time properly
+    const formattedTime = `${minutes}:${secondsNum < 10 ? "0" : ""}${seconds}`;
+
     // Store result
     const result: GameResult = {
       gameId: GAMES[currentGameIndex].id,
       gameName: GAMES[currentGameIndex].name,
       timeInMs: timeTaken,
-      formattedTime: `${minutes}:${secondsNum < 10 ? "0" : ""}${seconds}`,
+      formattedTime: formattedTime,
     };
 
+    const newTotalTime = totalTimeTaken + timeTaken;
+    setTotalTimeTaken(newTotalTime);
+
     // Save to results
-    setGameResults([...gameResults, result]);
+    const newResults = [...gameResults, result];
+    setGameResults(newResults);
 
-    // In a real app, you'd submit this to your backend
-    console.log(
-      `Game completed: ${GAMES[currentGameIndex].name} in ${result.formattedTime}`
-    );
+    setGameState("submitting");
 
-    // Move to next game or finish
-    if (currentGameIndex < GAMES.length - 1) {
-      // For games after the first, go straight to playing
-      setCurrentGameIndex(currentGameIndex + 1);
+    // Save to Firebase first
+    try {
+      await setGameResultsApi(teamName, newResults, newTotalTime);
+
+      // After successful save, check if we're done or move to next game
+      if (currentGameIndex < GAMES.length - 1) {
+        // Move to next game
+        setCurrentGameIndex(currentGameIndex + 1);
+        setGameState("playing");
+        setGameStartTime(Date.now()); // Start timing immediately
+      } else {
+        // All games completed
+        setAllGamesCompleted(true);
+        setGameState("finished");
+      }
+    } catch (error) {
+      console.error("Error saving game results:", error);
+      // On error, stay in the same game to let the user try again
       setGameState("playing");
-      setGameStartTime(Date.now()); // Start timing immediately
-    } else {
-      setAllGamesCompleted(true);
-      setGameState("finished");
     }
   };
 
@@ -162,8 +233,9 @@ const GamePage: React.FC = () => {
     }
   };
 
-  // Current game component
-  const CurrentGame = GAMES[currentGameIndex].component;
+  // Get Current game component
+  const CurrentGame =
+    currentGameIndex < GAMES.length ? GAMES[currentGameIndex].component : null;
 
   if (!teamName) {
     return (
@@ -183,7 +255,9 @@ const GamePage: React.FC = () => {
               Game {currentGameIndex + 1} of {GAMES.length}
             </div>
             <div className="px-3 py-1 bg-[#191b1f] text-[#f2f2f7] rounded-md">
-              {GAMES[currentGameIndex].name}
+              {currentGameIndex < GAMES.length
+                ? GAMES[currentGameIndex].name
+                : "All Completed"}
             </div>
           </div>
         </header>
@@ -194,7 +268,7 @@ const GamePage: React.FC = () => {
             <div
               className="bg-[#191b1f] h-full"
               style={{
-                width: `${(currentGameIndex / (GAMES.length - 1)) * 100}%`,
+                width: `${(Math.min(currentGameIndex, GAMES.length - 1) / (GAMES.length - 1)) * 100}%`,
               }}
             ></div>
           </div>
@@ -244,13 +318,16 @@ const GamePage: React.FC = () => {
                 {formatCountdown(countdownTime)}
               </div>
               <p className="mt-4 text-[#f2f2f7]">
-                Prepare for: {GAMES[currentGameIndex].name}
+                Prepare for:{" "}
+                {currentGameIndex < GAMES.length
+                  ? GAMES[currentGameIndex].name
+                  : ""}
               </p>
             </div>
           )}
 
           {/* Game */}
-          {gameState === "playing" && (
+          {gameState === "playing" && CurrentGame && (
             <div>
               <div className="mb-4 flex justify-between items-center">
                 <div className="text-[#f2f2f7]">
@@ -269,6 +346,17 @@ const GamePage: React.FC = () => {
               <div className="game-container">
                 <CurrentGame />
               </div>
+            </div>
+          )}
+
+          {gameState === "submitting" && (
+            <div className="flex flex-col items-center justify-center py-24">
+              <h2 className="text-2xl mb-4 text-[#f2f2f7]">
+                Submitting Results
+              </h2>
+              <p className="text-[#f2f2f7]">
+                Please wait while we submit your results.
+              </p>
             </div>
           )}
 
@@ -303,14 +391,22 @@ const GamePage: React.FC = () => {
                         <td className="pt-3">Total</td>
                         <td className="pt-3 text-right font-mono">
                           {(() => {
+                            // Get total milliseconds
                             const totalMs = gameResults.reduce(
-                              (sum, result) => sum + result.timeInMs,
+                              (sum, result) => sum + (result.timeInMs || 0),
                               0
                             );
+
+                            // Format correctly
                             const totalMinutes = Math.floor(totalMs / 60000);
-                            const totalSecondsNum = (totalMs % 60000) / 1000;
-                            const totalSeconds = totalSecondsNum.toFixed(2);
-                            return `${totalMinutes}:${totalSecondsNum < 10 ? "0" : ""}${totalSeconds}`;
+                            const totalSecondsNum = Math.floor(
+                              (totalMs % 60000) / 1000
+                            );
+                            const totalMilliseconds = Math.floor(
+                              (totalMs % 1000) / 10
+                            );
+
+                            return `${totalMinutes}:${totalSecondsNum < 10 ? "0" : ""}${totalSecondsNum}.${totalMilliseconds < 10 ? "0" : ""}${totalMilliseconds}`;
                           })()}
                         </td>
                       </tr>

@@ -71,3 +71,20 @@ export type FormDataType = {
 export type OptionsType = {
   gameStartTime: Timestamp | Date;
 };
+
+export interface GameResult {
+  gameId: string;
+  gameName: string;
+  timeInMs: number;
+  formattedTime: string;
+}
+
+
+export type TeamDataType = {
+  name: string;
+  leaderEmail: string;
+  members: string[];
+  createdAt: Timestamp;
+  gameResults: GameResult[];
+  totalTimeTaken: number;
+};
