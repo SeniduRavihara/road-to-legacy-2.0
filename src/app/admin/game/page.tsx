@@ -1,6 +1,8 @@
+import LeaderBoard from "@/components/games/LeaderBoard"
+
 const GamePage = () => {
   return (
-    <div>GamePage</div>
+    <div><LeaderBoard /></div>
   )
 }
 export default GamePage

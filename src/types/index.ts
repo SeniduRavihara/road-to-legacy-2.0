@@ -1,10 +1,12 @@
 import { User } from "firebase/auth";
+import { Timestamp } from "firebase/firestore";
 
 export type DataContextType = {
   currentUserData: AdminDataType | null;
   setCurrentUserData: React.Dispatch<
     React.SetStateAction<AdminDataType | null>
   >;
+  options: OptionsType | null;
 };
 
 export type AuthContextType = {
@@ -38,12 +40,12 @@ export type AdminDataType = {
   name: string;
   email: string;
   isAdmin: boolean;
-}
+};
 
 export type AdminTableType = {
   name: string;
   email: string;
-  isAdmin: boolean
+  isAdmin: boolean;
 };
 
 export type FormDataType = {
@@ -64,4 +66,8 @@ export type FormDataType = {
   hearAbout: string;
   hearAboutOther: string;
   suggestions: string;
+};
+
+export type OptionsType = {
+  gameStartTime: Timestamp | Date;
 };

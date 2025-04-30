@@ -58,7 +58,7 @@ const ChatbotUI: React.FC = () => {
     // Set initial position after component mounts on client-side
     setPosition({
       x: typeof window !== "undefined" ? window.innerWidth - 110 : 20,
-      y: typeof window !== "undefined" ? window.innerHeight - 100 : 20,
+      y: typeof window !== "undefined" ? window.innerHeight - 235 : 20,
     });
 
     // Add custom scrollbar styles to document head
@@ -545,7 +545,7 @@ const ChatbotUI: React.FC = () => {
         <div className={`relative ${isOpen ? "hidden" : "flex"}`}>
           <ExportedImage
             src="/images/bot.png"
-            className="w-20 h-20"
+            className="w-14 md:w-16 h-14 md:h-16"
             width={50}
             height={50}
             alt="Bot"

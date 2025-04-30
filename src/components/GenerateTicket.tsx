@@ -63,7 +63,7 @@ export default function GenerateTicket({
       const imgData = canvas.toDataURL("image/png");
 
       // Upload image to Firebase Storage
-      const storageRef = ref(storage, `invitations/${name}-ticket.png`);
+      const storageRef = ref(storage, `invitations/${email}-ticket.png`);
       await uploadString(storageRef, imgData, "data_url");
 
       // Get the public URL of the uploaded image
@@ -74,7 +74,7 @@ export default function GenerateTicket({
       console.error("Error generating ticket:", error);
       return null;
     }
-  }, [name]);
+  }, [email]);
 
   useEffect(() => {
     generateTicketImage();

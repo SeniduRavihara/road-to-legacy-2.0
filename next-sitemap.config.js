@@ -9,6 +9,7 @@ module.exports = {
     "/register-team", // Exclude /register-team page
     "/admin", // Exclude /admin route
     "/confirm",
+    "/game",
   ],
 
   // Optional: Customize robots.txt to prevent crawling of these paths
@@ -19,7 +20,7 @@ module.exports = {
     policies: [
       {
         userAgent: "*",
-        disallow: ["/admin", "/register-team", "/confirm"], // Disallow crawling for /admin and /register-team
+        disallow: ["/admin", "/register-team", "/confirm", "game"], // Disallow crawling for /admin and /register-team
         allow: ["/", "/register"], // Allow crawling for the homepage
       },
     ],
