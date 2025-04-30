@@ -41,6 +41,7 @@ const GamePage: React.FC = () => {
 
   const searchParams = useSearchParams();
   const teamName = searchParams.get("team");
+  const editable = searchParams.get("editable") === "true";
 
   const [currentGameIndex, setCurrentGameIndex] = useState<number>(0);
   const [gameState, setGameState] = useState<

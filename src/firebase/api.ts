@@ -257,3 +257,71 @@ export const sendEmail = async (to: string, subject: string, html: string) => {
     console.log("Email sent successfully:", data);
   }
 };
+
+export const registerTeam = async (teamData: {
+  teamName: string;
+  leaderEmail: string;
+  members: string[];
+}) => {
+  try {
+    const teamRef = doc(db, "teams", teamData.teamName); 
+
+     const existingTeam = await getDoc(teamRef);
+
+     if (existingTeam.exists()) {
+       return { success: false, message: "Team already registered" };
+     }
+
+    await setDoc(teamRef, {
+      name: teamData.teamName,
+      leaderEmail: teamData.leaderEmail,
+      members: teamData.members,
+      createdAt: new Date().toISOString(),
+    });
+    console.log("Team registered with ID: ", teamRef.id);
+
+     return { success: true };
+  } catch (e) {
+    console.error("Error creating document: ", e);
+    return { success: false, message: "Failed to register team" };
+  }
+};
+
+export const loginTeam = async (loginData: {
+  teamName: string;
+  email: string;
+}) => {
+  try {
+    const team = await getTeamData(loginData.teamName);
+    if (!team) {
+      return { success: false, message: "Team not found" };
+    }
+
+    if (team.leaderEmail === loginData.email) {
+      return { success: true, leader: true };
+    } else if (team.members.includes(loginData.email)) {
+      return { success: true, leader: false };
+    } else {
+      return { success: false, message: "You are not a member of this team" };
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    return { success: false, message: "An error occurred during login" };
+  }
+};
+
+export const getTeamData = async (teamName: string) => {
+  try {
+    const teamRef = doc(db, "teams", teamName);
+    const teamDoc = await getDoc(teamRef);
+    if (teamDoc.exists()) {
+      return teamDoc.data();
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  } catch (e) {
+    console.error("Error getting document: ", e);
+    return null;
+  }
+};
