@@ -7,7 +7,7 @@ import { db } from "@/firebase/config";
 import { useData } from "@/hooks/useData";
 import { GameResult, TeamDataType } from "@/types";
 import { doc, onSnapshot } from "firebase/firestore";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 // Define types for game structure
@@ -35,10 +35,6 @@ const GamePage: React.FC = () => {
 
   const { options } = useData() as { options?: GameOptions };
 
-  const searchParams = useSearchParams();
-  const teamName = searchParams.get("team");
-  const editable = searchParams.get("editable") === "true";
-
   const [currentGameIndex, setCurrentGameIndex] = useState<number>(0);
   const [gameState, setGameState] = useState<
     "waiting" | "countdown" | "playing" | "finished" | "submitting"
@@ -48,18 +44,26 @@ const GamePage: React.FC = () => {
 
   const [countdownTime, setCountdownTime] = useState<number>(3); // 3 seconds countdown
   const [gameStartTime, setGameStartTime] = useState<number | undefined>(
-    options?.gameStartTime ? options.gameStartTime.getTime() : undefined
+    options?.gameStartTime
+      ? options.gameStartTime.getTime() // subtract 5 minutes
+      : undefined
   );
+
   const [gameResults, setGameResults] = useState<GameResult[]>([]);
   const [allGamesCompleted, setAllGamesCompleted] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<number>(Date.now());
 
-  // Redirect if no team name is provided
+  const [teamName, setTeamName] = useState<string | null>(null);
+
+  console.log(allGamesCompleted);
+
   useEffect(() => {
-    if (!teamName) {
+    const params = new URLSearchParams(window.location.search);
+    if (!params.get("team")) {
       router.push("/");
     }
-  }, [teamName, router]);
+    setTeamName(params.get("team") || "");
+  }, [router, teamName]);
 
   // Load team data from Firebase and set the proper game state
   useEffect(() => {
@@ -136,7 +140,7 @@ const GamePage: React.FC = () => {
         currentGameIndex === 0 &&
         gameState === "waiting" &&
         gameStartTime &&
-        now >= gameStartTime &&
+        now >= gameStartTime - 5 * 60 * 1000 && // 5 minutes before gameStartTime
         gameResults.length === 0 // Make sure we haven't already played games
       ) {
         setGameState("countdown");
@@ -156,6 +160,7 @@ const GamePage: React.FC = () => {
       return () => clearTimeout(timer);
     } else if (gameState === "countdown" && countdownTime === 0) {
       setGameState("playing");
+      setTotalTimeTaken(0);
       setGameStartTime(Date.now());
     }
   }, [gameState, countdownTime]);

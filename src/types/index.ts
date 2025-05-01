@@ -84,7 +84,7 @@ export type TeamDataType = {
   name: string;
   leaderEmail: string;
   members: string[];
-  createdAt: Timestamp;
+  createdAt: Timestamp | Date;
   gameResults: GameResult[];
   totalTimeTaken: number;
 };

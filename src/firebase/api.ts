@@ -258,7 +258,8 @@ export const sendEmail = async (to: string, subject: string, html: string) => {
   }
 };
 
-// ------------------------------------------------------------------------
+// -----------------------------  GAME APIS  ---------------------------------
+// ---------------------------------------------------------------------------
 
 export const registerTeam = async (teamData: {
   teamName: string;
@@ -277,7 +278,7 @@ export const registerTeam = async (teamData: {
     await setDoc(teamRef, {
       name: teamData.teamName,
       leaderEmail: teamData.leaderEmail,
-      members: teamData.members,
+      members: teamData.members.filter((email) => email !== ""),
       createdAt: new Date().toISOString(),
     });
     console.log("Team registered with ID: ", teamRef.id);
@@ -287,6 +288,7 @@ export const registerTeam = async (teamData: {
     console.error("Error creating document: ", e);
     return { success: false, message: "Failed to register team" };
   }
+  
 };
 
 // ------------------------------------------------------------------------
@@ -343,7 +345,6 @@ export const setGameResultsApi = async (
     const gameResultsRef = doc(db, "teams", teamName);
 
     console.log("Game Results:", result);
-    
 
     await updateDoc(gameResultsRef, { gameResults: result, totalTimeTaken });
     console.log("Game results updated successfully.");

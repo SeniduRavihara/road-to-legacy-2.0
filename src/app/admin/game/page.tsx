@@ -1,39 +1,30 @@
-"use client"
+"use client";
 
 import LeaderBoard from "@/components/games/LeaderBoard";
 import { db } from "@/firebase/config";
-import { collection, doc, onSnapshot } from "firebase/firestore";
+import { TeamDataType } from "@/types";
+import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 const GamePage = () => {
-
-  // const [results, setResults] = useState<>([]);
+  const [teamData, setTeamData] = useState<TeamDataType[]>([]);
 
   useEffect(() => {
-    // const documentRef = collection(db, "teams");
+    const collectionRef = collection(db, "teams");
+    const unsubscribe = onSnapshot(collectionRef, (querySnapshot) => {
+      const teamsDataArr = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+      })) as TeamDataType[];
 
-    // const unsubscribe = onSnapshot(documentRef, (documentSnapshot) => {
-    //   if (documentSnapshot.exists()) {
-    //     const data = documentSnapshot.data()
+      setTeamData(teamsDataArr);
+    });
 
-    //     const optionData: OptionsType = {
-    //       ...data,
-    //       gameStartTime: convertTimestampToDate(data.gameStartTime),
-    //     };
-
-    //     setOptions(optionData);
-    //     console.log("Options Data fetched successfully", optionData);
-    //   } else {
-    //     setCurrentUserData(null);
-    //     console.log("Document does not exist.");
-    //   }
-    // });
-    // return unsubscribe;
+    return unsubscribe;
   }, []);
 
   return (
     <div>
-      <LeaderBoard />
+      <LeaderBoard teamData={teamData} />
     </div>
   );
 };

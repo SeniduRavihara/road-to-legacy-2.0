@@ -1,6 +1,4 @@
 import RegisterTeamForm from "@/components/games/RegisterTeamForm";
-import SudokuGame from "@/components/games/SudokuGame";
-import WordPuzzle from "@/components/games/WordPuzzle";
 
 const RegisterTeam = () => {
   return (
