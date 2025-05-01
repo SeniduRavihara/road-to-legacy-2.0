@@ -28,12 +28,12 @@ const faqData: FAQItem[] = [
   {
     question: "Who are the collaboration partners for Road to Legacy?",
     answer:
-      "he event is a collaboration between the University of Sri Jayewardenepura, the University of Colombo School of Computing, and the University of Moratuwa.",
+      "The event is a collaboration between the University of Sri Jayewardenepura, the University of Colombo School of Computing, and the University of Moratuwa.",
   },
   {
-    question: "Question text goes here",
+    question: "What is the purpose of Road to Legacy?",
     answer:
-      "What is the purpose of Road to Legacy? A: The purpose is to unlock potential and shape futures, guiding first-year undergraduates to shape their journey with purpose while forging lasting connections across universities.",
+      " The purpose is to unlock potential and shape futures, guiding first-year undergraduates to shape their journey with purpose while forging lasting connections across universities.",
   },
   {
     question: "What is IT Legacy?",
