@@ -11,7 +11,6 @@ Road to Legacy 2.0 builds upon the successful foundation of its predecessor, rep
 IT LEGACY is a vibrant community dedicated to uniting first-year students from Sri Lanka's leading universities. The community fosters collaboration, continuous learning, and professional development across diverse IT fields. Our mission centers on collaborative efforts with a commitment to creating positive global impact. Rooted in shared values, we aspire to be a force for good, fostering cooperation and driving meaningful changes in Sri Lanka and beyond.
 
 ### Organizing Institutions
-
 IEEE Student Branch of UCSC  
 Established in 2011, the IEEE Student Branch at the University of Colombo School of Computing has consistently organized activities aimed at bolstering students' professional development. Beyond technological expertise, these initiatives focus on nurturing organizational, leadership, and interaction skills, contributing to comprehensive personality development.
 
@@ -104,6 +103,11 @@ Follow Us:
 - IT LEGACY: linkedin.com/company/it-legacy
 - IEEE USJ SB: linkedin.com/company/ieee-student-branch-usj
 - IEEE UCSC SB: linkedin.com/company/ieee-student-branch-ucsc/
+
+### How can register to the event
+website provide a register option to register
+
+## Note that you are the chatbot of RTL event website so act as a chatbot
 
 important -> give me answers with at around 20 words, more mimum are better, and i only need the answer to question i asked, i dont need any other information
 
