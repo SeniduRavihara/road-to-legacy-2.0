@@ -41,20 +41,21 @@ const GamePage: React.FC = () => {
     "waiting" | "countdown" | "playing" | "finished" | "submitting"
   >("waiting");
 
+  const [countdownTime, setCountdownTime] = useState<number>(3); // Default 3 seconds countdown
   const [totalTimeTaken, setTotalTimeTaken] = useState<number>(0);
-
-  const [countdownTime, setCountdownTime] = useState<number>(3); // 3 seconds countdown
   const [gameStartTime, setGameStartTime] = useState<number | undefined>(
-    options?.gameStartTime
-      ? options.gameStartTime.getTime() // subtract 5 minutes
-      : undefined
+    options?.gameStartTime ? options.gameStartTime.getTime() : undefined
   );
+  const [currentTime, setCurrentTime] = useState<number>(Date.now());
 
   const [gameResults, setGameResults] = useState<GameResult[]>([]);
   const [allGamesCompleted, setAllGamesCompleted] = useState<boolean>(false);
-  const [currentTime, setCurrentTime] = useState<number>(Date.now());
-
   const [teamName, setTeamName] = useState<string | null>(null);
+
+  // COUNTDOWN_PERIOD_MS is the period before the game start when countdown should begin (5 minutes)
+  const COUNTDOWN_PERIOD_MS = 5 * 60 * 1000;
+  // Maximum countdown time in seconds
+  const MAX_COUNTDOWN_TIME = COUNTDOWN_PERIOD_MS / 1000;
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -129,26 +130,46 @@ const GamePage: React.FC = () => {
     }
   }, [options]);
 
-  // Check if it's time to start the countdown for the first game
+  // Check game state on initialization and when time/gameStartTime updates
   useEffect(() => {
     const timer = setInterval(() => {
       const now = Date.now();
       setCurrentTime(now);
 
-      // Only for the first game, we check against gameStartTime from options
+      // Only for the first game, determine the proper state based on time
       if (
         currentGameIndex === 0 &&
-        gameState === "waiting" &&
         gameStartTime &&
-        now >= gameStartTime - 5 * 60 * 1000 && // 5 minutes before gameStartTime
         gameResults.length === 0 // Make sure we haven't already played games
       ) {
-        setGameState("countdown");
+        const timeUntilStart = gameStartTime - now;
+
+        // If the start time is in the past, we should be playing
+        if (timeUntilStart <= 0) {
+          if (gameState !== "playing") {
+            setGameState("playing");
+            setGameStartTime(now); // Start timing immediately
+          }
+        }
+        // If we're within the countdown period (5 minutes before start)
+        else if (timeUntilStart <= COUNTDOWN_PERIOD_MS) {
+          if (gameState !== "countdown") {
+            setGameState("countdown");
+            // Calculate the correct countdown time in seconds based on remaining time
+            const remainingSeconds = Math.floor(timeUntilStart / 1000);
+            setCountdownTime(remainingSeconds);
+          }
+        }
+        // Otherwise we're in waiting state
+        else if (gameState !== "waiting") {
+          setGameState("waiting");
+        }
       }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [gameState, gameStartTime, currentGameIndex, gameResults]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState, gameStartTime, currentGameIndex, gameResults, currentTime]);
 
   // Handle countdown timer for first game only
   useEffect(() => {
