@@ -8,9 +8,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { AlertCircle, CheckCircle, Loader2, Upload } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import QrScan from "react-qr-reader";
-import { Loader2, CheckCircle, AlertCircle, Upload } from "lucide-react";
 
 const ScanTicket = ({
   children,
@@ -31,7 +31,7 @@ const ScanTicket = ({
     teamName: string;
     leaderEmail: string;
     members: string[];
-  }
+  };
 }) => {
   // States for QR scanning
   const [openDialog, setOpenDialog] = useState(false);
@@ -76,12 +76,21 @@ const ScanTicket = ({
     }
   }, [status]);
 
+  const checkIsEmail = (data: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data);
+
   const validateQrData = (data: string): boolean => {
     // Basic validation - adjust based on your QR code format
     if (!data || data.length < 5) {
-      setErrorMessage("Invalid QR code format");
+      setErrorMessage("QR data is too short or empty");
       return false;
     }
+
+    if (!checkIsEmail(data)) {
+      setErrorMessage("QR data is not a valid email");
+      return false;
+    }
+
 
     // Check if it's already in the team
     if (type === "member") {
@@ -119,14 +128,8 @@ const ScanTicket = ({
         }));
         setStatus("success");
 
-        // Also update our local copy
-        setTeamData((prev) => ({
-          ...prev,
-          leaderEmail: data,
-        }));
-
         // Auto close dialog after success for leader
-        setTimeout(() => setOpenDialog(false), 1500);
+        setTimeout(() => setOpenDialog(false), 1000);
       } else {
         // Member handling
         setTeamData((prev) => {
@@ -148,7 +151,6 @@ const ScanTicket = ({
             members: updatedMembers,
           };
         });
-
 
         setStatus("success");
       }
@@ -179,13 +181,13 @@ const ScanTicket = ({
       <DialogContent className="sm:max-w-md p-6 flex flex-col items-center justify-center rounded-xl bg-[#191b1f] border-[#333842] text-gray-100">
         <DialogHeader className="w-full">
           <DialogTitle className="text-center text-xl text-gray-100">
-            {type === "leader" ? "Scan Leader Code" : "Scan Member Code"}
+            {type === "leader" ? "Scan Leader Ticket" : "Scan Member Ticket"}
           </DialogTitle>
         </DialogHeader>
 
         <div className="w-full max-w-sm">
           {/* Scan instruction */}
-          <p className="text-center text-sm text-gray-400">
+          <p className="text-center mb-2 text-sm text-gray-400">
             Position QR code in the center of the camera view
           </p>
 
@@ -209,7 +211,7 @@ const ScanTicket = ({
             {scannerReady && status === "idle" && (
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute inset-0 border-2 border-dashed border-[#2c3039] opacity-70 rounded-lg"></div>
-                <div className="absolute inset-1/4 border-2 border-[#333842] rounded-lg animate-pulse"></div>
+                {/* <div className="absolute inset-1/4 border-2 border-[#333842] rounded-lg animate-pulse"></div> */}
               </div>
             )}
           </div>

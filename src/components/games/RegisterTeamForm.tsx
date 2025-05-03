@@ -3,7 +3,7 @@
 import { loginTeam, registerTeam } from "@/firebase/api";
 import { ScanQrCode } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ScanTicket from "../team-register-components/ScanTickets";
 
 const RegisterTeamForm = () => {
@@ -20,6 +20,18 @@ const RegisterTeamForm = () => {
   });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      const timer = setTimeout(() => {
+        setError("");
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
   // Handle input changes for team name and leader
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,8 +105,11 @@ const RegisterTeamForm = () => {
     const validMembers = teamData.members.filter(
       (email) => email.trim() !== ""
     );
-    if (validMembers.length === 0) {
-      setError("Please add at least one team member");
+    if (validMembers.length < 1) {
+      setError("Please add at least 3 team member");
+      return false;
+    } else if (validMembers.length > 5) {
+      setError("Please add at most 5 team member");
       return false;
     }
 
@@ -162,9 +177,9 @@ const RegisterTeamForm = () => {
       console.log("Submitting team data:", teamDataToSubmit);
 
       // Simulate API call
-      const {success, message} = await registerTeam(teamData);
+      const { success, message } = await registerTeam(teamData);
 
-      if(!success){
+      if (!success) {
         setError(message || "Failed to register team. Please try again.");
         return;
       }

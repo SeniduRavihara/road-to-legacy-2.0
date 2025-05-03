@@ -1,5 +1,6 @@
 "use client";
 
+import SlidingPuzzle from "@/components/games/SlidingPuzzle";
 import SudokuGame from "@/components/games/SudokuGame";
 import WordPuzzle from "@/components/games/WordPuzzle";
 import { setGameResultsApi } from "@/firebase/api";
@@ -8,7 +9,7 @@ import { useData } from "@/hooks/useData";
 import { GameResult, TeamDataType } from "@/types";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // Define types for game structure
 interface Game {
@@ -27,7 +28,7 @@ const GAMES: Game[] = [
   { id: "sudoku", name: "Sudoku Puzzle", component: SudokuGame },
   { id: "wordpuzzle", name: "Tech Crossword", component: WordPuzzle },
   // Add a third game here when confirmed
-  { id: "sudoku2", name: "Advanced Sudoku", component: SudokuGame }, // Placeholder for third game
+  { id: "15puzzle", name: "15 Puzzle", component: SlidingPuzzle }, // Placeholder for third game
 ];
 
 const GamePage: React.FC = () => {
@@ -54,8 +55,6 @@ const GamePage: React.FC = () => {
   const [currentTime, setCurrentTime] = useState<number>(Date.now());
 
   const [teamName, setTeamName] = useState<string | null>(null);
-
-  console.log(allGamesCompleted);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -114,11 +113,12 @@ const GamePage: React.FC = () => {
           }
         }
       } else {
+        router.push("/");
         console.log("Document does not exist.");
       }
     });
     return unsubscribe;
-  }, [teamName]);
+  }, [router, teamName]);
 
   // Initialize gameStartTime from Date object
   useEffect(() => {
@@ -165,8 +165,8 @@ const GamePage: React.FC = () => {
     }
   }, [gameState, countdownTime]);
 
-  // Handle game completion
-  const handleGameComplete = async () => {
+  // Handle game completion - memoized to prevent recreating on every render
+  const handleGameComplete = useCallback(async () => {
     if (!teamName) return;
 
     // Calculate time taken
@@ -216,7 +216,7 @@ const GamePage: React.FC = () => {
       // On error, stay in the same game to let the user try again
       setGameState("playing");
     }
-  };
+  }, [teamName, gameStartTime, currentGameIndex, totalTimeTaken, gameResults]);
 
   // Format the countdown time for display
   const formatCountdown = (timeInSeconds: number): string => {

@@ -15,17 +15,16 @@ const HeroSection = () => {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const { loading } = useLoading();
   const [animationEnabled, setAnimationEnabled] = useState<boolean>(false);
-  const [gameOpen, setGameOpen] = useState(false);
+  const [gameOpen, ] = useState(false);
 
-  useEffect(() => {
-    // Set target time to May 31, 2025 at 00:55:00
-    const targetDateTime = new Date("2025-05-31T00:55:00");
-          setGameOpen(true);
+  // useEffect(() => {
+  //   const targetDateTime = new Date("2025-05-31T00:55:00");
+  //         setGameOpen(true);
 
-    if (Date.now() >= targetDateTime.getTime()) {
-      setGameOpen(true);
-    }
-  }, []);
+  //   if (Date.now() >= targetDateTime.getTime()) {
+  //     setGameOpen(true);
+  //   }
+  // }, []);
 
   // Start animations after loading is complete
   useEffect(() => {
