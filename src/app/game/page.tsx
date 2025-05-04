@@ -46,6 +46,9 @@ const GamePage: React.FC = () => {
   const [gameStartTime, setGameStartTime] = useState<number | undefined>(
     options?.gameStartTime ? options.gameStartTime.getTime() : undefined
   );
+  const [gameOpenTime, setGameOpenTime] = useState<number | undefined>(
+    options?.gameStartTime ? options.gameStartTime.getTime() : undefined
+  );
   const [currentTime, setCurrentTime] = useState<number>(Date.now());
 
   const [gameResults, setGameResults] = useState<GameResult[]>([]);
@@ -64,6 +67,10 @@ const GamePage: React.FC = () => {
     }
     setTeamName(params.get("team") || "");
   }, [router, teamName]);
+
+  useEffect(() => {
+    console.log("gameStartTime =>", gameStartTime);
+  }, [gameStartTime]);
 
   // Load team data from Firebase and set the proper game state
   useEffect(() => {
@@ -108,7 +115,7 @@ const GamePage: React.FC = () => {
             // For games after the first one, we can go directly to playing state
             if (nextGameIndex > 0) {
               setGameState("playing");
-              setGameStartTime(Date.now()); // Start timing immediately
+              // setGameStartTime(Date.now());
             }
             // For the first game, we maintain the waiting/countdown logic
           }
@@ -127,6 +134,7 @@ const GamePage: React.FC = () => {
       // Handle JavaScript Date object
       const timestampValue = options.gameStartTime.getTime();
       setGameStartTime(timestampValue);
+      setGameOpenTime(timestampValue);
     }
   }, [options]);
 
@@ -148,18 +156,20 @@ const GamePage: React.FC = () => {
         if (timeUntilStart <= 0) {
           if (gameState !== "playing") {
             setGameState("playing");
-            setGameStartTime(now); // Start timing immediately
+            // setTotalTimeTaken(0);
+            // setGameStartTime(now);
           }
         }
         // If we're within the countdown period (5 minutes before start)
         else if (timeUntilStart <= COUNTDOWN_PERIOD_MS) {
-          if (gameState !== "countdown") {
-            setGameState("countdown");
-            // Calculate the correct countdown time in seconds based on remaining time
-            const remainingSeconds = Math.floor(timeUntilStart / 1000);
-            setCountdownTime(remainingSeconds);
-          }
+          // if (gameState !== "countdown") {
+          setGameState("countdown");
+          // Calculate the correct countdown time in seconds based on remaining time
+          const remainingSeconds = Math.floor(timeUntilStart / 1000);
+          setCountdownTime(remainingSeconds);
+          // }
         }
+
         // Otherwise we're in waiting state
         else if (gameState !== "waiting") {
           setGameState("waiting");
@@ -168,23 +178,30 @@ const GamePage: React.FC = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameState, gameStartTime, currentGameIndex, gameResults, currentTime]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    gameState,
+    gameStartTime,
+    currentGameIndex,
+    gameResults,
+    currentTime,
+    options,
+  ]);
 
   // Handle countdown timer for first game only
-  useEffect(() => {
-    if (gameState === "countdown" && countdownTime > 0) {
-      const timer = setTimeout(() => {
-        setCountdownTime(countdownTime - 1);
-      }, 1000);
+  // useEffect(() => {
+  //   if (gameState === "countdown" && countdownTime > 0) {
+  //     const timer = setTimeout(() => {
+  //       setCountdownTime(countdownTime - 1);
+  //     }, 1000);
 
-      return () => clearTimeout(timer);
-    } else if (gameState === "countdown" && countdownTime === 0) {
-      setGameState("playing");
-      setTotalTimeTaken(0);
-      setGameStartTime(Date.now());
-    }
-  }, [gameState, countdownTime]);
+  //     return () => clearTimeout(timer);
+  //   } else if (gameState === "countdown" && countdownTime === 0) {
+  //     setGameState("playing");
+  //     setTotalTimeTaken(0);
+  //     setGameStartTime(Date.now());
+  //   }
+  // }, [gameState, countdownTime]);
 
   // Handle game completion - memoized to prevent recreating on every render
   const handleGameComplete = useCallback(async () => {
@@ -192,7 +209,11 @@ const GamePage: React.FC = () => {
 
     // Calculate time taken
     const endTime = Date.now();
-    const timeTaken = gameStartTime ? endTime - gameStartTime : 0;
+    // const timeTaken = gameStartTime ? endTime - gameStartTime : 0;
+    const lastTimeInMs = gameOpenTime
+      ? gameOpenTime + gameResults.reduce((acc, curr) => acc + curr.timeInMs, 0)
+      : 0;
+    const timeTaken = endTime - lastTimeInMs;
     const minutes = Math.floor(timeTaken / 60000);
     const secondsNum = (timeTaken % 60000) / 1000;
     const seconds = secondsNum.toFixed(2);
@@ -207,6 +228,8 @@ const GamePage: React.FC = () => {
       timeInMs: timeTaken,
       formattedTime: formattedTime,
     };
+
+    // console.log("SENUU", timeTaken2);
 
     const newTotalTime = totalTimeTaken + timeTaken;
     setTotalTimeTaken(newTotalTime);
@@ -226,7 +249,7 @@ const GamePage: React.FC = () => {
         // Move to next game
         setCurrentGameIndex(currentGameIndex + 1);
         setGameState("playing");
-        setGameStartTime(Date.now()); // Start timing immediately
+        // setGameStartTime(Date.now());
       } else {
         // All games completed
         setAllGamesCompleted(true);
@@ -237,7 +260,7 @@ const GamePage: React.FC = () => {
       // On error, stay in the same game to let the user try again
       setGameState("playing");
     }
-  }, [teamName, gameStartTime, currentGameIndex, totalTimeTaken, gameResults]);
+  }, [teamName, gameOpenTime, gameResults, currentGameIndex, totalTimeTaken]);
 
   // Format the countdown time for display
   const formatCountdown = (timeInSeconds: number): string => {
