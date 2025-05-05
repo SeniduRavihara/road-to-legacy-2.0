@@ -58,7 +58,7 @@ const GamePage: React.FC = () => {
   // COUNTDOWN_PERIOD_MS is the period before the game start when countdown should begin (5 minutes)
   const COUNTDOWN_PERIOD_MS = 5 * 60 * 1000;
   // Maximum countdown time in seconds
-  const MAX_COUNTDOWN_TIME = COUNTDOWN_PERIOD_MS / 1000;
+  // const MAX_COUNTDOWN_TIME = COUNTDOWN_PERIOD_MS / 1000;
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);

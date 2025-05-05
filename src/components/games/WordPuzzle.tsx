@@ -1,10 +1,41 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { JSX, useEffect, useRef, useState } from "react";
 
-export default function WordPuzzle() {
+// Define TypeScript interfaces for puzzle data structure
+interface ClueInfo {
+  clue: string;
+  answer: string;
+  row: number;
+  col: number;
+}
+
+interface PuzzleData {
+  grid: string[][];
+  across: {
+    [key: string]: ClueInfo;
+  };
+  down: {
+    [key: string]: ClueInfo;
+  };
+}
+
+interface GridSize {
+  rows: number;
+  cols: number;
+}
+
+interface ViewportSize {
+  width: number;
+  height: number;
+}
+
+type Direction = "across" | "down";
+type CellPosition = [number, number] | null;
+
+export default function WordPuzzle(): JSX.Element {
   // Custom tech crossword based on provided clues
-  const puzzle = {
+  const puzzle: PuzzleData = {
     // Grid layout with solution letters
     grid: [
       // 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16
@@ -297,24 +328,28 @@ export default function WordPuzzle() {
   };
 
   // State for user inputs
-  const [userInputs, setUserInputs] = useState([]);
-  const [highlightedCell, setHighlightedCell] = useState(null);
-  const [highlightedClue, setHighlightedClue] = useState(null);
-  const [highlightDirection, setHighlightDirection] = useState("across");
-  const [complete, setComplete] = useState(false);
-  const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
-  const [cellSize, setCellSize] = useState(35); // Default cell size
-  const gridContainerRef = useRef(null);
+  const [userInputs, setUserInputs] = useState<string[][]>([]);
+  const [highlightedCell, setHighlightedCell] = useState<CellPosition>(null);
+  const [highlightedClue, setHighlightedClue] = useState<string | null>(null);
+  const [highlightDirection, setHighlightDirection] =
+    useState<Direction>("across");
+  const [complete, setComplete] = useState<boolean>(false);
+  const [, setViewportSize] = useState<ViewportSize>({
+    width: 0,
+    height: 0,
+  });
+  const [cellSize, setCellSize] = useState<number>(35); // Default cell size
+  const gridContainerRef = useRef<HTMLDivElement | null>(null);
 
   // Get gridSize
-  const gridSize = {
+  const gridSize: GridSize = {
     rows: puzzle.grid.length,
     cols: puzzle.grid[0].length,
   };
 
   // Initialize the user inputs grid
   useEffect(() => {
-    const initialInputs = puzzle.grid.map((row) =>
+    const initialInputs: string[][] = puzzle.grid.map((row) =>
       row.map((cell) => (cell === "" ? "" : ""))
     );
     setUserInputs(initialInputs);
@@ -334,10 +369,11 @@ export default function WordPuzzle() {
     return () => {
       window.removeEventListener("resize", calculateCellSize);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Calculate cell size based on viewport
-  const calculateCellSize = () => {
+  const calculateCellSize = (): void => {
     if (!gridContainerRef.current) return;
 
     const containerWidth = gridContainerRef.current.clientWidth;
@@ -367,10 +403,11 @@ export default function WordPuzzle() {
     }
 
     setComplete(isComplete);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInputs]);
 
   // Handle cell input change
-  const handleCellChange = (row, col, value) => {
+  const handleCellChange = (row: number, col: number, value: string): void => {
     if (puzzle.grid[row][col] === "") return;
 
     const newInputs = [...userInputs];
@@ -384,7 +421,7 @@ export default function WordPuzzle() {
   };
 
   // Move to the next cell in the current direction
-  const moveToNextCell = (row, col) => {
+  const moveToNextCell = (row: number, col: number): void => {
     if (!highlightedClue) return;
 
     const direction = highlightDirection;
@@ -412,21 +449,23 @@ export default function WordPuzzle() {
     setHighlightedCell([nextRow, nextCol]);
 
     // Focus the next input field
-    const nextInput = document.getElementById(`cell-${nextRow}-${nextCol}`);
+    const nextInput = document.getElementById(
+      `cell-${nextRow}-${nextCol}`
+    ) as HTMLInputElement | null;
     if (nextInput) {
       nextInput.focus();
     }
   };
 
   // Handle cell click to highlight related cells
-  const handleCellClick = (row, col) => {
+  const handleCellClick = (row: number, col: number): void => {
     if (puzzle.grid[row][col] === "") return;
 
     setHighlightedCell([row, col]);
 
     // Determine which clue this cell belongs to
-    let foundClue = null;
-    let direction = highlightDirection;
+    let foundClue: string | null = null;
+    let direction: Direction = highlightDirection;
 
     // If already highlighted, toggle direction
     if (
@@ -496,7 +535,7 @@ export default function WordPuzzle() {
   };
 
   // Check if a cell should be highlighted
-  const isCellHighlighted = (row, col) => {
+  const isCellHighlighted = (row: number, col: number): boolean => {
     if (!highlightedCell || !highlightedClue) return false;
 
     const direction = highlightDirection;
@@ -523,8 +562,8 @@ export default function WordPuzzle() {
   };
 
   // Get clue number for a cell
-  const getCellNumber = (row, col) => {
-    let numbers = [];
+  const getCellNumber = (row: number, col: number): string | null => {
+    const numbers: string[] = [];
 
     Object.entries(puzzle.across).forEach(([clueNum, clue]) => {
       if (row === clue.row && col === clue.col) {
@@ -545,7 +584,7 @@ export default function WordPuzzle() {
   };
 
   // Handle click on a clue
-  const handleClueClick = (clueNum, direction) => {
+  const handleClueClick = (clueNum: string, direction: Direction): void => {
     setHighlightedClue(clueNum);
     setHighlightDirection(direction);
 
@@ -558,7 +597,7 @@ export default function WordPuzzle() {
       // Focus the first cell of the clue
       const firstInput = document.getElementById(
         `cell-${clueInfo.row}-${clueInfo.col}`
-      );
+      ) as HTMLInputElement | null;
       if (firstInput) {
         firstInput.focus();
       }
@@ -574,8 +613,8 @@ export default function WordPuzzle() {
   };
 
   // Clear all user inputs
-  const clearPuzzle = () => {
-    const emptyInputs = puzzle.grid.map((row) =>
+  const clearPuzzle = (): void => {
+    const emptyInputs: string[][] = puzzle.grid.map((row) =>
       row.map((cell) => (cell === "" ? "" : ""))
     );
     setUserInputs(emptyInputs);
@@ -583,19 +622,27 @@ export default function WordPuzzle() {
   };
 
   // Reveal solution for current puzzle
-  const revealSolution = () => {
-    const solution = puzzle.grid.map((row) => [...row]);
+  const revealSolution = (): void => {
+    const solution: string[][] = puzzle.grid.map((row) => [...row]);
     setUserInputs(solution);
   };
 
   // Handle keyboard navigation
-  const handleKeyDown = (e, row, col) => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    row: number,
+    col: number
+  ): void => {
     if (e.key === "ArrowRight") {
       let nextCol = col + 1;
       while (nextCol < puzzle.grid[0].length) {
         if (puzzle.grid[row][nextCol] !== "") {
           setHighlightedCell([row, nextCol]);
-          document.getElementById(`cell-${row}-${nextCol}`)?.focus();
+          (
+            document.getElementById(
+              `cell-${row}-${nextCol}`
+            ) as HTMLInputElement | null
+          )?.focus();
           break;
         }
         nextCol++;
@@ -605,7 +652,11 @@ export default function WordPuzzle() {
       while (prevCol >= 0) {
         if (puzzle.grid[row][prevCol] !== "") {
           setHighlightedCell([row, prevCol]);
-          document.getElementById(`cell-${row}-${prevCol}`)?.focus();
+          (
+            document.getElementById(
+              `cell-${row}-${prevCol}`
+            ) as HTMLInputElement | null
+          )?.focus();
           break;
         }
         prevCol--;
@@ -615,7 +666,11 @@ export default function WordPuzzle() {
       while (nextRow < puzzle.grid.length) {
         if (puzzle.grid[nextRow][col] !== "") {
           setHighlightedCell([nextRow, col]);
-          document.getElementById(`cell-${nextRow}-${col}`)?.focus();
+          (
+            document.getElementById(
+              `cell-${nextRow}-${col}`
+            ) as HTMLInputElement | null
+          )?.focus();
           break;
         }
         nextRow++;
@@ -625,7 +680,11 @@ export default function WordPuzzle() {
       while (prevRow >= 0) {
         if (puzzle.grid[prevRow][col] !== "") {
           setHighlightedCell([prevRow, col]);
-          document.getElementById(`cell-${prevRow}-${col}`)?.focus();
+          (
+            document.getElementById(
+              `cell-${prevRow}-${col}`
+            ) as HTMLInputElement | null
+          )?.focus();
           break;
         }
         prevRow--;
@@ -637,7 +696,11 @@ export default function WordPuzzle() {
         while (prevCol >= 0) {
           if (puzzle.grid[row][prevCol] !== "") {
             setHighlightedCell([row, prevCol]);
-            document.getElementById(`cell-${row}-${prevCol}`)?.focus();
+            (
+              document.getElementById(
+                `cell-${row}-${prevCol}`
+              ) as HTMLInputElement | null
+            )?.focus();
             break;
           }
           prevCol--;
@@ -647,7 +710,11 @@ export default function WordPuzzle() {
         while (prevRow >= 0) {
           if (puzzle.grid[prevRow][col] !== "") {
             setHighlightedCell([prevRow, col]);
-            document.getElementById(`cell-${prevRow}-${col}`)?.focus();
+            (
+              document.getElementById(
+                `cell-${prevRow}-${col}`
+              ) as HTMLInputElement | null
+            )?.focus();
             break;
           }
           prevRow--;
@@ -664,7 +731,7 @@ export default function WordPuzzle() {
 
       {complete && (
         <div className="mb-4 p-2 bg-green-900 text-green-100 rounded w-full text-center">
-          Congratulations! You've completed the crossword puzzle!
+          Congratulations! You&apos;ve completed the crossword puzzle!
         </div>
       )}
 
@@ -673,7 +740,7 @@ export default function WordPuzzle() {
         <div className="lg:w-3/5" ref={gridContainerRef}>
           <div className="overflow-auto max-h-96 pb-4">
             <div
-              className="grid gap-px bg-gray-700 border border-gray-600 inline-grid"
+              className="gap-px bg-gray-700 border border-gray-600 inline-grid"
               style={{
                 gridTemplateRows: `repeat(${gridSize.rows}, ${cellSize}px)`,
                 gridTemplateColumns: `repeat(${gridSize.cols}, ${cellSize}px)`,
@@ -706,7 +773,7 @@ export default function WordPuzzle() {
                         <input
                           id={`cell-${rowIndex}-${colIndex}`}
                           type="text"
-                          maxLength="1"
+                          maxLength={1}
                           value={userInputs[rowIndex]?.[colIndex] || ""}
                           onChange={(e) =>
                             handleCellChange(rowIndex, colIndex, e.target.value)

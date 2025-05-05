@@ -28,7 +28,7 @@ const faqData: FAQItem[] = [
   {
     question: "Who are the collaboration partners for Road to Legacy?",
     answer:
-      "The event is a collaboration between the University of Sri Jayewardenepura, the University of Colombo School of Computing, and the University of Moratuwa.",
+      "The event is a collaboration between the IEEE student branch of University of Sri Jayewardenepura, Students in University of colombo , Students in University of Moratuwa",
   },
   {
     question: "What is the purpose of Road to Legacy?",
@@ -38,7 +38,7 @@ const faqData: FAQItem[] = [
   {
     question: "What is IT Legacy?",
     answer:
-      "IT Legacy is a community that brings together first-year students from leading universities, fostering collaboration, learning, and professional growth across diverse IT fields.",
+      "A community of IT students from UOM, USJ, and UOC, united to explore technology, innovation, and collaboration.",
   },
 ];
 

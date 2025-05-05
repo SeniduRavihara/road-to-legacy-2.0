@@ -6,26 +6,31 @@ export default function SlidingPuzzle() {
   // Game grid size
   const SIZE = 4;
 
+  // Types for TypeScript
+  type PuzzleGrid = number[][];
+  type Position = { row: number; col: number };
+
   // Puzzle state (numbers 1-15 and 0 for empty)
-  const [puzzle, setPuzzle] = useState([]);
+  const [puzzle, setPuzzle] = useState<PuzzleGrid>([]);
 
   // Position of the empty tile
-  const [emptyPos, setEmptyPos] = useState({ row: SIZE - 1, col: SIZE - 1 });
+  const [emptyPos, setEmptyPos] = useState<Position>({ row: 3, col: 3 });
 
   // Move counter
-  const [moves, setMoves] = useState(0);
+  const [moves, setMoves] = useState<number>(0);
 
   // Game state
-  const [gameWon, setGameWon] = useState(false);
-  const [message, setMessage] = useState("");
+  const [gameWon, setGameWon] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
 
   // Initialize puzzle on first load
   useEffect(() => {
     initializePuzzle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Check if puzzle is solved
-  const checkWin = (board) => {
+  const checkWin = (board: PuzzleGrid): boolean => {
     // The solved state has numbers 1-15 in order, followed by empty (0)
     for (let i = 0; i < SIZE; i++) {
       for (let j = 0; j < SIZE; j++) {
@@ -40,101 +45,29 @@ export default function SlidingPuzzle() {
     return true;
   };
 
-  // Shuffle the puzzle (Fisher-Yates shuffle)
-  const shufflePuzzle = () => {
-    // Create solved puzzle first
-    const numbers = Array.from({ length: SIZE * SIZE - 1 }, (_, i) => i + 1);
-    numbers.push(0); // Add empty space
+  // Initialize a specific solvable puzzle configuration
+  const initializePuzzle = (): void => {
+    // This is a guaranteed solvable configuration
+    // It has an even number of inversions + row of empty space from bottom
+    const solvablePuzzle: PuzzleGrid = [
+      [5, 10, 1, 3],
+      [2, 15, 12, 6],
+      [13, 11, 9, 8],
+      [14, 7, 4, 0],
+    ];
 
-    // Shuffle
-    for (let i = numbers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
-    }
+    // Empty tile position
+    const emptyTilePos: Position = { row: 3, col: 3 };
 
-    // Convert to 2D grid
-    const newPuzzle = [];
-    let emptyRow = 0;
-    let emptyCol = 0;
-
-    for (let i = 0; i < SIZE; i++) {
-      const row = [];
-      for (let j = 0; j < SIZE; j++) {
-        const value = numbers[i * SIZE + j];
-        row.push(value);
-        if (value === 0) {
-          emptyRow = i;
-          emptyCol = j;
-        }
-      }
-      newPuzzle.push(row);
-    }
-
-    // Make sure the puzzle is solvable
-    // For 4x4 puzzles, if the number of inversions + row of empty square is odd,
-    // the puzzle is unsolvable, so we make an additional swap if needed
-    const inversions = countInversions(numbers);
-    const parity = (inversions + emptyRow) % 2;
-
-    if (parity !== 0) {
-      // Swap two adjacent non-empty tiles to make it solvable
-      let pos1 = 0;
-      let pos2 = 1;
-
-      // Find two adjacent numbers to swap
-      while (numbers[pos1] === 0 || numbers[pos2] === 0) {
-        pos1++;
-        pos2 = pos1 + 1;
-        if (pos2 >= numbers.length) {
-          pos1 = 0;
-          pos2 = 1;
-        }
-      }
-
-      // Get their positions in the grid
-      const row1 = Math.floor(pos1 / SIZE);
-      const col1 = pos1 % SIZE;
-      const row2 = Math.floor(pos2 / SIZE);
-      const col2 = pos2 % SIZE;
-
-      // Swap them
-      [newPuzzle[row1][col1], newPuzzle[row2][col2]] = [
-        newPuzzle[row2][col2],
-        newPuzzle[row1][col1],
-      ];
-    }
-
-    return { puzzle: newPuzzle, emptyPos: { row: emptyRow, col: emptyCol } };
-  };
-
-  // Count inversions in the puzzle (required to check if puzzle is solvable)
-  const countInversions = (numbers) => {
-    const puzzleWithoutEmpty = numbers.filter((num) => num !== 0);
-    let inversions = 0;
-
-    for (let i = 0; i < puzzleWithoutEmpty.length; i++) {
-      for (let j = i + 1; j < puzzleWithoutEmpty.length; j++) {
-        if (puzzleWithoutEmpty[i] > puzzleWithoutEmpty[j]) {
-          inversions++;
-        }
-      }
-    }
-
-    return inversions;
-  };
-
-  // Initialize new puzzle
-  const initializePuzzle = () => {
-    const { puzzle: newPuzzle, emptyPos: newEmptyPos } = shufflePuzzle();
-    setPuzzle(newPuzzle);
-    setEmptyPos(newEmptyPos);
+    setPuzzle(solvablePuzzle);
+    setEmptyPos(emptyTilePos);
     setMoves(0);
     setGameWon(false);
     setMessage("");
   };
 
   // Handle tile click
-  const handleTileClick = (row, col) => {
+  const handleTileClick = (row: number, col: number): void => {
     if (gameWon) return;
 
     // Check if the clicked tile is adjacent to the empty space
@@ -188,15 +121,6 @@ export default function SlidingPuzzle() {
             </div>
           ))
         )}
-      </div>
-
-      <div className="flex gap-2 mb-4">
-        <button
-          onClick={initializePuzzle}
-          className="px-4 py-2 bg-emerald-700 text-gray-100 rounded hover:bg-emerald-600"
-        >
-          New Game
-        </button>
       </div>
 
       <div className="text-sm text-gray-400">

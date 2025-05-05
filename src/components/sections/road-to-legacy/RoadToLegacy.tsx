@@ -376,14 +376,14 @@ const RoadToLegacy: React.FC = () => {
           </div>
 
           <h2 className="text-2xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-100 hover-scale">
-            Road To Legacy Connection
+            Road Legacy 2.0
           </h2>
 
           <p className="text-base text-center max-w-2xl leading-relaxed opacity-80 hover:opacity-100 transition-opacity duration-300">
-            Road To Legacy connects IT students from UOM, USJ, and UOC,
-            fostering collaboration, networking, and professional growth. Our
-            platform unites tech enthusiasts, keeping them informed and engaged
-            with the evolving industry.
+            An inspiring event for first-year undergrads passionate about
+            Information Technology! This is your guide to planning the next 3-4
+            years of university life, with opportunities to connect and grow
+            with peers from different universities. 🚀
           </p>
 
           <a

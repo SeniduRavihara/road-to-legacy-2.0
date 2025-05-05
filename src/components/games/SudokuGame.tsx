@@ -1,10 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
+import { JSX, useEffect, useState } from "react";
 
-export default function SudokuGame() {
+// Define TypeScript types
+type CellValue = 0 | 1 | 2 | 3 | 4;
+type SudokuGrid = CellValue[][];
+type LockGrid = boolean[][];
+
+export default function SudokuGame(): JSX.Element {
   // Initial puzzle state (0 represents empty cells)
-  const [puzzle, setPuzzle] = useState([
+  const [puzzle, setPuzzle] = useState<SudokuGrid>([
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
@@ -12,7 +18,7 @@ export default function SudokuGame() {
   ]);
 
   // Locked cells (cells that cannot be edited)
-  const [locked, setLocked] = useState([
+  const [locked, setLocked] = useState<LockGrid>([
     [false, false, false, false],
     [false, false, false, false],
     [false, false, false, false],
@@ -20,21 +26,56 @@ export default function SudokuGame() {
   ]);
 
   // Game state
-  const [gameWon, setGameWon] = useState(false);
-  const [message, setMessage] = useState("");
+  const [gameWon, setGameWon] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+
+  // Mobile optimization - track screen size
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  // Track selected cell for number pad input
+  const [selectedCell, setSelectedCell] = useState<{
+    row: number;
+    col: number;
+  } | null>(null);
+
+  // Update screen size detection
+  useEffect(() => {
+    const checkIsMobile = (): void => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    // Initial check
+    checkIsMobile();
+
+    // Listen for resize events
+    window.addEventListener("resize", checkIsMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
 
   // Generate a new puzzle on first load
   useEffect(() => {
     generateNewPuzzle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Check if the puzzle is solved correctly
-  const checkSolution = () => {
+  const checkSolution = (): boolean => {
+    // First check that no cells are empty
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 4; j++) {
+        if (puzzle[i][j] === 0) {
+          return false;
+        }
+      }
+    }
+
     // Check rows
     for (let i = 0; i < 4; i++) {
-      const rowSet = new Set();
+      const rowSet = new Set<number>();
       for (let j = 0; j < 4; j++) {
-        if (puzzle[i][j] === 0 || rowSet.has(puzzle[i][j])) {
+        if (rowSet.has(puzzle[i][j])) {
           return false;
         }
         rowSet.add(puzzle[i][j]);
@@ -43,9 +84,9 @@ export default function SudokuGame() {
 
     // Check columns
     for (let j = 0; j < 4; j++) {
-      const colSet = new Set();
+      const colSet = new Set<number>();
       for (let i = 0; i < 4; i++) {
-        if (puzzle[i][j] === 0 || colSet.has(puzzle[i][j])) {
+        if (colSet.has(puzzle[i][j])) {
           return false;
         }
         colSet.add(puzzle[i][j]);
@@ -55,12 +96,12 @@ export default function SudokuGame() {
     // Check 2x2 subgrids
     for (let blockRow = 0; blockRow < 2; blockRow++) {
       for (let blockCol = 0; blockCol < 2; blockCol++) {
-        const blockSet = new Set();
+        const blockSet = new Set<number>();
         for (let i = 0; i < 2; i++) {
           for (let j = 0; j < 2; j++) {
             const row = blockRow * 2 + i;
             const col = blockCol * 2 + j;
-            if (puzzle[row][col] === 0 || blockSet.has(puzzle[row][col])) {
+            if (blockSet.has(puzzle[row][col])) {
               return false;
             }
             blockSet.add(puzzle[row][col]);
@@ -73,8 +114,8 @@ export default function SudokuGame() {
   };
 
   // Generate a solved puzzle
-  const generateSolvedPuzzle = () => {
-    const solved = [
+  const generateSolvedPuzzle = (): SudokuGrid => {
+    const solved: SudokuGrid = [
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
@@ -83,7 +124,9 @@ export default function SudokuGame() {
 
     // Fill the grid with a valid solution
     // First row is random
-    const firstRow = [1, 2, 3, 4].sort(() => Math.random() - 0.5);
+    const firstRow = [1, 2, 3, 4].sort(
+      () => Math.random() - 0.5
+    ) as CellValue[];
     solved[0] = [...firstRow];
 
     // Second row - shift by 2
@@ -108,10 +151,12 @@ export default function SudokuGame() {
   };
 
   // Generate a new puzzle by removing some numbers from a solved puzzle
-  const generateNewPuzzle = () => {
+  const generateNewPuzzle = (): void => {
     const solved = generateSolvedPuzzle();
-    const newPuzzle = solved.map((row) => [...row]);
-    const newLocked = locked.map((row) => row.map(() => true));
+    const newPuzzle: SudokuGrid = solved.map((row) => [...row]) as SudokuGrid;
+    const newLocked: LockGrid = Array(4)
+      .fill(0)
+      .map(() => Array(4).fill(true));
 
     // Remove some numbers (leaving only 6-8 numbers)
     const emptyCells = 10; // Remove 10 numbers from the 16 cells
@@ -132,10 +177,11 @@ export default function SudokuGame() {
     setLocked(newLocked);
     setGameWon(false);
     setMessage("");
+    setSelectedCell(null);
   };
 
   // Handle cell value change
-  const handleCellChange = (row, col, value) => {
+  const handleCellChange = (row: number, col: number, value: string): void => {
     if (locked[row][col]) return;
 
     const newValue = value === "" ? 0 : parseInt(value);
@@ -145,30 +191,32 @@ export default function SudokuGame() {
       return;
     }
 
-    const newPuzzle = puzzle.map((r, i) =>
-      r.map((c, j) => (i === row && j === col ? newValue : c))
-    );
+    const newPuzzle: SudokuGrid = puzzle.map((r, i) =>
+      r.map((c, j) => (i === row && j === col ? (newValue as CellValue) : c))
+    ) as SudokuGrid;
 
     setPuzzle(newPuzzle);
 
-    // Check if puzzle is solved
-    if (checkSolution()) {
-      setGameWon(true);
-      setMessage("Congratulations! You solved the puzzle!");
-    }
+    // Check if puzzle is solved after a short delay to allow UI update
+    setTimeout(() => {
+      if (checkSolution()) {
+        setGameWon(true);
+        setMessage("Congratulations! You solved the puzzle!");
+      }
+    }, 100);
   };
 
   // Check if there are any mistakes
-  const checkMistakes = () => {
+  const checkMistakes = (): void => {
     // Create a copy of the puzzle
-    const tempPuzzle = puzzle.map((row) => [...row]);
+    const tempPuzzle: SudokuGrid = puzzle.map((row) => [...row]) as SudokuGrid;
 
     // Check if any filled cell violates Sudoku rules
     let mistakes = false;
 
     // Check rows
     for (let i = 0; i < 4; i++) {
-      const rowValues = {};
+      const rowValues: Record<number, boolean> = {};
       for (let j = 0; j < 4; j++) {
         if (tempPuzzle[i][j] !== 0) {
           if (rowValues[tempPuzzle[i][j]]) {
@@ -184,7 +232,7 @@ export default function SudokuGame() {
     // Check columns
     if (!mistakes) {
       for (let j = 0; j < 4; j++) {
-        const colValues = {};
+        const colValues: Record<number, boolean> = {};
         for (let i = 0; i < 4; i++) {
           if (tempPuzzle[i][j] !== 0) {
             if (colValues[tempPuzzle[i][j]]) {
@@ -202,7 +250,7 @@ export default function SudokuGame() {
     if (!mistakes) {
       for (let blockRow = 0; blockRow < 2; blockRow++) {
         for (let blockCol = 0; blockCol < 2; blockCol++) {
-          const blockValues = {};
+          const blockValues: Record<number, boolean> = {};
           for (let i = 0; i < 2; i++) {
             for (let j = 0; j < 2; j++) {
               const row = blockRow * 2 + i;
@@ -223,6 +271,18 @@ export default function SudokuGame() {
       }
     }
 
+    // Check if all cells are filled and no mistakes
+    if (!mistakes) {
+      const allFilled = tempPuzzle.every((row) =>
+        row.every((cell) => cell !== 0)
+      );
+      if (allFilled && checkSolution()) {
+        setGameWon(true);
+        setMessage("Congratulations! You solved the puzzle!");
+        return;
+      }
+    }
+
     setMessage(
       mistakes
         ? "There are mistakes in your puzzle."
@@ -231,13 +291,49 @@ export default function SudokuGame() {
   };
 
   // Clear all unlocked cells
-  const clearCells = () => {
-    const newPuzzle = puzzle.map((row, i) =>
+  const clearCells = (): void => {
+    const newPuzzle: SudokuGrid = puzzle.map((row, i) =>
       row.map((cell, j) => (locked[i][j] ? cell : 0))
-    );
+    ) as SudokuGrid;
     setPuzzle(newPuzzle);
     setMessage("");
     setGameWon(false);
+    setSelectedCell(null);
+  };
+
+  // Dynamic cell size based on screen size
+  const getCellSize = (): string => {
+    return isMobile ? "w-14 h-14" : "w-16 h-16";
+  };
+
+  // Number pad for mobile devices
+  const renderNumberPad = (): JSX.Element | null => {
+    if (!isMobile) return null;
+
+    return (
+      <div className="flex justify-center gap-2 my-4">
+        {[1, 2, 3, 4].map((num) => (
+          <button
+            key={num}
+            className="w-12 h-12 bg-gray-700 rounded-full text-xl font-bold flex items-center justify-center"
+            onClick={() => {
+              if (selectedCell) {
+                // Use the selected cell to update the value
+                const { row, col } = selectedCell;
+                if (!locked[row][col]) {
+                  handleCellChange(row, col, num.toString());
+                }
+              } else {
+                // If no cell is selected, show a message
+                setMessage("Please select a cell first");
+              }
+            }}
+          >
+            {num}
+          </button>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -245,18 +341,18 @@ export default function SudokuGame() {
       <h1 className="text-2xl font-bold mb-4 text-gray-100">4x4 Sudoku</h1>
 
       {gameWon && (
-        <div className="mb-4 p-2 bg-green-900 text-green-100 rounded">
+        <div className="mb-4 p-2 bg-green-900 text-green-100 rounded w-full text-center">
           {message}
         </div>
       )}
 
       {!gameWon && message && (
-        <div className="mb-4 p-2 bg-yellow-900 text-yellow-100 rounded">
+        <div className="mb-4 p-2 bg-yellow-900 text-yellow-100 rounded w-full text-center">
           {message}
         </div>
       )}
 
-      <div className="grid grid-cols-4 gap-px bg-gray-700 border border-gray-600 mb-4">
+      <div className="grid grid-cols-4 gap-px bg-gray-700 border border-gray-600 mb-4 shadow-lg">
         {puzzle.map((row, rowIndex) =>
           row.map((cell, colIndex) => {
             // Determine background color based on position
@@ -268,47 +364,74 @@ export default function SudokuGame() {
               <input
                 key={`${rowIndex}-${colIndex}`}
                 type="text"
+                inputMode="numeric"
+                pattern="[1-4]*"
                 value={cell === 0 ? "" : cell}
                 onChange={(e) =>
                   handleCellChange(rowIndex, colIndex, e.target.value)
                 }
-                className={`w-12 h-12 text-center text-xl font-bold border border-gray-700 focus:outline-none focus:border-blue-400 text-gray-100 ${
-                  locked[rowIndex][colIndex] ? "bg-gray-800" : "bg-gray-900"
-                } ${isEvenBlock ? "bg-gray-800" : "bg-gray-900"}`}
+                onClick={() =>
+                  !locked[rowIndex][colIndex] &&
+                  setSelectedCell({ row: rowIndex, col: colIndex })
+                }
+                className={cn(
+                  getCellSize(),
+                  "text-center text-2xl font-bold border border-gray-700 focus:outline-none focus:border-blue-400 text-gray-100",
+                  locked[rowIndex][colIndex] ? "bg-gray-800" : "bg-gray-900",
+                  // isEvenBlock && "bg-gray-800",
+                  {
+                    // "bg-gray-800": locked[rowIndex][colIndex] || isEvenBlock,
+                    // "bg-gray-900": !locked[rowIndex][colIndex] && !isEvenBlock,
+                    "ring-2 ring-blue-500":
+                      selectedCell?.row === rowIndex &&
+                      selectedCell?.col === colIndex,
+                  }
+                )}
                 disabled={locked[rowIndex][colIndex]}
-                maxLength="1"
+                maxLength={1}
+                aria-label={`Cell at row ${rowIndex + 1}, column ${colIndex + 1}`}
               />
             );
           })
         )}
       </div>
 
-      <div className="flex gap-2 mb-4">
+      {renderNumberPad()}
+
+      <div className="flex flex-wrap gap-2 mb-4 justify-center">
         <button
           onClick={checkMistakes}
-          className="px-4 py-2 bg-indigo-700 text-gray-100 rounded hover:bg-indigo-600"
+          className="px-4 py-2 bg-indigo-700 text-gray-100 rounded hover:bg-indigo-600 shadow-md"
+          aria-label="Check for mistakes"
         >
           Check
         </button>
         <button
           onClick={clearCells}
-          className="px-4 py-2 bg-amber-700 text-gray-100 rounded hover:bg-amber-600"
+          className="px-4 py-2 bg-amber-700 text-gray-100 rounded hover:bg-amber-600 shadow-md"
+          aria-label="Clear all filled cells"
         >
           Clear
         </button>
         <button
           onClick={generateNewPuzzle}
-          className="px-4 py-2 bg-emerald-700 text-gray-100 rounded hover:bg-emerald-600"
+          className="px-4 py-2 bg-emerald-700 text-gray-100 rounded hover:bg-emerald-600 shadow-md"
+          aria-label="Start a new game"
         >
           New Game
         </button>
       </div>
 
-      <div className="text-sm text-gray-400">
+      <div className="text-sm text-gray-400 text-center">
         <p>
           Fill in the grid so that every row, column, and 2x2 box contains the
           digits 1-4.
         </p>
+        {isMobile && (
+          <p className="mt-2">
+            Tap a cell to select it, then use the number pad below.
+          </p>
+        )}
       </div>
     </div>
   );

@@ -27,6 +27,8 @@ export const metadata: Metadata = {
     "RTL 2.0",
     "Legacy 2.0",
     "ITLegacy",
+    "itlegacy event",
+    "road to legacy event",
     "IT career event",
     "Sri Lanka events",
     "university workshops",
