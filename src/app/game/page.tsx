@@ -52,7 +52,7 @@ const GamePage: React.FC = () => {
   const [currentTime, setCurrentTime] = useState<number>(Date.now());
 
   const [gameResults, setGameResults] = useState<GameResult[]>([]);
-  const [allGamesCompleted, setAllGamesCompleted] = useState<boolean>(false);
+  const [, setAllGamesCompleted] = useState<boolean>(false);
   const [teamName, setTeamName] = useState<string | null>(null);
 
   // COUNTDOWN_PERIOD_MS is the period before the game start when countdown should begin (5 minutes)

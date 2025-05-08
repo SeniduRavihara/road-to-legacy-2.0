@@ -369,7 +369,7 @@ export default function WordPuzzle(): JSX.Element {
     return () => {
       window.removeEventListener("resize", calculateCellSize);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Calculate cell size based on viewport
@@ -403,7 +403,7 @@ export default function WordPuzzle(): JSX.Element {
     }
 
     setComplete(isComplete);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInputs]);
 
   // Handle cell input change

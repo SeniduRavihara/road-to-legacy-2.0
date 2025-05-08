@@ -104,23 +104,23 @@ const Footer = () => {
           </div>
 
           {/* IEEE logos */}
-          <div className="flex flex-col items-center space-y-2 my-4">
+          <div className="flex flex-col items-center space-y-2 my-4 w-full">
             <p className="text-sm text-gray-300">Powered by</p>
-            <div className="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4">
+            <div className="w-full flex flex-col items-center justify-center space-y-3 md:space-y-0 md:space-x-4">
+              <ExportedImage
+                src="/images/logos/ieee-logo-white.png"
+                alt="IEEE Logo"
+                width={200}
+                height={40}
+                className="object-contain w-[400px]"
+              />
+              <span className="text-gray-300">and</span>
               <ExportedImage
                 src="/images/logos/LogoXSmall.png"
                 alt="Logo"
                 width={200}
                 height={40}
-                className="object-contain"
-              />
-              <span className="text-gray-300">and</span>
-              <ExportedImage
-                src="/images/logos/ieee-logo-white.png"
-                alt="IEEE Logo"
-                width={300}
-                height={40}
-                className="object-contain"
+                className="object-contain w-[150px]"
               />
             </div>
           </div>

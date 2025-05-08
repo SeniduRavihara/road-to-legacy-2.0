@@ -356,9 +356,9 @@ export default function SudokuGame(): JSX.Element {
         {puzzle.map((row, rowIndex) =>
           row.map((cell, colIndex) => {
             // Determine background color based on position
-            const blockRow = Math.floor(rowIndex / 2);
-            const blockCol = Math.floor(colIndex / 2);
-            const isEvenBlock = (blockRow + blockCol) % 2 === 0;
+            // const blockRow = Math.floor(rowIndex / 2);
+            // const blockCol = Math.floor(colIndex / 2);
+            // const isEvenBlock = (blockRow + blockCol) % 2 === 0;
 
             return (
               <input

@@ -95,7 +95,7 @@ export const columns: (
             // Show a confirmation dialog before toggling
             const confirmToggle = window.confirm(
               `Are you sure you want to mark ${selectedDelegate.email} as ${
-                selectedDelegate.arrived ? "not Selected" : "Selected"
+                selectedDelegate.selected ? "not Selected" : "Selected"
               }`
             );
 
