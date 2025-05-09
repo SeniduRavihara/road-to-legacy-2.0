@@ -38,291 +38,805 @@ export default function WordPuzzle(): JSX.Element {
   const puzzle: PuzzleData = {
     // Grid layout with solution letters
     grid: [
-      // 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16
-      ["", "", "R", "", "", "", "V", "", "", "K", "", "", "F", "", "", "", ""], // 0
-      ["", "", "A", "", "", "", "I", "", "", "E", "", "", "U", "", "", "", ""], // 1
+      // 0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "S",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 0
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "Y",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 1
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "N",
+        " ",
+        " ",
+        " ",
+        " ",
+        "M",
+        " ",
+        " ",
+        " ",
+      ], // 2
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "C",
+        " ",
+        " ",
+        "T",
+        " ",
+        " ",
+        " ",
+        " ",
+        "E",
+        " ",
+        " ",
+        " ",
+      ], // 3
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "V",
+        "I",
+        "R",
+        "T",
+        "U",
+        "A",
+        "L",
+        "I",
+        "Z",
+        "A",
+        "T",
+        "I",
+        "O",
+        "N",
+      ], // 4
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "Y",
+        " ",
+        " ",
+        "X",
+        " ",
+        " ",
+        " ",
+        " ",
+        "A",
+        " ",
+        " ",
+        " ",
+      ], // 5
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "P",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "D",
+        " ",
+        " ",
+        " ",
+      ], // 6
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "T",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "A",
+        " ",
+        " ",
+        " ",
+      ], // 7
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "S",
+        "A",
+        "N",
+        "D",
+        "B",
+        "O",
+        "X",
+        "I",
+        "N",
+        "G",
+        " ",
+        " ",
+        " ",
+        "T",
+        " ",
+        " ",
+        " ",
+      ], // 8
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "U",
+        " ",
+        " ",
+        " ",
+        "J",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "A",
+        " ",
+        " ",
+        " ",
+      ], // 9
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "T",
+        " ",
+        " ",
+        " ",
+        "A",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 10
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "H",
+        " ",
+        " ",
+        " ",
+        "C",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 11
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "E",
+        " ",
+        " ",
+        " ",
+        "K",
+        "E",
+        "R",
+        "N",
+        "E",
+        "L",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 12
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "N",
+        " ",
+        " ",
+        " ",
+        "I",
+        " ",
+        " ",
+        " ",
+        " ",
+        "A",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 13
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "T",
+        " ",
+        " ",
+        " ",
+        "N",
+        " ",
+        " ",
+        " ",
+        " ",
+        "T",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 14
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "I",
+        " ",
+        " ",
+        " ",
+        "G",
+        " ",
+        " ",
+        " ",
+        " ",
+        "E",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 15
       [
         "T",
-        "R",
-        "E",
-        "E",
-        "",
-        "",
-        "R",
-        "",
-        "",
-        "R",
-        "",
-        "",
-        "Z",
-        "",
-        "",
-        "",
-        "",
-      ], // 2
-      ["", "", "S", "", "", "", "T", "", "", "N", "", "", "Z", "", "", "", ""], // 3
-      ["", "", "O", "", "", "", "U", "", "", "E", "", "", "I", "", "", "", ""], // 4
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "C",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "N",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 16
       [
-        "",
-        "",
+        "R",
+        "A",
+        "N",
+        "S",
+        "O",
         "M",
-        "I",
-        "D",
-        "D",
-        "L",
-        "E",
         "W",
         "A",
         "R",
         "E",
-        "N",
-        "",
-        "",
-        "",
-        "",
-      ], // 5
-      ["", "", "W", "", "", "", "L", "", "", "C", "", "", "G", "", "", "", ""], // 6
-      [
-        "",
-        "",
-        "A",
-        "U",
-        "T",
-        "H",
-        "E",
-        "N",
-        "T",
-        "I",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
         "C",
-        "A",
-        "T",
-        "I",
-        "O",
-        "N",
-        "",
-      ], // 7
-      ["", "", "R", "", "", "", "", "", "", "H", "", "", "", "", "", "", ""], // 8
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 17
       [
-        "C",
-        "R",
         "E",
+        " ",
+        " ",
+        " ",
+        " ",
+        "I",
+        " ",
+        "T",
+        " ",
+        " ",
+        " ",
+        " ",
         "P",
-        "T",
+        "R",
         "O",
-        "J",
-        "A",
-        "C",
+        "X",
+        "Y",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 18
+      [
         "E",
+        " ",
+        " ",
+        " ",
+        " ",
+        "D",
+        " ",
+        "I",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "E",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 19
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "D",
+        " ",
+        "O",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "D",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 20
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "L",
+        " ",
+        "N",
+        " ",
+        " ",
+        " ",
+        " ",
+        "F",
+        "U",
+        "Z",
+        "Z",
         "I",
         "N",
         "G",
-        "",
-        "",
-        "",
-        "",
-      ], // 9
-      ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""], // 10
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 21
       [
-        "",
-        "",
-        "P",
-        "R",
-        "O",
-        "X",
-        "Y",
-        "",
-        "S",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-      ], // 11
-      ["", "", "", "", "", "", "", "", "U", "", "", "", "", "", "", "", ""], // 12
-      [
-        "R",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
         "E",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "N",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 22
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "W",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
         "D",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 23
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        "C",
+        "A",
+        "C",
+        "H",
+        "E",
+        " ",
+        " ",
+        " ",
+        " ",
+        "A",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 24
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "R",
+        " ",
+        " ",
+        " ",
+        " ",
+        "S",
         "U",
+        "B",
         "N",
-        "D",
-        "A",
+        "E",
+        "T",
+        "T",
+        "I",
         "N",
+        "G",
+        " ",
+        " ",
+        " ",
+      ], // 25
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "E",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
         "C",
-        "Y",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-      ], // 13
-      ["", "", "", "", "", "", "", "", "N", "", "", "", "", "", "", "", ""], // 14
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 26
       [
-        "L",
-        "A",
-        "T",
-        "E",
-        "N",
-        "C",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
         "Y",
-        "",
-        "E",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-      ], // 15
-      ["", "", "", "", "", "", "", "", "T", "", "", "", "", "", "", "", ""], // 16
-      [
-        "S",
-        "Y",
-        "N",
-        "T",
-        "A",
-        "X",
-        "",
-        "",
-        "T",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-      ], // 17
-      ["", "", "", "", "", "", "", "", "I", "", "", "", "", "", "", "", ""], // 18
-      [
-        "M",
-        "E",
-        "T",
-        "A",
-        "D",
-        "A",
-        "T",
-        "A",
-        "N",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-      ], // 19
-      ["", "", "", "", "", "", "", "", "G", "", "", "", "", "", "", "", ""], // 20
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+      ], // 27
+      
+
+
     ],
     // Across clues
     across: {
       "1": {
-        clue: "A database structure that organizes data in a hierarchical format using nodes and branches.",
-        answer: "TREE",
-        row: 2,
-        col: 0,
+        clue: "A technology that allows running multiple operating systems on one physical machine.",
+        answer: "VIRTUALIZATION",
+        row: 4,
+        col: 9,
+      },
+      "2": {
+        clue: "The process of running a program in an isolated environment to test its behavior without affecting the system.",
+        answer: "SANDBOXING",
+        row: 8,
+        col: 6,
+      },
+      "3": {
+        clue: "The core component of an OS that manages system resources.",
+        answer: "KERNEL",
+        row: 12,
+        col: 11,
       },
       "4": {
-        clue: "Software that acts as an intermediary between different applications or components.",
-        answer: "MIDDLEWARE",
-        row: 5,
-        col: 3,
-      },
-      "6": {
-        clue: "The process of verifying the identity of a user, system, or application.",
-        answer: "AUTHENTICATION",
-        row: 7,
-        col: 2,
-      },
-      "9": {
-        clue: "The unauthorized use of a computer or network to mine cryptocurrency.",
-        answer: "CRYPTOJACKING",
-        row: 9,
-        col: 0,
-      },
-      "11": {
-        clue: "A software that acts as an intermediary between a user's device and the internet.",
-        answer: "PROXY",
-        row: 11,
-        col: 2,
-      },
-      "13": {
-        clue: "The inclusion of extra components or resources to ensure system reliability.",
-        answer: "REDUNDANCY",
-        row: 13,
-        col: 0,
-      },
-      "14": {
-        clue: "The delay between the input into a system and the desired outcome.",
-        answer: "LATENCY",
-        row: 15,
-        col: 0,
-      },
-      "15": {
-        clue: "The set of rules that govern the structure of statements in a programming language.",
-        answer: "SYNTAX",
+        clue: "A type of malicious software that locks or encrypts a user's files and demands payment for access.",
+        answer: "RANSOMWARE",
         row: 17,
         col: 0,
       },
-      "16": {
-        clue: "A set of data that describes and gives information about other data.",
-        answer: "METADATA",
-        row: 19,
-        col: 0,
-      },
-    },
-    // Down clues
-    down: {
-      "2": {
-        clue: "A type of malicious software that locks or encrypts a user's files and demands payment for access.",
-        answer: "RANSOMWARE",
-        row: 2,
-        col: 2,
-      },
-      "3": {
-        clue: "A storage location that temporarily holds data for quick access.",
-        answer: "CACHE",
-        row: 1,
-        col: 9,
-      },
       "5": {
-        clue: "The process of running a program in an isolated environment to test its behavior without affecting the rest of the system.",
-        answer: "SANDBOXING",
-        row: 5,
-        col: 8,
+        clue: "A software that acts as an intermediary between a user's device and the internet.",
+        answer: "PROXY",
+        row: 18,
+        col: 12,
+      },
+      "6": {
+        clue: "A method used to test software by simulating attacks.",
+        answer: "FUZZING",
+        row: 21,
+        col: 12,
       },
       "7": {
-        clue: "A technology that allows virtual machines to run on a single physical machine.",
-        answer: "VIRTUALIZATION",
-        row: 0,
-        col: 6,
+        clue: "A storage location that temporarily holds data for quick access.",
+        answer: "CACHE",
+        row: 24,
+        col: 4,
       },
       "8": {
         clue: "A method used to divide a computer network into multiple segments to improve security and performance.",
         answer: "SUBNETTING",
-        row: 11,
-        col: 8,
+        row: 25,
+        col: 10,
+      },
+    },
+    // Down clues
+    down: {
+      "9": {
+        clue: "The set of rules that govern the structure of statements in a programming language.",
+        answer: "SYNTAX",
+        row: 0,
+        col: 14,
       },
       "10": {
-        clue: "The core component of an OS that manages system resources.",
-        answer: "KERNEL",
-        row: 0,
-        col: 9,
+        clue: "A tool for managing repositories, tracking changes, and collaborating on code.",
+        answer: "CRYPTOJACKING",
+        row: 3,
+        col: 11,
+      },
+      "11": {
+        clue: "A technique of storing and organizing data in a computer system to enable efficient access.",
+        answer: "MIDDLEWARE",
+        row: 2,
+        col: 19,
       },
       "12": {
-        clue: "A method used to test software by simulating attacks.",
-        answer: "FUZZING",
-        row: 0,
-        col: 12,
+        clue: "A data structure that organizes information in a hierarchical format using nodes and branches.",
+        answer: "TREE",
+        row: 16,
+        col: 0,
+      },
+      "13": {
+        clue: "The process of verifying the identity of a user, system, or application.",
+        answer: "AUTHENTICATION",
+        row: 8,
+        col: 7,
+      },
+      "14": {
+        clue: "The delay between the input into a system and the desired outcome.",
+        answer: "LATENCY",
+        row: 12,
+        col: 16,
+      },
+      "15": {
+        clue: "The inclusion of extra components or resources to ensure system reliability.",
+        answer: "REDUNDANCY",
+        row: 18,
+        col: 13,
       },
     },
   };
@@ -350,7 +864,7 @@ export default function WordPuzzle(): JSX.Element {
   // Initialize the user inputs grid
   useEffect(() => {
     const initialInputs: string[][] = puzzle.grid.map((row) =>
-      row.map((cell) => (cell === "" ? "" : ""))
+      row.map((cell) => (cell === " " ? " " : ""))
     );
     setUserInputs(initialInputs);
 
@@ -391,7 +905,7 @@ export default function WordPuzzle(): JSX.Element {
     for (let i = 0; i < puzzle.grid.length; i++) {
       for (let j = 0; j < puzzle.grid[i].length; j++) {
         if (
-          puzzle.grid[i][j] !== "" &&
+          puzzle.grid[i][j] !== " " &&
           (userInputs[i][j] === "" ||
             userInputs[i][j].toUpperCase() !== puzzle.grid[i][j])
         ) {
@@ -408,7 +922,7 @@ export default function WordPuzzle(): JSX.Element {
 
   // Handle cell input change
   const handleCellChange = (row: number, col: number, value: string): void => {
-    if (puzzle.grid[row][col] === "") return;
+    if (puzzle.grid[row][col] === " ") return;
 
     const newInputs = [...userInputs];
     newInputs[row][col] = value.toUpperCase();
@@ -432,7 +946,7 @@ export default function WordPuzzle(): JSX.Element {
       nextCol++;
       if (
         nextCol >= puzzle.grid[0].length ||
-        puzzle.grid[nextRow][nextCol] === ""
+        puzzle.grid[nextRow][nextCol] === " "
       ) {
         return;
       }
@@ -440,7 +954,7 @@ export default function WordPuzzle(): JSX.Element {
       nextRow++;
       if (
         nextRow >= puzzle.grid.length ||
-        puzzle.grid[nextRow][nextCol] === ""
+        puzzle.grid[nextRow][nextCol] === " "
       ) {
         return;
       }
@@ -459,7 +973,7 @@ export default function WordPuzzle(): JSX.Element {
 
   // Handle cell click to highlight related cells
   const handleCellClick = (row: number, col: number): void => {
-    if (puzzle.grid[row][col] === "") return;
+    if (puzzle.grid[row][col] === " ") return;
 
     setHighlightedCell([row, col]);
 
@@ -615,7 +1129,7 @@ export default function WordPuzzle(): JSX.Element {
   // Clear all user inputs
   const clearPuzzle = (): void => {
     const emptyInputs: string[][] = puzzle.grid.map((row) =>
-      row.map((cell) => (cell === "" ? "" : ""))
+      row.map((cell) => (cell === " " ? " " : ""))
     );
     setUserInputs(emptyInputs);
     setComplete(false);
@@ -636,7 +1150,7 @@ export default function WordPuzzle(): JSX.Element {
     if (e.key === "ArrowRight") {
       let nextCol = col + 1;
       while (nextCol < puzzle.grid[0].length) {
-        if (puzzle.grid[row][nextCol] !== "") {
+        if (puzzle.grid[row][nextCol] !== " ") {
           setHighlightedCell([row, nextCol]);
           (
             document.getElementById(
@@ -650,7 +1164,7 @@ export default function WordPuzzle(): JSX.Element {
     } else if (e.key === "ArrowLeft") {
       let prevCol = col - 1;
       while (prevCol >= 0) {
-        if (puzzle.grid[row][prevCol] !== "") {
+        if (puzzle.grid[row][prevCol] !== " ") {
           setHighlightedCell([row, prevCol]);
           (
             document.getElementById(
@@ -664,7 +1178,7 @@ export default function WordPuzzle(): JSX.Element {
     } else if (e.key === "ArrowDown") {
       let nextRow = row + 1;
       while (nextRow < puzzle.grid.length) {
-        if (puzzle.grid[nextRow][col] !== "") {
+        if (puzzle.grid[nextRow][col] !== " ") {
           setHighlightedCell([nextRow, col]);
           (
             document.getElementById(
@@ -678,7 +1192,7 @@ export default function WordPuzzle(): JSX.Element {
     } else if (e.key === "ArrowUp") {
       let prevRow = row - 1;
       while (prevRow >= 0) {
-        if (puzzle.grid[prevRow][col] !== "") {
+        if (puzzle.grid[prevRow][col] !== " ") {
           setHighlightedCell([prevRow, col]);
           (
             document.getElementById(
@@ -694,7 +1208,7 @@ export default function WordPuzzle(): JSX.Element {
       if (highlightDirection === "across") {
         let prevCol = col - 1;
         while (prevCol >= 0) {
-          if (puzzle.grid[row][prevCol] !== "") {
+          if (puzzle.grid[row][prevCol] !== " ") {
             setHighlightedCell([row, prevCol]);
             (
               document.getElementById(
@@ -708,7 +1222,7 @@ export default function WordPuzzle(): JSX.Element {
       } else {
         let prevRow = row - 1;
         while (prevRow >= 0) {
-          if (puzzle.grid[prevRow][col] !== "") {
+          if (puzzle.grid[prevRow][col] !== " ") {
             setHighlightedCell([prevRow, col]);
             (
               document.getElementById(
@@ -724,9 +1238,9 @@ export default function WordPuzzle(): JSX.Element {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 max-w-4xl mx-auto bg-gray-900 text-gray-100 rounded-lg">
+    <div className="flex flex-col items-center justify-center p-4 max-w-6xl mx-auto bg-gray-900 text-gray-100 rounded-lg">
       <h1 className="text-2xl font-bold mb-4 text-gray-100">
-        Tech Crossword Puzzle
+        Advanced Tech Crossword Puzzle
       </h1>
 
       {complete && (
@@ -738,7 +1252,7 @@ export default function WordPuzzle(): JSX.Element {
       <div className="flex flex-col lg:flex-row w-full gap-4">
         {/* Grid */}
         <div className="lg:w-3/5" ref={gridContainerRef}>
-          <div className="overflow-auto max-h-96 pb-4">
+          <div className="overflow-auto max-h-[70vh] pb-4">
             <div
               className="gap-px bg-gray-700 border border-gray-600 inline-grid"
               style={{
@@ -755,7 +1269,7 @@ export default function WordPuzzle(): JSX.Element {
                     <div
                       key={`${rowIndex}-${colIndex}`}
                       id={`cell-container-${rowIndex}-${colIndex}`}
-                      className={`relative ${cell === "" ? "bg-gray-800" : "bg-gray-900"}`}
+                      className={`relative ${cell === " " ? "bg-gray-800" : "bg-gray-900"}`}
                       style={{
                         width: `${cellSize}px`,
                         height: `${cellSize}px`,
@@ -769,7 +1283,7 @@ export default function WordPuzzle(): JSX.Element {
                           {number}
                         </span>
                       )}
-                      {cell !== "" && (
+                      {cell !== " " && (
                         <input
                           id={`cell-${rowIndex}-${colIndex}`}
                           type="text"
@@ -792,7 +1306,7 @@ export default function WordPuzzle(): JSX.Element {
                           }}
                         />
                       )}
-                      {cell === "" && (
+                      {cell === " " && (
                         <div className="w-full h-full bg-gray-800"></div>
                       )}
                     </div>
