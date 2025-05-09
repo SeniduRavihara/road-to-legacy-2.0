@@ -823,8 +823,8 @@ export default function WordPuzzle(): JSX.Element {
       "13": {
         clue: "The process of verifying the identity of a user, system, or application.",
         answer: "AUTHENTICATION",
-        row: 8,
-        col: 7,
+        row: 17,
+        col: 5,
       },
       "14": {
         clue: "The delay between the input into a system and the desired outcome.",
