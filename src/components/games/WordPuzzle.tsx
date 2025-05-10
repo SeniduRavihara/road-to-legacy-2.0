@@ -4,7 +4,6 @@ import { JSX, useEffect, useRef, useState } from "react";
 import { puzzle } from "./puzzle-structure";
 
 // Define TypeScript interfaces for puzzle data structure
-
 interface GridSize {
   rows: number;
   cols: number;
@@ -28,12 +27,20 @@ export default function WordPuzzle(): JSX.Element {
   const [highlightDirection, setHighlightDirection] =
     useState<Direction>("across");
   const [complete, setComplete] = useState<boolean>(false);
-  const [, setViewportSize] = useState<ViewportSize>({
+  const [viewportSize, setViewportSize] = useState<ViewportSize>({
     width: 0,
     height: 0,
   });
   const [cellSize, setCellSize] = useState<number>(35); // Default cell size
+  const [zoomLevel, setZoomLevel] = useState<number>(1); // New zoom level state
+  const [showScrollIndicator, setShowScrollIndicator] =
+    useState<boolean>(false);
+  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
+
   const gridContainerRef = useRef<HTMLDivElement | null>(null);
+  const gridScrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   // Get gridSize
   const gridSize: GridSize = {
@@ -49,19 +56,26 @@ export default function WordPuzzle(): JSX.Element {
     setUserInputs(initialInputs);
 
     // Set viewport size
-    setViewportSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
+    const handleResize = () => {
+      setViewportSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    handleResize();
 
     // Calculate appropriate cell size
     calculateCellSize();
 
     // Add resize listener
-    window.addEventListener("resize", calculateCellSize);
+    window.addEventListener("resize", () => {
+      handleResize();
+      calculateCellSize();
+    });
 
     return () => {
-      window.removeEventListener("resize", calculateCellSize);
+      window.removeEventListener("resize", handleResize);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -71,10 +85,24 @@ export default function WordPuzzle(): JSX.Element {
     if (!gridContainerRef.current) return;
 
     const containerWidth = gridContainerRef.current.clientWidth;
-    const maxCellSize = Math.floor(containerWidth / gridSize.cols) - 2;
 
-    setCellSize(Math.min(35, maxCellSize)); // Max 35px, min based on container
+    // Base size calculation
+    let calculatedSize = Math.min(
+      35,
+      Math.floor(containerWidth / gridSize.cols) - 2
+    );
+
+    // Apply zoom factor
+    calculatedSize = Math.max(20, calculatedSize * zoomLevel);
+
+    setCellSize(calculatedSize);
   };
+
+  // Recalculate cell size when zoom level changes
+  useEffect(() => {
+    calculateCellSize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zoomLevel]);
 
   // Check if the puzzle is complete
   useEffect(() => {
@@ -98,6 +126,37 @@ export default function WordPuzzle(): JSX.Element {
 
     setComplete(isComplete);
   }, [userInputs]);
+
+  // Handle scroll events
+  const handleScroll = () => {
+    setShowScrollIndicator(true);
+
+    // Clear existing timeout
+    if (scrollTimeout) {
+      clearTimeout(scrollTimeout);
+    }
+
+    // Set new timeout to hide indicator
+    const timeout = setTimeout(() => {
+      setShowScrollIndicator(false);
+    }, 1500);
+
+    setScrollTimeout(timeout);
+  };
+
+  useEffect(() => {
+    const scrollContainer = gridScrollContainerRef.current;
+    if (scrollContainer) {
+      scrollContainer.addEventListener("scroll", handleScroll);
+
+      return () => {
+        scrollContainer.removeEventListener("scroll", handleScroll);
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
+        }
+      };
+    }
+  }, [scrollTimeout]);
 
   // Handle cell input change
   const handleCellChange = (row: number, col: number, value: string): void => {
@@ -300,7 +359,7 @@ export default function WordPuzzle(): JSX.Element {
         `cell-container-${clueInfo.row}-${clueInfo.col}`
       );
       if (cellElement) {
-        cellElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        cellElement.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }
   };
@@ -318,6 +377,19 @@ export default function WordPuzzle(): JSX.Element {
   const revealSolution = (): void => {
     const solution: string[][] = puzzle.grid.map((row) => [...row]);
     setUserInputs(solution);
+  };
+
+  // Zoom controls
+  const zoomIn = () => {
+    setZoomLevel((prev) => Math.min(prev + 0.2, 2.0));
+  };
+
+  const zoomOut = () => {
+    setZoomLevel((prev) => Math.max(prev - 0.2, 0.6));
+  };
+
+  const resetZoom = () => {
+    setZoomLevel(1.0);
   };
 
   // Handle keyboard navigation
@@ -417,92 +489,173 @@ export default function WordPuzzle(): JSX.Element {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 max-w-6xl mx-auto bg-gray-900 text-gray-100 rounded-lg">
-      <h1 className="text-2xl font-bold mb-4 text-gray-100">
+    <div className="flex flex-col items-center justify-center p-2 sm:p-4 max-w-full sm:max-w-6xl mx-auto bg-gray-900 text-gray-100 rounded-lg">
+      <h1 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4 text-gray-100">
         Advanced Tech Crossword Puzzle
       </h1>
 
       {complete && (
-        <div className="mb-4 p-2 bg-green-900 text-green-100 rounded w-full text-center">
+        <div className="mb-2 sm:mb-4 p-2 bg-green-900 text-green-100 rounded w-full text-center">
           Congratulations! You&apos;ve completed the crossword puzzle!
         </div>
       )}
 
-      <div className="flex flex-col lg:flex-row w-full gap-4">
+      {/* Zoom controls */}
+      <div className="flex justify-center gap-2 w-full mb-2 sm:mb-4">
+        <button
+          onClick={zoomOut}
+          className="px-2 sm:px-3 py-1 bg-indigo-800 text-gray-100 rounded hover:bg-indigo-700 flex items-center"
+          aria-label="Zoom out"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M20 12H4"
+            />
+          </svg>
+        </button>
+        <button
+          onClick={resetZoom}
+          className="px-2 sm:px-3 py-1 bg-indigo-800 text-gray-100 rounded hover:bg-indigo-700"
+          aria-label="Reset zoom"
+        >
+          {Math.round(zoomLevel * 100)}%
+        </button>
+        <button
+          onClick={zoomIn}
+          className="px-2 sm:px-3 py-1 bg-indigo-800 text-gray-100 rounded hover:bg-indigo-700 flex items-center"
+          aria-label="Zoom in"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div className="flex flex-col lg:flex-row w-full gap-2 sm:gap-4">
         {/* Grid */}
         <div className="lg:w-3/5" ref={gridContainerRef}>
-          <div className="overflow-auto max-h-[70vh] pb-4">
+          <div className="relative border border-gray-600 rounded-lg overflow-hidden bg-gray-800">
+            {/* Scroll indicators */}
             <div
-              className="gap-px bg-gray-700 border border-gray-600 inline-grid"
+              className={`absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-gray-900 to-transparent opacity-50 pointer-events-none transition-opacity duration-300 ${showScrollIndicator ? "opacity-50" : "opacity-0"}`}
+            ></div>
+            <div
+              className={`absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-gray-900 to-transparent opacity-50 pointer-events-none transition-opacity duration-300 ${showScrollIndicator ? "opacity-50" : "opacity-0"}`}
+            ></div>
+            <div
+              className={`absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-gray-900 to-transparent opacity-50 pointer-events-none transition-opacity duration-300 ${showScrollIndicator ? "opacity-50" : "opacity-0"}`}
+            ></div>
+            <div
+              className={`absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-gray-900 to-transparent opacity-50 pointer-events-none transition-opacity duration-300 ${showScrollIndicator ? "opacity-50" : "opacity-0"}`}
+            ></div>
+
+            <div
+              ref={gridScrollContainerRef}
+              className="overflow-auto max-h-[calc(70vh-80px)] pb-4 scrollbar-container"
               style={{
-                gridTemplateRows: `repeat(${gridSize.rows}, ${cellSize}px)`,
-                gridTemplateColumns: `repeat(${gridSize.cols}, ${cellSize}px)`,
+                scrollbarWidth: "thin",
+                scrollbarColor: "#4f46e5 #1f2937",
               }}
             >
-              {puzzle.grid.map((row, rowIndex) =>
-                row.map((cell, colIndex) => {
-                  const number = getCellNumber(rowIndex, colIndex);
-                  const isHighlighted = isCellHighlighted(rowIndex, colIndex);
+              <div
+                className="gap-px bg-gray-700 inline-grid m-2"
+                style={{
+                  gridTemplateRows: `repeat(${gridSize.rows}, ${cellSize}px)`,
+                  gridTemplateColumns: `repeat(${gridSize.cols}, ${cellSize}px)`,
+                }}
+              >
+                {puzzle.grid.map((row, rowIndex) =>
+                  row.map((cell, colIndex) => {
+                    const number = getCellNumber(rowIndex, colIndex);
+                    const isHighlighted = isCellHighlighted(rowIndex, colIndex);
 
-                  return (
-                    <div
-                      key={`${rowIndex}-${colIndex}`}
-                      id={`cell-container-${rowIndex}-${colIndex}`}
-                      className={`relative ${cell === " " ? "bg-gray-800" : "bg-gray-900"}`}
-                      style={{
-                        width: `${cellSize}px`,
-                        height: `${cellSize}px`,
-                      }}
-                    >
-                      {number && (
-                        <span
-                          className="absolute top-0 left-0 text-xs pl-1 text-gray-400"
-                          style={{ fontSize: `${Math.max(8, cellSize / 4)}px` }}
-                        >
-                          {number}
-                        </span>
-                      )}
-                      {cell !== " " && (
-                        <input
-                          id={`cell-${rowIndex}-${colIndex}`}
-                          type="text"
-                          maxLength={1}
-                          value={userInputs[rowIndex]?.[colIndex] || ""}
-                          onChange={(e) =>
-                            handleCellChange(rowIndex, colIndex, e.target.value)
-                          }
-                          onClick={() => handleCellClick(rowIndex, colIndex)}
-                          onKeyDown={(e) =>
-                            handleKeyDown(e, rowIndex, colIndex)
-                          }
-                          className={`w-full h-full text-center font-bold border ${
-                            isHighlighted
-                              ? "bg-indigo-900 border-indigo-400"
-                              : "bg-gray-900 border-gray-700"
-                          } focus:outline-none focus:border-blue-400 text-gray-100 uppercase`}
-                          style={{
-                            fontSize: `${Math.max(14, cellSize / 2)}px`,
-                          }}
-                        />
-                      )}
-                      {cell === " " && (
-                        <div className="w-full h-full bg-gray-800"></div>
-                      )}
-                    </div>
-                  );
-                })
-              )}
+                    return (
+                      <div
+                        key={`${rowIndex}-${colIndex}`}
+                        id={`cell-container-${rowIndex}-${colIndex}`}
+                        className={`relative ${cell === " " ? "bg-gray-800" : "bg-gray-900"}`}
+                        style={{
+                          width: `${cellSize}px`,
+                          height: `${cellSize}px`,
+                        }}
+                      >
+                        {number && (
+                          <span
+                            className="absolute top-0 left-0 text-xs pl-1 text-gray-400"
+                            style={{
+                              fontSize: `${Math.max(8, cellSize / 4)}px`,
+                            }}
+                          >
+                            {number}
+                          </span>
+                        )}
+                        {cell !== " " && (
+                          <input
+                            id={`cell-${rowIndex}-${colIndex}`}
+                            type="text"
+                            maxLength={1}
+                            value={userInputs[rowIndex]?.[colIndex] || ""}
+                            onChange={(e) =>
+                              handleCellChange(
+                                rowIndex,
+                                colIndex,
+                                e.target.value
+                              )
+                            }
+                            onClick={() => handleCellClick(rowIndex, colIndex)}
+                            onKeyDown={(e) =>
+                              handleKeyDown(e, rowIndex, colIndex)
+                            }
+                            className={`w-full h-full text-center font-bold border ${
+                              isHighlighted
+                                ? "bg-indigo-900 border-indigo-400"
+                                : "bg-gray-900 border-gray-700"
+                            } focus:outline-none focus:border-blue-400 text-gray-100 uppercase`}
+                            style={{
+                              fontSize: `${Math.max(14, cellSize / 2)}px`,
+                            }}
+                          />
+                        )}
+                        {cell === " " && (
+                          <div className="w-full h-full bg-gray-800"></div>
+                        )}
+                      </div>
+                    );
+                  })
+                )}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Clues */}
-        <div className="lg:w-2/5 flex flex-col gap-4">
-          <div className="h-1/2 overflow-y-auto">
-            <h2 className="font-bold text-indigo-300 mb-1 sticky top-0 bg-gray-900 py-1">
+        <div className="lg:w-2/5 flex flex-col gap-2 sm:gap-4 mt-2 lg:mt-0">
+          {/* Across clues */}
+          <div className="h-1/2 overflow-y-auto scrollbar-container rounded-lg border border-gray-700">
+            <h2 className="font-bold text-indigo-300 mb-1 sticky top-0 bg-gray-900 py-1 px-2 border-b border-gray-700">
               Across
             </h2>
-            <ul className="text-sm">
+            <ul className="text-sm px-2">
               {Object.entries(puzzle.across).map(([clueNum, clue]) => (
                 <li
                   key={`across-${clueNum}`}
@@ -520,11 +673,13 @@ export default function WordPuzzle(): JSX.Element {
               ))}
             </ul>
           </div>
-          <div className="h-1/2 overflow-y-auto">
-            <h2 className="font-bold text-indigo-300 mb-1 sticky top-0 bg-gray-900 py-1">
+
+          {/* Down clues */}
+          <div className="h-1/2 overflow-y-auto scrollbar-container rounded-lg border border-gray-700">
+            <h2 className="font-bold text-indigo-300 mb-1 sticky top-0 bg-gray-900 py-1 px-2 border-b border-gray-700">
               Down
             </h2>
-            <ul className="text-sm">
+            <ul className="text-sm px-2">
               {Object.entries(puzzle.down).map(([clueNum, clue]) => (
                 <li
                   key={`down-${clueNum}`}
@@ -547,24 +702,54 @@ export default function WordPuzzle(): JSX.Element {
       <div className="flex gap-2 my-4">
         <button
           onClick={clearPuzzle}
-          className="px-4 py-2 bg-amber-700 text-gray-100 rounded hover:bg-amber-600"
+          className="px-3 py-2 bg-amber-700 text-gray-100 rounded hover:bg-amber-600"
         >
           Clear All
         </button>
         <button
           onClick={revealSolution}
-          className="px-4 py-2 bg-purple-700 text-gray-100 rounded hover:bg-purple-600"
+          className="px-3 py-2 bg-purple-700 text-gray-100 rounded hover:bg-purple-600"
         >
           Reveal Solution
         </button>
       </div>
 
-      <div className="text-sm text-gray-400">
+      <div className="text-xs sm:text-sm text-gray-400 text-center">
         <p>
-          Click on a cell or clue to start. Use arrow keys to navigate the
-          puzzle.
+          Click on a cell or clue to start. Use arrow keys to navigate.
+          <span className="hidden sm:inline"> Zoom to adjust puzzle size.</span>
+        </p>
+        <p className="text-xs mt-1 text-gray-500">
+          Swipe or scroll to view more puzzle content
         </p>
       </div>
+
+      {/* Custom scrollbar styles */}
+      <style jsx global>{`
+        .scrollbar-container::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+
+        .scrollbar-container::-webkit-scrollbar-track {
+          background: #1f2937;
+          border-radius: 4px;
+        }
+
+        .scrollbar-container::-webkit-scrollbar-thumb {
+          background: #4f46e5;
+          border-radius: 4px;
+        }
+
+        .scrollbar-container::-webkit-scrollbar-thumb:hover {
+          background: #6366f1;
+        }
+
+        .scrollbar-container {
+          scrollbar-width: thin;
+          scrollbar-color: #4f46e5 #1f2937;
+        }
+      `}</style>
     </div>
   );
 }
