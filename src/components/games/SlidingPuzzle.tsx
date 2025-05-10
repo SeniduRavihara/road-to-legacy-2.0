@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-export default function SlidingPuzzle() {
+interface GameProps {
+  isWon?: boolean;
+  setIsWon: (isWon: boolean) => void;
+}
+
+export default function SlidingPuzzle({ setIsWon }: GameProps) {
   // Game grid size
   const SIZE = 4;
 
@@ -28,6 +33,11 @@ export default function SlidingPuzzle() {
     initializePuzzle();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setIsWon(gameWon);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameWon]);
 
   // Check if puzzle is solved
   const checkWin = (board: PuzzleGrid): boolean => {

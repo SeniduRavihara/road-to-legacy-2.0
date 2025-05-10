@@ -1,6 +1,6 @@
 "use client";
 
-import { JSX, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { puzzle } from "./puzzle-structure";
 
 // Define TypeScript interfaces for puzzle data structure
@@ -14,10 +14,15 @@ interface ViewportSize {
   height: number;
 }
 
+interface GameProps {
+  isWon?: boolean;
+  setIsWon: (isWon: boolean) => void;
+}
+
 type Direction = "across" | "down";
 type CellPosition = [number, number] | null;
 
-export default function WordPuzzle(): JSX.Element {
+export default function WordPuzzle({ setIsWon }: GameProps) {
   // Custom tech crossword based on provided clues
 
   // State for user inputs
@@ -27,7 +32,7 @@ export default function WordPuzzle(): JSX.Element {
   const [highlightDirection, setHighlightDirection] =
     useState<Direction>("across");
   const [complete, setComplete] = useState<boolean>(false);
-  const [viewportSize, setViewportSize] = useState<ViewportSize>({
+  const [, setViewportSize] = useState<ViewportSize>({
     width: 0,
     height: 0,
   });
@@ -47,6 +52,11 @@ export default function WordPuzzle(): JSX.Element {
     rows: puzzle.grid.length,
     cols: puzzle.grid[0].length,
   };
+
+  useEffect(() => {
+    setIsWon(complete);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [complete]);
 
   // Initialize the user inputs grid
   useEffect(() => {
@@ -156,6 +166,7 @@ export default function WordPuzzle(): JSX.Element {
         }
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollTimeout]);
 
   // Handle cell input change

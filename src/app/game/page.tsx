@@ -55,6 +55,13 @@ const GamePage: React.FC = () => {
   const [, setAllGamesCompleted] = useState<boolean>(false);
   const [teamName, setTeamName] = useState<string | null>(null);
 
+  // Add game win states tracking
+  const [gameWinStates, setGameWinStates] = useState<Record<string, boolean>>({
+    sudoku: false,
+    wordpuzzle: false,
+    "15puzzle": false,
+  });
+
   // COUNTDOWN_PERIOD_MS is the period before the game start when countdown should begin (5 minutes)
   const COUNTDOWN_PERIOD_MS = 5 * 60 * 1000;
   // Maximum countdown time in seconds
@@ -188,24 +195,30 @@ const GamePage: React.FC = () => {
     options,
   ]);
 
-  // Handle countdown timer for first game only
-  // useEffect(() => {
-  //   if (gameState === "countdown" && countdownTime > 0) {
-  //     const timer = setTimeout(() => {
-  //       setCountdownTime(countdownTime - 1);
-  //     }, 1000);
+  // Function to update win state for current game
+  const updateGameWinState = (isWon: boolean) => {
+    if (currentGameIndex < GAMES.length) {
+      const gameId = GAMES[currentGameIndex].id;
+      setGameWinStates((prevState) => ({
+        ...prevState,
+        [gameId]: isWon,
+      }));
+    }
+  };
 
-  //     return () => clearTimeout(timer);
-  //   } else if (gameState === "countdown" && countdownTime === 0) {
-  //     setGameState("playing");
-  //     setTotalTimeTaken(0);
-  //     setGameStartTime(Date.now());
-  //   }
-  // }, [gameState, countdownTime]);
+  // Determine if current game is won
+  const isCurrentGameWon = useCallback(() => {
+    if (currentGameIndex < GAMES.length) {
+      const gameId = GAMES[currentGameIndex].id;
+      return gameWinStates[gameId] || false;
+    }
+    return false;
+  }, [currentGameIndex, gameWinStates]);
 
   // Handle game completion - memoized to prevent recreating on every render
   const handleGameComplete = useCallback(async () => {
-    if (!teamName) return;
+    // Only allow completion if current game is won
+    if (!teamName || !isCurrentGameWon()) return;
 
     // Calculate time taken
     const endTime = Date.now();
@@ -249,7 +262,6 @@ const GamePage: React.FC = () => {
         // Move to next game
         setCurrentGameIndex(currentGameIndex + 1);
         setGameState("playing");
-        // setGameStartTime(Date.now());
       } else {
         // All games completed
         setAllGamesCompleted(true);
@@ -260,7 +272,14 @@ const GamePage: React.FC = () => {
       // On error, stay in the same game to let the user try again
       setGameState("playing");
     }
-  }, [teamName, gameOpenTime, gameResults, currentGameIndex, totalTimeTaken]);
+  }, [
+    teamName,
+    isCurrentGameWon,
+    gameOpenTime,
+    gameResults,
+    currentGameIndex,
+    totalTimeTaken,
+  ]);
 
   // Format the countdown time for display
   const formatCountdown = (timeInSeconds: number): string => {
@@ -295,7 +314,7 @@ const GamePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#262930] p-4">
+    <div className="min-h-screen bg-[#262930] p-2 md:p-4">
       <div className="max-w-6xl mx-auto">
         <header className="bg-[#2c3039] rounded-lg p-4 mb-4 shadow-lg flex justify-between items-center">
           <h1 className="text-xl font-bold text-[#f2f2f7]">Team: {teamName}</h1>
@@ -334,7 +353,7 @@ const GamePage: React.FC = () => {
         </div>
 
         {/* Main Content Area */}
-        <div className="bg-[#2c3039] rounded-lg p-6 shadow-lg">
+        <div className="bg-[#2c3039] rounded-lg py-6 p-2 md:p-6 shadow-lg">
           {/* Waiting State - Only for first game */}
           {gameState === "waiting" && (
             <div className="flex flex-col items-center justify-center py-24">
@@ -387,13 +406,23 @@ const GamePage: React.FC = () => {
                 </div>
                 <button
                   onClick={handleGameComplete}
-                  className="bg-[#191b1f] text-[#f2f2f7] px-4 py-2 rounded-md hover:bg-opacity-90 transition"
+                  disabled={!isCurrentGameWon()}
+                  className={`${
+                    isCurrentGameWon()
+                      ? "bg-[#191b1f] text-[#f2f2f7] hover:bg-opacity-90"
+                      : "bg-gray-500 text-gray-300 cursor-not-allowed"
+                  } px-2 sm:px-4 text-sm sm:text-base py-2 rounded-md transition`}
                 >
-                  Finish Game
+                  {isCurrentGameWon()
+                    ? "Finish Game"
+                    : "Complete the game to continue"}
                 </button>
               </div>
               <div className="game-container">
-                <CurrentGame />
+                <CurrentGame
+                  isWon={isCurrentGameWon()}
+                  setIsWon={updateGameWinState}
+                />
               </div>
             </div>
           )}

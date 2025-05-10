@@ -3,12 +3,17 @@
 import { cn } from "@/lib/utils";
 import { JSX, useEffect, useState } from "react";
 
+interface GameProps {
+  isWon?: boolean;
+  setIsWon: (isWon: boolean) => void;
+}
+
 // Define TypeScript types
 type CellValue = 0 | 1 | 2 | 3 | 4;
 type SudokuGrid = CellValue[][];
 type LockGrid = boolean[][];
 
-export default function SudokuGame(): JSX.Element {
+export default function SudokuGame({ setIsWon }: GameProps) {
   // Initial puzzle state (0 represents empty cells)
   const [puzzle, setPuzzle] = useState<SudokuGrid>([
     [0, 0, 0, 0],
@@ -37,6 +42,11 @@ export default function SudokuGame(): JSX.Element {
     row: number;
     col: number;
   } | null>(null);
+
+  useEffect(() => {
+    setIsWon(gameWon);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameWon]);
 
   // Update screen size detection
   useEffect(() => {
