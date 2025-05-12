@@ -45,7 +45,7 @@ export default function SudokuGame({ setIsWon }: GameProps) {
 
   useEffect(() => {
     setIsWon(gameWon);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameWon]);
 
   // Update screen size detection
@@ -316,9 +316,16 @@ export default function SudokuGame({ setIsWon }: GameProps) {
     return isMobile ? "w-14 h-14" : "w-16 h-16";
   };
 
+  // Handle cell click to select it without showing keyboard
+  const handleCellClick = (rowIndex: number, colIndex: number): void => {
+    if (!locked[rowIndex][colIndex]) {
+      setSelectedCell({ row: rowIndex, col: colIndex });
+    }
+  };
+
   // Number pad for mobile devices
   const renderNumberPad = (): JSX.Element | null => {
-    if (!isMobile) return null;
+    // if (!isMobile) return null;
 
     return (
       <div className="flex justify-center gap-2 my-4">
@@ -365,42 +372,26 @@ export default function SudokuGame({ setIsWon }: GameProps) {
       <div className="grid grid-cols-4 gap-px bg-gray-700 border border-gray-600 mb-4 shadow-lg">
         {puzzle.map((row, rowIndex) =>
           row.map((cell, colIndex) => {
-            // Determine background color based on position
-            // const blockRow = Math.floor(rowIndex / 2);
-            // const blockCol = Math.floor(colIndex / 2);
-            // const isEvenBlock = (blockRow + blockCol) % 2 === 0;
-
             return (
-              <input
+              <div
                 key={`${rowIndex}-${colIndex}`}
-                type="text"
-                inputMode="numeric"
-                pattern="[1-4]*"
-                value={cell === 0 ? "" : cell}
-                onChange={(e) =>
-                  handleCellChange(rowIndex, colIndex, e.target.value)
-                }
-                onClick={() =>
-                  !locked[rowIndex][colIndex] &&
-                  setSelectedCell({ row: rowIndex, col: colIndex })
-                }
                 className={cn(
                   getCellSize(),
-                  "text-center text-2xl font-bold border border-gray-700 focus:outline-none focus:border-blue-400 text-gray-100",
+                  "flex items-center justify-center",
+                  "text-center text-2xl font-bold border border-gray-700 focus:outline-none text-gray-100",
                   locked[rowIndex][colIndex] ? "bg-gray-800" : "bg-gray-900",
-                  // isEvenBlock && "bg-gray-800",
                   {
-                    // "bg-gray-800": locked[rowIndex][colIndex] || isEvenBlock,
-                    // "bg-gray-900": !locked[rowIndex][colIndex] && !isEvenBlock,
                     "ring-2 ring-blue-500":
                       selectedCell?.row === rowIndex &&
                       selectedCell?.col === colIndex,
-                  }
+                  },
+                  !locked[rowIndex][colIndex] && "cursor-pointer"
                 )}
-                disabled={locked[rowIndex][colIndex]}
-                maxLength={1}
+                onClick={() => handleCellClick(rowIndex, colIndex)}
                 aria-label={`Cell at row ${rowIndex + 1}, column ${colIndex + 1}`}
-              />
+              >
+                {cell !== 0 && cell}
+              </div>
             );
           })
         )}
