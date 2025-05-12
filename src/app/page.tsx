@@ -18,7 +18,7 @@ const MemorisSection = dynamic(
 const VerticalTimeLine = dynamic(
   () => import("@/components/sections/VerticalTimeLine")
 );
-const AgendaSheet = dynamic(() => import("@/components/agenda/AgendaSheet"));
+// const AgendaSheet = dynamic(() => import("@/components/agenda/AgendaSheet"));
 const FAQ = dynamic(() => import("@/components/sections/FAQ/FAQ"));
 const ContactSection = dynamic(
   () => import("@/components/sections/contact-section/ContactSection")
@@ -49,9 +49,9 @@ export default function Home() {
 
       <VerticalTimeLine />
 
-      <div className="flex items-center justify-center w-full relative -top-6">
+      {/* <div className="flex items-center justify-center w-full relative -top-6">
         <AgendaSheet />
-      </div>
+      </div> */}
 
       <FAQ />
       <ContactSection />

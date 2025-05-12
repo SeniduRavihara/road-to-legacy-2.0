@@ -106,7 +106,7 @@ const EventSpeakerSessions = () => {
     {
       id: 1,
       title: "Software Engineering Session",
-      time: "9:00 AM - 9:50 AM",
+      // time: "9:00 AM - 9:50 AM",
       speaker: "Dr. Sarah Johnson",
       role: "CTO at TechInnovate",
       image: "/images/speakers/se-domain.png",
@@ -117,7 +117,7 @@ const EventSpeakerSessions = () => {
     {
       id: 2,
       title: "Cybersecurity & AI",
-      time: "9:50 AM - 10:40 AM",
+      // time: "9:50 AM - 10:40 AM",
       speaker: "Michael Chen",
       role: "Security Researcher",
       image: "/images/speakers/cyber-domain.png",
@@ -128,7 +128,7 @@ const EventSpeakerSessions = () => {
     {
       id: 3,
       title: "Project Management & Business Analysis",
-      time: "11:30 AM - 12:15 PM",
+      // time: "11:30 AM - 12:15 PM",
       speaker: "Emily Rodriguez",
       role: "Senior PM at GlobalTech",
       image: "/images/speakers/business-domain.png",
@@ -139,7 +139,7 @@ const EventSpeakerSessions = () => {
     {
       id: 4,
       title: "Gaming Development",
-      time: "2:15 PM - 3:00 PM",
+      // time: "2:15 PM - 3:00 PM",
       speaker: "Alex Thompson",
       role: "Lead Game Developer",
       image: "/images/speakers/game-domain.png",
@@ -248,9 +248,9 @@ const EventSpeakerSessions = () => {
                         activeSession === index ? "bg-white" : "bg-[#333842]"
                       }`}
                     ></div>
-                    <p className="text-xs text-gray-400 truncate">
+                    {/* <p className="text-xs text-gray-400 truncate">
                       {session.time}
-                    </p>
+                    </p> */}
                   </div>
                   <p
                     className={`font-medium text-sm truncate ${
@@ -365,9 +365,9 @@ const EventSpeakerSessions = () => {
                       </h3>
 
                       <div className="flex items-center flex-wrap gap-2 mb-4">
-                        <div className="px-3 py-1 bg-[#2c3039] border border-[#333842]/50 rounded-full text-xs sm:text-sm text-gray-300">
+                        {/* <div className="px-3 py-1 bg-[#2c3039] border border-[#333842]/50 rounded-full text-xs sm:text-sm text-gray-300">
                           {sessions[activeSession].time}
-                        </div>
+                        </div> */}
                       </div>
 
                       {/* <div className="flex items-center mb-4">
