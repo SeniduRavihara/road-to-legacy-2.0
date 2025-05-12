@@ -9,26 +9,33 @@ interface GameProps {
 }
 
 // Define TypeScript types
-type CellValue = 0 | 1 | 2 | 3 | 4;
+type CellValue = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 type SudokuGrid = CellValue[][];
 type LockGrid = boolean[][];
 
 export default function SudokuGame({ setIsWon }: GameProps) {
-  // Initial puzzle state (0 represents empty cells)
-  const [puzzle, setPuzzle] = useState<SudokuGrid>([
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ]);
+  // Static puzzle state (0 represents empty cells)
+  const staticPuzzle: SudokuGrid = [
+    [0, 1, 0, 0, 4, 0, 0, 5, 0],
+    [4, 0, 7, 0, 0, 0, 6, 0, 2],
+    [8, 2, 0, 6, 0, 0, 0, 7, 4],
+    [0, 0, 0, 0, 1, 0, 5, 0, 0],
+    [5, 0, 0, 0, 0, 0, 0, 0, 3],
+    [0, 0, 4, 0, 5, 0, 0, 0, 0],
+    [9, 6, 0, 0, 0, 3, 0, 4, 5],
+    [3, 0, 5, 0, 0, 0, 8, 0, 1],
+    [0, 7, 0, 0, 2, 0, 0, 3, 0],
+  ];
 
-  // Locked cells (cells that cannot be edited)
-  const [locked, setLocked] = useState<LockGrid>([
-    [false, false, false, false],
-    [false, false, false, false],
-    [false, false, false, false],
-    [false, false, false, false],
-  ]);
+  // Initialize the puzzle state
+  const [puzzle, setPuzzle] = useState<SudokuGrid>(
+    staticPuzzle.map((row) => [...row]) as SudokuGrid
+  );
+
+  // Initialize locked cells (cells that cannot be edited)
+  const [locked, setLocked] = useState<LockGrid>(
+    staticPuzzle.map((row) => row.map((cell) => cell !== 0))
+  );
 
   // Game state
   const [gameWon, setGameWon] = useState<boolean>(false);
@@ -64,17 +71,11 @@ export default function SudokuGame({ setIsWon }: GameProps) {
     return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
-  // Generate a new puzzle on first load
-  useEffect(() => {
-    generateNewPuzzle();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // Check if the puzzle is solved correctly
   const checkSolution = (): boolean => {
     // First check that no cells are empty
-    for (let i = 0; i < 4; i++) {
-      for (let j = 0; j < 4; j++) {
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
         if (puzzle[i][j] === 0) {
           return false;
         }
@@ -82,9 +83,9 @@ export default function SudokuGame({ setIsWon }: GameProps) {
     }
 
     // Check rows
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 9; i++) {
       const rowSet = new Set<number>();
-      for (let j = 0; j < 4; j++) {
+      for (let j = 0; j < 9; j++) {
         if (rowSet.has(puzzle[i][j])) {
           return false;
         }
@@ -93,9 +94,9 @@ export default function SudokuGame({ setIsWon }: GameProps) {
     }
 
     // Check columns
-    for (let j = 0; j < 4; j++) {
+    for (let j = 0; j < 9; j++) {
       const colSet = new Set<number>();
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 9; i++) {
         if (colSet.has(puzzle[i][j])) {
           return false;
         }
@@ -103,14 +104,14 @@ export default function SudokuGame({ setIsWon }: GameProps) {
       }
     }
 
-    // Check 2x2 subgrids
-    for (let blockRow = 0; blockRow < 2; blockRow++) {
-      for (let blockCol = 0; blockCol < 2; blockCol++) {
+    // Check 3x3 subgrids
+    for (let blockRow = 0; blockRow < 3; blockRow++) {
+      for (let blockCol = 0; blockCol < 3; blockCol++) {
         const blockSet = new Set<number>();
-        for (let i = 0; i < 2; i++) {
-          for (let j = 0; j < 2; j++) {
-            const row = blockRow * 2 + i;
-            const col = blockCol * 2 + j;
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            const row = blockRow * 3 + i;
+            const col = blockCol * 3 + j;
             if (blockSet.has(puzzle[row][col])) {
               return false;
             }
@@ -123,68 +124,9 @@ export default function SudokuGame({ setIsWon }: GameProps) {
     return true;
   };
 
-  // Generate a solved puzzle
-  const generateSolvedPuzzle = (): SudokuGrid => {
-    const solved: SudokuGrid = [
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-    ];
-
-    // Fill the grid with a valid solution
-    // First row is random
-    const firstRow = [1, 2, 3, 4].sort(
-      () => Math.random() - 0.5
-    ) as CellValue[];
-    solved[0] = [...firstRow];
-
-    // Second row - shift by 2
-    solved[1][0] = solved[0][2];
-    solved[1][1] = solved[0][3];
-    solved[1][2] = solved[0][0];
-    solved[1][3] = solved[0][1];
-
-    // Third row - shift by 1
-    solved[2][0] = solved[0][1];
-    solved[2][1] = solved[0][0];
-    solved[2][2] = solved[0][3];
-    solved[2][3] = solved[0][2];
-
-    // Fourth row - shift by 3
-    solved[3][0] = solved[0][3];
-    solved[3][1] = solved[0][2];
-    solved[3][2] = solved[0][1];
-    solved[3][3] = solved[0][0];
-
-    return solved;
-  };
-
-  // Generate a new puzzle by removing some numbers from a solved puzzle
-  const generateNewPuzzle = (): void => {
-    const solved = generateSolvedPuzzle();
-    const newPuzzle: SudokuGrid = solved.map((row) => [...row]) as SudokuGrid;
-    const newLocked: LockGrid = Array(4)
-      .fill(0)
-      .map(() => Array(4).fill(true));
-
-    // Remove some numbers (leaving only 6-8 numbers)
-    const emptyCells = 10; // Remove 10 numbers from the 16 cells
-    let count = 0;
-
-    while (count < emptyCells) {
-      const row = Math.floor(Math.random() * 4);
-      const col = Math.floor(Math.random() * 4);
-
-      if (newPuzzle[row][col] !== 0) {
-        newPuzzle[row][col] = 0;
-        newLocked[row][col] = false;
-        count++;
-      }
-    }
-
-    setPuzzle(newPuzzle);
-    setLocked(newLocked);
+  // Reset the puzzle to the original state
+  const resetPuzzle = (): void => {
+    setPuzzle(staticPuzzle.map((row) => [...row]) as SudokuGrid);
     setGameWon(false);
     setMessage("");
     setSelectedCell(null);
@@ -197,7 +139,7 @@ export default function SudokuGame({ setIsWon }: GameProps) {
     const newValue = value === "" ? 0 : parseInt(value);
 
     // Check if input is valid
-    if (isNaN(newValue) || newValue < 1 || newValue > 4) {
+    if (isNaN(newValue) || newValue < 1 || newValue > 9) {
       return;
     }
 
@@ -225,9 +167,9 @@ export default function SudokuGame({ setIsWon }: GameProps) {
     let mistakes = false;
 
     // Check rows
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 9; i++) {
       const rowValues: Record<number, boolean> = {};
-      for (let j = 0; j < 4; j++) {
+      for (let j = 0; j < 9; j++) {
         if (tempPuzzle[i][j] !== 0) {
           if (rowValues[tempPuzzle[i][j]]) {
             mistakes = true;
@@ -241,9 +183,9 @@ export default function SudokuGame({ setIsWon }: GameProps) {
 
     // Check columns
     if (!mistakes) {
-      for (let j = 0; j < 4; j++) {
+      for (let j = 0; j < 9; j++) {
         const colValues: Record<number, boolean> = {};
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 9; i++) {
           if (tempPuzzle[i][j] !== 0) {
             if (colValues[tempPuzzle[i][j]]) {
               mistakes = true;
@@ -256,15 +198,15 @@ export default function SudokuGame({ setIsWon }: GameProps) {
       }
     }
 
-    // Check 2x2 blocks
+    // Check 3x3 blocks
     if (!mistakes) {
-      for (let blockRow = 0; blockRow < 2; blockRow++) {
-        for (let blockCol = 0; blockCol < 2; blockCol++) {
+      for (let blockRow = 0; blockRow < 3; blockRow++) {
+        for (let blockCol = 0; blockCol < 3; blockCol++) {
           const blockValues: Record<number, boolean> = {};
-          for (let i = 0; i < 2; i++) {
-            for (let j = 0; j < 2; j++) {
-              const row = blockRow * 2 + i;
-              const col = blockCol * 2 + j;
+          for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+              const row = blockRow * 3 + i;
+              const col = blockCol * 3 + j;
               if (tempPuzzle[row][col] !== 0) {
                 if (blockValues[tempPuzzle[row][col]]) {
                   mistakes = true;
@@ -313,7 +255,28 @@ export default function SudokuGame({ setIsWon }: GameProps) {
 
   // Dynamic cell size based on screen size
   const getCellSize = (): string => {
-    return isMobile ? "w-14 h-14" : "w-16 h-16";
+    return isMobile ? "w-8 h-8" : "w-10 h-10";
+  };
+
+  // Get border styling based on position
+  const getCellBorder = (rowIndex: number, colIndex: number): string => {
+    let borderClasses = "border border-gray-700";
+
+    // Add thicker borders for 3x3 grid separation
+    if (rowIndex % 3 === 0) {
+      borderClasses += " border-t-2 border-t-gray-500";
+    }
+    if (colIndex % 3 === 0) {
+      borderClasses += " border-l-2 border-l-gray-500";
+    }
+    if (rowIndex === 8) {
+      borderClasses += " border-b-2 border-b-gray-500";
+    }
+    if (colIndex === 8) {
+      borderClasses += " border-r-2 border-r-gray-500";
+    }
+
+    return borderClasses;
   };
 
   // Handle cell click to select it without showing keyboard
@@ -323,16 +286,14 @@ export default function SudokuGame({ setIsWon }: GameProps) {
     }
   };
 
-  // Number pad for mobile devices
+  // Number pad for input
   const renderNumberPad = (): JSX.Element | null => {
-    // if (!isMobile) return null;
-
     return (
-      <div className="flex justify-center gap-2 my-4">
-        {[1, 2, 3, 4].map((num) => (
+      <div className="flex justify-center flex-wrap gap-2 my-4 max-w-xs">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
           <button
             key={num}
-            className="w-12 h-12 bg-gray-700 rounded-full text-xl font-bold flex items-center justify-center"
+            className="w-10 h-10 bg-gray-700 rounded-full text-xl font-bold flex items-center justify-center"
             onClick={() => {
               if (selectedCell) {
                 // Use the selected cell to update the value
@@ -354,8 +315,8 @@ export default function SudokuGame({ setIsWon }: GameProps) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 max-w-md mx-auto bg-gray-900 text-gray-100 rounded-lg">
-      <h1 className="text-2xl font-bold mb-4 text-gray-100">4x4 Sudoku</h1>
+    <div className="flex flex-col items-center justify-center p-4 mx-auto bg-gray-900 text-gray-100 rounded-lg">
+      <h1 className="text-2xl font-bold mb-4 text-gray-100">9x9 Sudoku</h1>
 
       {gameWon && (
         <div className="mb-4 p-2 bg-green-900 text-green-100 rounded w-full text-center">
@@ -369,7 +330,7 @@ export default function SudokuGame({ setIsWon }: GameProps) {
         </div>
       )}
 
-      <div className="grid grid-cols-4 gap-px bg-gray-700 border border-gray-600 mb-4 shadow-lg">
+      <div className="grid grid-cols-9 gap-px bg-gray-700 border-2 border-gray-500 mb-4 shadow-lg">
         {puzzle.map((row, rowIndex) =>
           row.map((cell, colIndex) => {
             return (
@@ -377,8 +338,10 @@ export default function SudokuGame({ setIsWon }: GameProps) {
                 key={`${rowIndex}-${colIndex}`}
                 className={cn(
                   getCellSize(),
+                  getCellBorder(rowIndex, colIndex),
                   "flex items-center justify-center",
-                  "text-center text-2xl font-bold border border-gray-700 focus:outline-none text-gray-100",
+                  "text-center font-bold focus:outline-none text-gray-100",
+                  isMobile ? "text-sm" : "text-base",
                   locked[rowIndex][colIndex] ? "bg-gray-800" : "bg-gray-900",
                   {
                     "ring-2 ring-blue-500":
@@ -415,24 +378,22 @@ export default function SudokuGame({ setIsWon }: GameProps) {
           Clear
         </button>
         <button
-          onClick={generateNewPuzzle}
+          onClick={resetPuzzle}
           className="px-4 py-2 bg-emerald-700 text-gray-100 rounded hover:bg-emerald-600 shadow-md"
-          aria-label="Start a new game"
+          aria-label="Reset the puzzle"
         >
-          New Game
+          Reset
         </button>
       </div>
 
       <div className="text-sm text-gray-400 text-center">
         <p>
-          Fill in the grid so that every row, column, and 2x2 box contains the
-          digits 1-4.
+          Fill in the grid so that every row, column, and 3x3 box contains the
+          digits 1-9.
         </p>
-        {isMobile && (
-          <p className="mt-2">
-            Tap a cell to select it, then use the number pad below.
-          </p>
-        )}
+        <p className="mt-2">
+          Tap a cell to select it, then use the number pad below.
+        </p>
       </div>
     </div>
   );
