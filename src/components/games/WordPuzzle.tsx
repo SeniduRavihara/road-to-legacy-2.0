@@ -23,8 +23,6 @@ type Direction = "across" | "down";
 type CellPosition = [number, number] | null;
 
 export default function WordPuzzle({ setIsWon }: GameProps) {
-  // Custom tech crossword based on provided clues
-
   // State for user inputs
   const [userInputs, setUserInputs] = useState<string[][]>([]);
   const [highlightedCell, setHighlightedCell] = useState<CellPosition>(null);
@@ -43,6 +41,11 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
   const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(
     null
   );
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [selectionMode, setSelectionMode] = useState<"select" | "input">(
+    "select"
+  );
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState<boolean>(false);
 
   const gridContainerRef = useRef<HTMLDivElement | null>(null);
   const gridScrollContainerRef = useRef<HTMLDivElement | null>(null);
@@ -57,6 +60,25 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
     setIsWon(complete);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [complete]);
+
+  // Check if on mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(
+        window.innerWidth < 768 ||
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent
+          )
+      );
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
 
   // Initialize the user inputs grid
   useEffect(() => {
@@ -169,11 +191,12 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollTimeout]);
 
-  // Handle cell input change
+  // Handle cell input change - modified for better mobile handling
   const handleCellChange = (row: number, col: number, value: string): void => {
     if (puzzle.grid[row][col] === " ") return;
 
     const newInputs = [...userInputs];
+    // Always replace the current cell content (overwrite mode)
     newInputs[row][col] = value.toUpperCase();
     setUserInputs(newInputs);
 
@@ -211,18 +234,65 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
 
     setHighlightedCell([nextRow, nextCol]);
 
-    // Focus the next input field
-    const nextInput = document.getElementById(
-      `cell-${nextRow}-${nextCol}`
-    ) as HTMLInputElement | null;
-    if (nextInput) {
-      nextInput.focus();
+    // Focus the next input field if not on mobile
+    if (!isMobile) {
+      const nextInput = document.getElementById(
+        `cell-${nextRow}-${nextCol}`
+      ) as HTMLInputElement | null;
+      if (nextInput) {
+        nextInput.focus();
+      }
     }
+  };
+
+  // Clear current clue
+  const clearCurrentClue = (): void => {
+    if (!highlightedClue || !highlightDirection) return;
+
+    const clueInfo =
+      highlightDirection === "across"
+        ? puzzle.across[highlightedClue]
+        : puzzle.down[highlightedClue];
+
+    if (!clueInfo) return;
+
+    const newInputs = [...userInputs];
+
+    if (highlightDirection === "across") {
+      for (let i = 0; i < clueInfo.answer.length; i++) {
+        const col = clueInfo.col + i;
+        newInputs[clueInfo.row][col] = "";
+      }
+    } else {
+      for (let i = 0; i < clueInfo.answer.length; i++) {
+        const row = clueInfo.row + i;
+        newInputs[row][clueInfo.col] = "";
+      }
+    }
+
+    setUserInputs(newInputs);
   };
 
   // Handle cell click to highlight related cells
   const handleCellClick = (row: number, col: number): void => {
     if (puzzle.grid[row][col] === " ") return;
+
+    // In mobile mode, first click selects, second click allows input
+    if (isMobile) {
+      if (
+        highlightedCell &&
+        highlightedCell[0] === row &&
+        highlightedCell[1] === col &&
+        selectionMode === "select"
+      ) {
+        setIsKeyboardVisible(true);
+        setSelectionMode("input");
+        return;
+      } else {
+        setSelectionMode("select");
+        setIsKeyboardVisible(false);
+      }
+    }
 
     setHighlightedCell([row, col]);
 
@@ -297,6 +367,43 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
     }
   };
 
+  // Modify handleClueClick to open keyboard in mobile mode
+  const handleClueClick = (clueNum: string, direction: Direction): void => {
+    setHighlightedClue(clueNum);
+    setHighlightDirection(direction);
+
+    const clueInfo =
+      direction === "across" ? puzzle.across[clueNum] : puzzle.down[clueNum];
+
+    if (clueInfo) {
+      setHighlightedCell([clueInfo.row, clueInfo.col]);
+      setSelectionMode("select");
+
+      // On mobile, open the keyboard when a clue is clicked
+      if (isMobile) {
+        setIsKeyboardVisible(true);
+      }
+
+      // Focus the first cell of the clue if not mobile
+      if (!isMobile) {
+        const firstInput = document.getElementById(
+          `cell-${clueInfo.row}-${clueInfo.col}`
+        ) as HTMLInputElement | null;
+        if (firstInput) {
+          firstInput.focus();
+        }
+      }
+
+      // Scroll to the cell
+      const cellElement = document.getElementById(
+        `cell-container-${clueInfo.row}-${clueInfo.col}`
+      );
+      if (cellElement) {
+        cellElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  };
+
   // Check if a cell should be highlighted
   const isCellHighlighted = (row: number, col: number): boolean => {
     if (!highlightedCell || !highlightedClue) return false;
@@ -324,6 +431,15 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
     }
   };
 
+  // Check if a cell is currently selected (the active cell)
+  const isCellSelected = (row: number, col: number): boolean => {
+    return (
+      highlightedCell !== null &&
+      highlightedCell[0] === row &&
+      highlightedCell[1] === col
+    );
+  };
+
   // Get clue number for a cell
   const getCellNumber = (row: number, col: number): string | null => {
     const numbers: string[] = [];
@@ -344,35 +460,6 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
     });
 
     return numbers.length > 0 ? numbers[0] : null;
-  };
-
-  // Handle click on a clue
-  const handleClueClick = (clueNum: string, direction: Direction): void => {
-    setHighlightedClue(clueNum);
-    setHighlightDirection(direction);
-
-    const clueInfo =
-      direction === "across" ? puzzle.across[clueNum] : puzzle.down[clueNum];
-
-    if (clueInfo) {
-      setHighlightedCell([clueInfo.row, clueInfo.col]);
-
-      // Focus the first cell of the clue
-      const firstInput = document.getElementById(
-        `cell-${clueInfo.row}-${clueInfo.col}`
-      ) as HTMLInputElement | null;
-      if (firstInput) {
-        firstInput.focus();
-      }
-
-      // Scroll to the cell
-      const cellElement = document.getElementById(
-        `cell-container-${clueInfo.row}-${clueInfo.col}`
-      );
-      if (cellElement) {
-        cellElement.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    }
   };
 
   // Clear all user inputs
@@ -499,6 +586,104 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
     }
   };
 
+  // Gets the currently highlighted clue text
+  const getCurrentClueText = (): string => {
+    if (!highlightedClue || !highlightDirection) return "";
+
+    const clueInfo =
+      highlightDirection === "across"
+        ? puzzle.across[highlightedClue]
+        : puzzle.down[highlightedClue];
+
+    if (!clueInfo) return "";
+
+    return `${highlightedClue} ${highlightDirection}: ${clueInfo.clue}`;
+  };
+
+  // Mobile virtual keyboard for letter input
+  const renderMobileKeyboard = () => {
+    if (!isMobile || !highlightedCell || !isKeyboardVisible) return null;
+
+    const keyRows = [
+      ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+      ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+      ["Z", "X", "C", "V", "B", "N", "M"],
+    ];
+
+    return (
+      <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-700 p-2 z-50 shadow-2xl">
+        <div className="text-center mb-2 text-sm text-gray-300">
+          {getCurrentClueText()}
+        </div>
+
+        {keyRows.map((row, rowIndex) => (
+          <div
+            key={rowIndex}
+            className={`grid ${
+              rowIndex === 0
+                ? "grid-cols-10"
+                : rowIndex === 1
+                  ? "grid-cols-9 ml-4 mr-4"
+                  : "grid-cols-7 ml-8 mr-8"
+            } gap-1 mb-1`}
+          >
+            {row.map((letter) => (
+              <button
+                key={letter}
+                className="p-2 bg-gray-800 rounded text-gray-100 hover:bg-indigo-700 active:bg-indigo-800 text-sm"
+                onClick={() => {
+                  if (highlightedCell) {
+                    handleCellChange(
+                      highlightedCell[0],
+                      highlightedCell[1],
+                      letter
+                    );
+                  }
+                }}
+              >
+                {letter}
+              </button>
+            ))}
+            {rowIndex === 2 && (
+              <button
+                className="p-2 bg-red-800 rounded text-gray-100 hover:bg-red-700 active:bg-red-800 text-sm col-span-2"
+                onClick={() => {
+                  if (highlightedCell) {
+                    handleCellChange(
+                      highlightedCell[0],
+                      highlightedCell[1],
+                      ""
+                    );
+                  }
+                }}
+              >
+                Delete
+              </button>
+            )}
+          </div>
+        ))}
+
+        <div className="flex justify-around mt-2 gap-2">
+          <button
+            className="flex-1 p-2 bg-amber-800 rounded text-gray-100 hover:bg-amber-700 active:bg-amber-800"
+            onClick={clearCurrentClue}
+          >
+            Clear Word
+          </button>
+          <button
+            className="flex-1 p-2 bg-gray-800 rounded text-gray-100 hover:bg-gray-700 active:bg-gray-800"
+            onClick={() => {
+              setIsKeyboardVisible(false);
+              setSelectionMode("select");
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="flex flex-col items-center justify-center p-2 sm:p-4 max-w-full sm:max-w-6xl mx-auto bg-gray-900 text-gray-100 rounded-lg">
       <h1 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4 text-gray-100">
@@ -508,6 +693,17 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
       {complete && (
         <div className="mb-2 sm:mb-4 p-2 bg-green-900 text-green-100 rounded w-full text-center">
           Congratulations! You&apos;ve completed the crossword puzzle!
+        </div>
+      )}
+
+      {/* Mobile mode indicator */}
+      {isMobile && (
+        <div className="mb-2 w-full text-center">
+          <span className="text-sm text-indigo-300">
+            {selectionMode === "select"
+              ? "Tap a cell to select, tap again to enter text"
+              : "Tap letters to fill in the puzzle"}
+          </span>
         </div>
       )}
 
@@ -599,6 +795,7 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
                   row.map((cell, colIndex) => {
                     const number = getCellNumber(rowIndex, colIndex);
                     const isHighlighted = isCellHighlighted(rowIndex, colIndex);
+                    const isSelected = isCellSelected(rowIndex, colIndex);
 
                     return (
                       <div
@@ -621,31 +818,58 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
                           </span>
                         )}
                         {cell !== " " && (
-                          <input
-                            id={`cell-${rowIndex}-${colIndex}`}
-                            type="text"
-                            maxLength={1}
-                            value={userInputs[rowIndex]?.[colIndex] || ""}
-                            onChange={(e) =>
-                              handleCellChange(
-                                rowIndex,
-                                colIndex,
-                                e.target.value
-                              )
-                            }
-                            onClick={() => handleCellClick(rowIndex, colIndex)}
-                            onKeyDown={(e) =>
-                              handleKeyDown(e, rowIndex, colIndex)
-                            }
-                            className={`w-full h-full text-center font-bold border ${
-                              isHighlighted
-                                ? "bg-indigo-900 border-indigo-400"
-                                : "bg-gray-900 border-gray-700"
-                            } focus:outline-none focus:border-blue-400 text-gray-100 uppercase`}
-                            style={{
-                              fontSize: `${Math.max(14, cellSize / 2)}px`,
-                            }}
-                          />
+                          <>
+                            {/* For mobile - display as clickable div */}
+                            {isMobile ? (
+                              <div
+                                id={`cell-${rowIndex}-${colIndex}`}
+                                onClick={() =>
+                                  handleCellClick(rowIndex, colIndex)
+                                }
+                                className={`w-full h-full flex items-center justify-center font-bold border ${
+                                  isSelected
+                                    ? "bg-blue-800 border-blue-400"
+                                    : isHighlighted
+                                      ? "bg-indigo-900 border-indigo-400"
+                                      : "bg-gray-900 border-gray-700"
+                                } uppercase text-gray-100`}
+                                style={{
+                                  fontSize: `${Math.max(14, cellSize / 2)}px`,
+                                }}
+                              >
+                                {userInputs[rowIndex]?.[colIndex] || ""}
+                              </div>
+                            ) : (
+                              /* For desktop - use input field */
+                              <input
+                                id={`cell-${rowIndex}-${colIndex}`}
+                                type="text"
+                                maxLength={1}
+                                value={userInputs[rowIndex]?.[colIndex] || ""}
+                                onChange={(e) =>
+                                  handleCellChange(
+                                    rowIndex,
+                                    colIndex,
+                                    e.target.value
+                                  )
+                                }
+                                onClick={() =>
+                                  handleCellClick(rowIndex, colIndex)
+                                }
+                                onKeyDown={(e) =>
+                                  handleKeyDown(e, rowIndex, colIndex)
+                                }
+                                className={`w-full h-full text-center font-bold border ${
+                                  isHighlighted
+                                    ? "bg-indigo-900 border-indigo-400"
+                                    : "bg-gray-900 border-gray-700"
+                                } focus:outline-none focus:border-blue-400 text-gray-100 uppercase`}
+                                style={{
+                                  fontSize: `${Math.max(14, cellSize / 2)}px`,
+                                }}
+                              />
+                            )}
+                          </>
                         )}
                         {cell === " " && (
                           <div className="w-full h-full bg-gray-800"></div>
@@ -761,6 +985,9 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
           scrollbar-color: #4f46e5 #1f2937;
         }
       `}</style>
+
+      {/* Mobile Virtual Keyboard */}
+      {renderMobileKeyboard()}
     </div>
   );
 }

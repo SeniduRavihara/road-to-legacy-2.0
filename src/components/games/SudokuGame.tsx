@@ -33,7 +33,7 @@ export default function SudokuGame({ setIsWon }: GameProps) {
   );
 
   // Initialize locked cells (cells that cannot be edited)
-  const [locked, setLocked] = useState<LockGrid>(
+  const [locked, ] = useState<LockGrid>(
     staticPuzzle.map((row) => row.map((cell) => cell !== 0))
   );
 
