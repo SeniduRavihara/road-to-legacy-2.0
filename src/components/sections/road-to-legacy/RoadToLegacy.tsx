@@ -387,7 +387,7 @@ const RoadToLegacy: React.FC = () => {
           </p>
 
           <a
-            href="https://chat.whatsapp.com/GIUzwh9BROGBPhbJCmmPxo"
+            href="https://chat.whatsapp.com/DpmeAHbJwSfHa6WPk45m1V"
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -5,17 +5,19 @@ important -> give me answers with at around 20 words, more mimum are better, and
 # Road to Legacy 2.0
 
 ### Introduction
-Road to Legacy 2.0 builds upon the successful foundation of its predecessor, representing the second iteration of IT LEGACY's flagship event. This collaborative initiative between the IEEE Student Branches of the University of Sri Jayewardenepura and the University of Colombo School of Computing continues to bridge the gap between industry leaders and aspiring technology students, with an expanded focus and enhanced programming for 2025.
+This proposal highlights the strong collaboration between  the University of Sri Jayewardenepura, the University of Colombo School of Computing, and the University of Moratuwa in building an “ IT legacy ”.
+It outlines the vision for Road to Legacy 2.0, our flagship event designed to bridge the gap between industry leaders and aspiring IT professionals. This initiative aims to provide students with valuable insights, essential skills, and career guidance, helping them prepare for future opportunities in the IT industry.
+
+
 
 ### About IT LEGACY
-IT LEGACY is a vibrant community dedicated to uniting first-year students from Sri Lanka's leading universities. The community fosters collaboration, continuous learning, and professional development across diverse IT fields. Our mission centers on collaborative efforts with a commitment to creating positive global impact. Rooted in shared values, we aspire to be a force for good, fostering cooperation and driving meaningful changes in Sri Lanka and beyond.
+The “ IT LEGACY ” Community brings together first-year students from leading universities, fostering collaboration, learning, and professional growth across diverse IT fields.
+Our mission is to collaborate and create a positive global impact by fostering teamwork, innovation, and inclusivity. We aim to empower future IT professionals by encouraging cooperation, embracing diverse perspectives, and driving meaningful change in Sri Lanka and beyond. Through knowledge-sharing and skill development, we strive to build a connected and forward-thinking community.
+
 
 ### Organizing Institutions
-IEEE Student Branch of UCSC  
-Established in 2011, the IEEE Student Branch at the University of Colombo School of Computing has consistently organized activities aimed at bolstering students' professional development. Beyond technological expertise, these initiatives focus on nurturing organizational, leadership, and interaction skills, contributing to comprehensive personality development.
-
 IEEE Student Branch of USJ  
-Established in 2018 as part of the IEEE Sri Lanka Section, the IEEE Student Branch at the University of Sri Jayewardenepura stands as a prominent hub for academic excellence. Situated in a leading Sri Lankan university renowned for its faculties in Sciences, Technology, Engineering, and Management, it brings together diverse and talented minds to foster educational and professional growth of undergraduates.
+Established in 2018 under the IEEE Sri Lanka Section, the IEEE Student Branch at the University of Sri Jayewardenepura is a hub for academic excellence. It brings together diverse talent and fosters educational and professional growth through sessions and workshops.
 
 ### Vision for Road to Legacy 2.0
 Road to Legacy 2.0 expands on our mission to provide first-year IT undergraduates with a comprehensive roadmap for success in the technology industry. We aim to empower students to strategically plan their university journey while fostering meaningful connections across universities and with industry professionals.
@@ -37,24 +39,21 @@ Road to Legacy 2.0 offers students:
 ### Event Details
 
 Date: 31 , May , 2025.
-Venue: at University of Colombo
+Venue: at Faculty of technology, University of Sri Jayewardenepura
 Time: 8:00 AM - 4:30 PM
-Target Audience: 600 first-year students from universities across Sri Lanka
+Target Audience: 700+ first-year students from universities across Sri Lanka
 
 ### Technology Domains Covered
 Road to Legacy 2.0 expands on the previous event's domains with more comprehensive coverage:
 
-1. Software Development - Web, mobile, and enterprise applications
-2. Cloud Development & DevOps - Infrastructure, deployment, and operations
-3. Data Science & Artificial Intelligence - Analytics, machine learning, and AI applications
-4. Cybersecurity - Threat analysis, security architecture, and ethical hacking
-5. Game Development - Design, development, and monetization
-6. Creative Technology - UX/UI design, digital content creation
-7. Tech Management - Project management, product ownership, and leadership
-8. Entrepreneurship in Tech - Startup journeys, funding, and innovation
+1. Software Development 
+2. Artificial Intelligence &  Cybersecurity
+3. Game Development - Design, development, and monetization
+4. Project Management & Business Analysis
 
 ### Event Format
-- Each domain will be allocated approximately 45 minutes
+
+- Each domain will be allocated approximately 30-40 minutes
 - Industry experts will share insights on career paths, required skills, and development strategies
 - Interactive Q&A sessions will follow each domain presentation
 - Engaging group activities to encourage cross-university networking
@@ -67,18 +66,16 @@ Road to Legacy 2.0 expands on the previous event's domains with more comprehensi
 3. Inspiration - Motivating students to set clear goals for their university journey
 4. Collaboration - Encouraging partnerships between universities and industry stakeholders
 
-### Digital Strategy
-- Complete event recording shared on YouTube as domain-specific videos
-- Active promotion across social media platforms for two weeks post-event
-- Development of supplementary learning resources based on event content
-- Creation of a dedicated community platform for continued engagement
 
 ### Leadership Team
 The Road to Legacy 2.0 is organized by a dedicated team led by:
 
 - Dheeshana Alagiyawanna: Co-Chief Organizer (+94 71 483 5998)
+- Pasindu Mendis :Co-Chief Organizer (+94 71 936 7720 )
 - Hesanda Liyanage: Co-Chief Organizer (+94 75 206 9515)
-- Oshadi Liyanage: Co-Chief Organizer (+94 70 250 2890)
+- Umaya Walpola : Co-Chief Organizer (+94 76 540 8463
+- Oshadi Liyanage:  Co-Chief Organizer (+94 70 250 2890)
+- Asiri Harischandra : Co-Chief Organizer (+94 70 575 8091)
 
 ### Partnership Opportunities
 By supporting Road to Legacy 2.0, organizations can:
@@ -95,14 +92,17 @@ Join us in empowering Sri Lanka's technology students. Together, we can create m
 For partnership inquiries, please contact:
 - Dheeshana Alagiyawanna: +94 71 483 5998
 - Umaya Walpola : +94 76 540 8463
-- L.S.A. Jayamaha : +94 76 949 6058
+- Lithasa Jayamaha : +94 76 949 6058
 
-Official Website: itlegacy.team
-
+Official Website: https://roadtolegacy.team/
 Follow Us:
-- IT LEGACY: linkedin.com/company/it-legacy
+- IT LEGACY:   Facebook : facebook.com/ITlegacySL
+               Instagram : instagram.com/itlegacy.team
+               LinkedIn : linkedin.com/company/it-legacy
+
+
 - IEEE USJ SB: linkedin.com/company/ieee-student-branch-usj
-- IEEE UCSC SB: linkedin.com/company/ieee-student-branch-ucsc/
+
 
 ### How can register to the event
 website provide a register option to register

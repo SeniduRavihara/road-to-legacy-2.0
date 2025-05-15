@@ -290,7 +290,7 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
         return;
       } else {
         setSelectionMode("select");
-        setIsKeyboardVisible(false);
+        // setIsKeyboardVisible(false);
       }
     }
 
@@ -686,305 +686,314 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
 
   return (
     <div className="flex flex-col items-center justify-center p-2 sm:p-4 max-w-full sm:max-w-6xl mx-auto bg-gray-900 text-gray-100 rounded-lg">
-      <h1 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4 text-gray-100">
-        Advanced Tech Crossword Puzzle
-      </h1>
+      <>
+        <h1 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4 text-gray-100">
+          Advanced Tech Crossword Puzzle
+        </h1>
 
-      {complete && (
-        <div className="mb-2 sm:mb-4 p-2 bg-green-900 text-green-100 rounded w-full text-center">
-          Congratulations! You&apos;ve completed the crossword puzzle!
-        </div>
-      )}
+        {complete && (
+          <div className="mb-2 sm:mb-4 p-2 bg-green-900 text-green-100 rounded w-full text-center">
+            Congratulations! You&apos;ve completed the crossword puzzle!
+          </div>
+        )}
 
-      {/* Mobile mode indicator */}
-      {isMobile && (
-        <div className="mb-2 w-full text-center">
-          <span className="text-sm text-indigo-300">
-            {selectionMode === "select"
-              ? "Tap a cell to select, tap again to enter text"
-              : "Tap letters to fill in the puzzle"}
-          </span>
-        </div>
-      )}
+        {/* Mobile mode indicator */}
+        {isMobile && (
+          <div className="mb-2 w-full text-center">
+            <span className="text-sm text-indigo-300">
+              {selectionMode === "select"
+                ? "Tap a cell to select, tap again to enter text"
+                : "Tap letters to fill in the puzzle"}
+            </span>
+          </div>
+        )}
 
-      {/* Zoom controls */}
-      <div className="flex justify-center gap-2 w-full mb-2 sm:mb-4">
-        <button
-          onClick={zoomOut}
-          className="px-2 sm:px-3 py-1 bg-indigo-800 text-gray-100 rounded hover:bg-indigo-700 flex items-center"
-          aria-label="Zoom out"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+        {/* Zoom controls */}
+        <div className="flex justify-center gap-2 w-full mb-2 sm:mb-4">
+          <button
+            onClick={zoomOut}
+            className="px-2 sm:px-3 py-1 bg-indigo-800 text-gray-100 rounded hover:bg-indigo-700 flex items-center"
+            aria-label="Zoom out"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M20 12H4"
-            />
-          </svg>
-        </button>
-        <button
-          onClick={resetZoom}
-          className="px-2 sm:px-3 py-1 bg-indigo-800 text-gray-100 rounded hover:bg-indigo-700"
-          aria-label="Reset zoom"
-        >
-          {Math.round(zoomLevel * 100)}%
-        </button>
-        <button
-          onClick={zoomIn}
-          className="px-2 sm:px-3 py-1 bg-indigo-800 text-gray-100 rounded hover:bg-indigo-700 flex items-center"
-          aria-label="Zoom in"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
-        </button>
-      </div>
-
-      <div className="flex flex-col lg:flex-row w-full gap-2 sm:gap-4">
-        {/* Grid */}
-        <div className="lg:w-3/5" ref={gridContainerRef}>
-          <div className="relative border border-gray-600 rounded-lg overflow-hidden bg-gray-800">
-            {/* Scroll indicators */}
-            <div
-              className={`absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-gray-900 to-transparent opacity-50 pointer-events-none transition-opacity duration-300 ${showScrollIndicator ? "opacity-50" : "opacity-0"}`}
-            ></div>
-            <div
-              className={`absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-gray-900 to-transparent opacity-50 pointer-events-none transition-opacity duration-300 ${showScrollIndicator ? "opacity-50" : "opacity-0"}`}
-            ></div>
-            <div
-              className={`absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-gray-900 to-transparent opacity-50 pointer-events-none transition-opacity duration-300 ${showScrollIndicator ? "opacity-50" : "opacity-0"}`}
-            ></div>
-            <div
-              className={`absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-gray-900 to-transparent opacity-50 pointer-events-none transition-opacity duration-300 ${showScrollIndicator ? "opacity-50" : "opacity-0"}`}
-            ></div>
-
-            <div
-              ref={gridScrollContainerRef}
-              className="overflow-auto max-h-[calc(70vh-80px)] pb-4 scrollbar-container"
-              style={{
-                scrollbarWidth: "thin",
-                scrollbarColor: "#4f46e5 #1f2937",
-              }}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M20 12H4"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={resetZoom}
+            className="px-2 sm:px-3 py-1 bg-indigo-800 text-gray-100 rounded hover:bg-indigo-700"
+            aria-label="Reset zoom"
+          >
+            {Math.round(zoomLevel * 100)}%
+          </button>
+          <button
+            onClick={zoomIn}
+            className="px-2 sm:px-3 py-1 bg-indigo-800 text-gray-100 rounded hover:bg-indigo-700 flex items-center"
+            aria-label="Zoom in"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div className="flex flex-col lg:flex-row w-full gap-2 sm:gap-4">
+          {/* Grid */}
+          <div className="lg:w-3/5" ref={gridContainerRef}>
+            <div className="relative border border-gray-600 rounded-lg overflow-hidden bg-gray-800">
+              {/* Scroll indicators */}
               <div
-                className="gap-px bg-gray-700 inline-grid m-2"
+                className={`absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-gray-900 to-transparent opacity-50 pointer-events-none transition-opacity duration-300 ${showScrollIndicator ? "opacity-50" : "opacity-0"}`}
+              ></div>
+              <div
+                className={`absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-gray-900 to-transparent opacity-50 pointer-events-none transition-opacity duration-300 ${showScrollIndicator ? "opacity-50" : "opacity-0"}`}
+              ></div>
+              <div
+                className={`absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-gray-900 to-transparent opacity-50 pointer-events-none transition-opacity duration-300 ${showScrollIndicator ? "opacity-50" : "opacity-0"}`}
+              ></div>
+              <div
+                className={`absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-gray-900 to-transparent opacity-50 pointer-events-none transition-opacity duration-300 ${showScrollIndicator ? "opacity-50" : "opacity-0"}`}
+              ></div>
+
+              <div
+                ref={gridScrollContainerRef}
+                className="overflow-auto max-h-[calc(70vh-80px)] pb-4 scrollbar-container"
                 style={{
-                  gridTemplateRows: `repeat(${gridSize.rows}, ${cellSize}px)`,
-                  gridTemplateColumns: `repeat(${gridSize.cols}, ${cellSize}px)`,
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "#4f46e5 #1f2937",
                 }}
               >
-                {puzzle.grid.map((row, rowIndex) =>
-                  row.map((cell, colIndex) => {
-                    const number = getCellNumber(rowIndex, colIndex);
-                    const isHighlighted = isCellHighlighted(rowIndex, colIndex);
-                    const isSelected = isCellSelected(rowIndex, colIndex);
+                <div
+                  className="gap-px bg-gray-700 inline-grid m-2"
+                  style={{
+                    gridTemplateRows: `repeat(${gridSize.rows}, ${cellSize}px)`,
+                    gridTemplateColumns: `repeat(${gridSize.cols}, ${cellSize}px)`,
+                  }}
+                >
+                  {puzzle.grid.map((row, rowIndex) =>
+                    row.map((cell, colIndex) => {
+                      const number = getCellNumber(rowIndex, colIndex);
+                      const isHighlighted = isCellHighlighted(
+                        rowIndex,
+                        colIndex
+                      );
+                      const isSelected = isCellSelected(rowIndex, colIndex);
 
-                    return (
-                      <div
-                        key={`${rowIndex}-${colIndex}`}
-                        id={`cell-container-${rowIndex}-${colIndex}`}
-                        className={`relative ${cell === " " ? "bg-gray-800" : "bg-gray-900"}`}
-                        style={{
-                          width: `${cellSize}px`,
-                          height: `${cellSize}px`,
-                        }}
-                      >
-                        {number && (
-                          <span
-                            className="absolute top-0 left-0 text-xs pl-1 text-gray-400"
-                            style={{
-                              fontSize: `${Math.max(8, cellSize / 4)}px`,
-                            }}
-                          >
-                            {number}
-                          </span>
-                        )}
-                        {cell !== " " && (
-                          <>
-                            {/* For mobile - display as clickable div */}
-                            {isMobile ? (
-                              <div
-                                id={`cell-${rowIndex}-${colIndex}`}
-                                onClick={() =>
-                                  handleCellClick(rowIndex, colIndex)
-                                }
-                                className={`w-full h-full flex items-center justify-center font-bold border ${
-                                  isSelected
-                                    ? "bg-blue-800 border-blue-400"
-                                    : isHighlighted
+                      return (
+                        <div
+                          key={`${rowIndex}-${colIndex}`}
+                          id={`cell-container-${rowIndex}-${colIndex}`}
+                          className={`relative ${cell === " " ? "bg-gray-800" : "bg-gray-900"}`}
+                          style={{
+                            width: `${cellSize}px`,
+                            height: `${cellSize}px`,
+                          }}
+                        >
+                          {number && (
+                            <span
+                              className="absolute top-0 left-0 text-xs pl-1 text-gray-400"
+                              style={{
+                                fontSize: `${Math.max(8, cellSize / 4)}px`,
+                              }}
+                            >
+                              {number}
+                            </span>
+                          )}
+                          {cell !== " " && (
+                            <>
+                              {/* For mobile - display as clickable div */}
+                              {isMobile ? (
+                                <div
+                                  id={`cell-${rowIndex}-${colIndex}`}
+                                  onClick={() =>
+                                    handleCellClick(rowIndex, colIndex)
+                                  }
+                                  className={`w-full h-full flex items-center justify-center font-bold border ${
+                                    isSelected
+                                      ? "bg-blue-800 border-blue-400"
+                                      : isHighlighted
+                                        ? "bg-indigo-900 border-indigo-400"
+                                        : "bg-gray-900 border-gray-700"
+                                  } uppercase text-gray-100`}
+                                  style={{
+                                    fontSize: `${Math.max(14, cellSize / 2)}px`,
+                                  }}
+                                >
+                                  {userInputs[rowIndex]?.[colIndex] || ""}
+                                </div>
+                              ) : (
+                                /* For desktop - use input field */
+                                <input
+                                  id={`cell-${rowIndex}-${colIndex}`}
+                                  type="text"
+                                  maxLength={1}
+                                  value={userInputs[rowIndex]?.[colIndex] || ""}
+                                  onChange={(e) =>
+                                    handleCellChange(
+                                      rowIndex,
+                                      colIndex,
+                                      e.target.value
+                                    )
+                                  }
+                                  onClick={() =>
+                                    handleCellClick(rowIndex, colIndex)
+                                  }
+                                  onKeyDown={(e) =>
+                                    handleKeyDown(e, rowIndex, colIndex)
+                                  }
+                                  className={`w-full h-full text-center font-bold border ${
+                                    isHighlighted
                                       ? "bg-indigo-900 border-indigo-400"
                                       : "bg-gray-900 border-gray-700"
-                                } uppercase text-gray-100`}
-                                style={{
-                                  fontSize: `${Math.max(14, cellSize / 2)}px`,
-                                }}
-                              >
-                                {userInputs[rowIndex]?.[colIndex] || ""}
-                              </div>
-                            ) : (
-                              /* For desktop - use input field */
-                              <input
-                                id={`cell-${rowIndex}-${colIndex}`}
-                                type="text"
-                                maxLength={1}
-                                value={userInputs[rowIndex]?.[colIndex] || ""}
-                                onChange={(e) =>
-                                  handleCellChange(
-                                    rowIndex,
-                                    colIndex,
-                                    e.target.value
-                                  )
-                                }
-                                onClick={() =>
-                                  handleCellClick(rowIndex, colIndex)
-                                }
-                                onKeyDown={(e) =>
-                                  handleKeyDown(e, rowIndex, colIndex)
-                                }
-                                className={`w-full h-full text-center font-bold border ${
-                                  isHighlighted
-                                    ? "bg-indigo-900 border-indigo-400"
-                                    : "bg-gray-900 border-gray-700"
-                                } focus:outline-none focus:border-blue-400 text-gray-100 uppercase`}
-                                style={{
-                                  fontSize: `${Math.max(14, cellSize / 2)}px`,
-                                }}
-                              />
-                            )}
-                          </>
-                        )}
-                        {cell === " " && (
-                          <div className="w-full h-full bg-gray-800"></div>
-                        )}
-                      </div>
-                    );
-                  })
-                )}
+                                  } focus:outline-none focus:border-blue-400 text-gray-100 uppercase`}
+                                  style={{
+                                    fontSize: `${Math.max(14, cellSize / 2)}px`,
+                                  }}
+                                />
+                              )}
+                            </>
+                          )}
+                          {cell === " " && (
+                            <div className="w-full h-full bg-gray-800"></div>
+                          )}
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
               </div>
+            </div>
+          </div>
+
+          {/* Clues */}
+          <div className="lg:w-2/5 flex flex-col gap-2 sm:gap-4 mt-2 lg:mt-0">
+            {/* Across clues */}
+            <div className="h-1/2 overflow-y-auto scrollbar-container rounded-lg border border-gray-700">
+              <h2 className="font-bold text-indigo-300 mb-1 sticky top-0 bg-gray-900 py-1 px-2 border-b border-gray-700">
+                Across
+              </h2>
+              <ul className="text-sm px-2">
+                {Object.entries(puzzle.across).map(([clueNum, clue]) => (
+                  <li
+                    key={`across-${clueNum}`}
+                    id={`clue-across-${clueNum}`}
+                    className={`cursor-pointer p-1 mb-1 ${
+                      highlightedClue === clueNum &&
+                      highlightDirection === "across"
+                        ? "bg-indigo-900 text-indigo-100 rounded"
+                        : ""
+                    }`}
+                    onClick={() => handleClueClick(clueNum, "across")}
+                  >
+                    <span className="font-bold">{clueNum}.</span> {clue.clue}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Down clues */}
+            <div className="h-1/2 overflow-y-auto scrollbar-container rounded-lg border border-gray-700">
+              <h2 className="font-bold text-indigo-300 mb-1 sticky top-0 bg-gray-900 py-1 px-2 border-b border-gray-700">
+                Down
+              </h2>
+              <ul className="text-sm px-2">
+                {Object.entries(puzzle.down).map(([clueNum, clue]) => (
+                  <li
+                    key={`down-${clueNum}`}
+                    id={`clue-down-${clueNum}`}
+                    className={`cursor-pointer p-1 mb-1 ${
+                      highlightedClue === clueNum &&
+                      highlightDirection === "down"
+                        ? "bg-indigo-900 text-indigo-100 rounded"
+                        : ""
+                    }`}
+                    onClick={() => handleClueClick(clueNum, "down")}
+                  >
+                    <span className="font-bold">{clueNum}.</span> {clue.clue}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
 
-        {/* Clues */}
-        <div className="lg:w-2/5 flex flex-col gap-2 sm:gap-4 mt-2 lg:mt-0">
-          {/* Across clues */}
-          <div className="h-1/2 overflow-y-auto scrollbar-container rounded-lg border border-gray-700">
-            <h2 className="font-bold text-indigo-300 mb-1 sticky top-0 bg-gray-900 py-1 px-2 border-b border-gray-700">
-              Across
-            </h2>
-            <ul className="text-sm px-2">
-              {Object.entries(puzzle.across).map(([clueNum, clue]) => (
-                <li
-                  key={`across-${clueNum}`}
-                  id={`clue-across-${clueNum}`}
-                  className={`cursor-pointer p-1 mb-1 ${
-                    highlightedClue === clueNum &&
-                    highlightDirection === "across"
-                      ? "bg-indigo-900 text-indigo-100 rounded"
-                      : ""
-                  }`}
-                  onClick={() => handleClueClick(clueNum, "across")}
-                >
-                  <span className="font-bold">{clueNum}.</span> {clue.clue}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Down clues */}
-          <div className="h-1/2 overflow-y-auto scrollbar-container rounded-lg border border-gray-700">
-            <h2 className="font-bold text-indigo-300 mb-1 sticky top-0 bg-gray-900 py-1 px-2 border-b border-gray-700">
-              Down
-            </h2>
-            <ul className="text-sm px-2">
-              {Object.entries(puzzle.down).map(([clueNum, clue]) => (
-                <li
-                  key={`down-${clueNum}`}
-                  id={`clue-down-${clueNum}`}
-                  className={`cursor-pointer p-1 mb-1 ${
-                    highlightedClue === clueNum && highlightDirection === "down"
-                      ? "bg-indigo-900 text-indigo-100 rounded"
-                      : ""
-                  }`}
-                  onClick={() => handleClueClick(clueNum, "down")}
-                >
-                  <span className="font-bold">{clueNum}.</span> {clue.clue}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="flex gap-2 my-4">
+          <button
+            onClick={clearPuzzle}
+            className="px-3 py-2 bg-amber-700 text-gray-100 rounded hover:bg-amber-600"
+          >
+            Clear All
+          </button>
+          <button
+            onClick={revealSolution}
+            className="px-3 py-2 bg-purple-700 text-gray-100 rounded hover:bg-purple-600"
+          >
+            Reveal Solution
+          </button>
         </div>
-      </div>
 
-      <div className="flex gap-2 my-4">
-        <button
-          onClick={clearPuzzle}
-          className="px-3 py-2 bg-amber-700 text-gray-100 rounded hover:bg-amber-600"
-        >
-          Clear All
-        </button>
-        <button
-          onClick={revealSolution}
-          className="px-3 py-2 bg-purple-700 text-gray-100 rounded hover:bg-purple-600"
-        >
-          Reveal Solution
-        </button>
-      </div>
+        <div className="text-xs sm:text-sm text-gray-400 text-center">
+          <p>
+            Click on a cell or clue to start. Use arrow keys to navigate.
+            <span className="hidden sm:inline">
+              {" "}
+              Zoom to adjust puzzle size.
+            </span>
+          </p>
+          <p className="text-xs mt-1 text-gray-500">
+            Swipe or scroll to view more puzzle content
+          </p>
+        </div>
 
-      <div className="text-xs sm:text-sm text-gray-400 text-center">
-        <p>
-          Click on a cell or clue to start. Use arrow keys to navigate.
-          <span className="hidden sm:inline"> Zoom to adjust puzzle size.</span>
-        </p>
-        <p className="text-xs mt-1 text-gray-500">
-          Swipe or scroll to view more puzzle content
-        </p>
-      </div>
+        {/* Custom scrollbar styles */}
+        <style jsx global>{`
+          .scrollbar-container::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+          }
 
-      {/* Custom scrollbar styles */}
-      <style jsx global>{`
-        .scrollbar-container::-webkit-scrollbar {
-          width: 8px;
-          height: 8px;
-        }
+          .scrollbar-container::-webkit-scrollbar-track {
+            background: #1f2937;
+            border-radius: 4px;
+          }
 
-        .scrollbar-container::-webkit-scrollbar-track {
-          background: #1f2937;
-          border-radius: 4px;
-        }
+          .scrollbar-container::-webkit-scrollbar-thumb {
+            background: #4f46e5;
+            border-radius: 4px;
+          }
 
-        .scrollbar-container::-webkit-scrollbar-thumb {
-          background: #4f46e5;
-          border-radius: 4px;
-        }
+          .scrollbar-container::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+          }
 
-        .scrollbar-container::-webkit-scrollbar-thumb:hover {
-          background: #6366f1;
-        }
-
-        .scrollbar-container {
-          scrollbar-width: thin;
-          scrollbar-color: #4f46e5 #1f2937;
-        }
-      `}</style>
+          .scrollbar-container {
+            scrollbar-width: thin;
+            scrollbar-color: #4f46e5 #1f2937;
+          }
+        `}</style>
+      </>
 
       {/* Mobile Virtual Keyboard */}
       {renderMobileKeyboard()}

@@ -16,7 +16,7 @@ const SponsorCard = ({
   image: string;
   width: number;
   height: number;
-  partnerType: string;
+  partnerType?: string;
   name: string;
   website?: string;
   isHovered: boolean;

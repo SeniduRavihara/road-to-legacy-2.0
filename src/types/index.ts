@@ -62,7 +62,7 @@ export type FormDataType = {
   email: string;
   emergencyContact: string;
   mealPreference: string;
-  tShirt: boolean;
+  // tShirt: boolean;
   hearAbout: string;
   hearAboutOther: string;
   suggestions: string;

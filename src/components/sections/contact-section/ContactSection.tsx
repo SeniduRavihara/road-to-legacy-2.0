@@ -5,6 +5,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -356,16 +358,16 @@ const ContactSection = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            {/* <div className="flex justify-center mt-8 gap-4">
+            <div className="flex justify-center mt-8 gap-4">
               <CarouselPrevious
-                className="relative static translate-y-0 text-white border-none"
+                className=" static translate-y-0 text-white border-none"
                 style={{ backgroundColor: "#2c3039" }}
               />
               <CarouselNext
-                className="relative static translate-y-0 text-white border-none"
+                className=" static translate-y-0 text-white border-none"
                 style={{ backgroundColor: "#2c3039" }}
               />
-            </div> */}
+            </div>
           </Carousel>
         </div>
       </div>
