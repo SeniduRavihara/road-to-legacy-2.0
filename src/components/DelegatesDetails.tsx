@@ -3,7 +3,7 @@
 import { sendEmail } from "@/firebase/api";
 import { db } from "@/firebase/config";
 import { createEmailHTML } from "@/lib/utils";
-import { DelegatesType } from "@/types";
+import { DelegatesExportType, DelegatesType } from "@/types";
 import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
@@ -13,9 +13,9 @@ import { Card, CardContent } from "./ui/card";
 
 const DelegatesDetails = () => {
   const [emailSendding, setEmailSending] = useState(false);
-  const [delegatesData, setDelegatesData] = useState<DelegatesType[] | null>(
-    []
-  );
+  const [delegatesData, setDelegatesData] = useState<
+    DelegatesExportType[] | null
+  >([]);
 
   const toggleArrived = async (selectedDelegate: DelegatesType | null) => {
     // console.log("Arrived:", selectedDelegate);
@@ -84,7 +84,7 @@ const DelegatesDetails = () => {
     }
   };
 
-  const exportToExcel = (data: DelegatesType[]) => {
+  const exportToExcel = (data: DelegatesExportType[]) => {
     if (!data || data.length === 0) {
       alert("No data to export");
       return;
@@ -92,10 +92,27 @@ const DelegatesDetails = () => {
 
     const worksheetData = data.map((delegate) => ({
       "First Name": delegate.firstName,
+      "Last Name": delegate.lastName,
+      "Certificate Name": delegate.certificateName,
       Email: delegate.email,
+      "Contact Number": delegate.contactNumber,
+      "Emergency Contact": delegate.emergencyContact,
+      NIC: delegate.nic,
+      University: delegate.university,
+      Faculty: delegate.faculty,
+      Department: delegate.department,
+      "University Reg. No": delegate.universityRegNo,
+      "A/L Year": delegate.alYear,
+      "Meal Preference": delegate.mealPreference,
+      "Heard About": delegate.hearAbout,
+      "Heard About (Other)": delegate.hearAboutOther,
+      Suggestions: delegate.suggestions,
       Arrived: delegate.arrived ? "Yes" : "No",
       "Confirm Arrival": delegate.confirmArrival ? "Yes" : "No",
       Selected: delegate.selected ? "Yes" : "No",
+      "Confirmation Email Sent": delegate.confirmationEmailSended
+        ? "Yes"
+        : "No",
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(worksheetData);
@@ -111,7 +128,7 @@ const DelegatesDetails = () => {
       const usersDataArr = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
-      })) as DelegatesType[];
+      })) as DelegatesExportType[];
 
       console.log(usersDataArr);
 

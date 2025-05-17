@@ -79,7 +79,6 @@ export interface GameResult {
   formattedTime: string;
 }
 
-
 export type TeamDataType = {
   name: string;
   leaderEmail: string;
@@ -87,4 +86,31 @@ export type TeamDataType = {
   createdAt: Timestamp | Date;
   gameResults: GameResult[];
   totalTimeTaken: number;
+};
+
+export type DelegatesExportType = {
+  id: string;
+  firstName: string;
+  email: string;
+  arrived: boolean;
+  confirmArrival: boolean;
+  selected: boolean;
+  confirmationUrl: string;
+  confirmationEmailSended: boolean;
+  // contactNumber: string;
+  role?: "ADMIN" | "USER";
+  lastName: string;
+  certificateName: string;
+  nic: string;
+  university: string;
+  faculty: string;
+  department: string;
+  universityRegNo: string;
+  alYear: string;
+  contactNumber: string;
+  emergencyContact: string;
+  mealPreference: string;
+  hearAbout: string;
+  hearAboutOther: string;
+  suggestions: string;
 };
