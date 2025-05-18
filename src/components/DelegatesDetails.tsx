@@ -4,7 +4,14 @@ import { sendEmail } from "@/firebase/api";
 import { db } from "@/firebase/config";
 import { createEmailHTML } from "@/lib/utils";
 import { DelegatesExportType, DelegatesType } from "@/types";
-import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  updateDoc,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import { columns } from "./delegates-data/Coloumns";
@@ -124,7 +131,10 @@ const DelegatesDetails = () => {
 
   useEffect(() => {
     const collectionRef = collection(db, "delegates");
-    const unsubscribe = onSnapshot(collectionRef, (querySnapshot) => {
+
+    const q = query(collectionRef, orderBy("createdAt", "asc"));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const usersDataArr = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
