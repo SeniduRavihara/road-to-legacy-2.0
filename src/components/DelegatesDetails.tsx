@@ -57,7 +57,27 @@ const DelegatesDetails = () => {
   const sendConfirmationEmail = async (
     selectedDelegate: DelegatesType | null
   ) => {
-    if (!selectedDelegate) return;
+    // Check if selectedDelegate is null or undefined
+    if (!selectedDelegate) {
+      alert("No delegate selected");
+      return;
+    }
+
+    // Check if delegate is not selected
+    if (!selectedDelegate.selected) {
+      alert(
+        `Delegate ${selectedDelegate.email} is not selected`
+      );
+      return;
+    }
+
+    // Check if confirmation email was already sent
+    if (selectedDelegate.confirmationEmailSended) {
+      alert(
+        `Confirmation email already sent to ${selectedDelegate.email}  || ""}`
+      );
+      return;
+    }
 
     try {
       console.log("Arrived:", selectedDelegate);
