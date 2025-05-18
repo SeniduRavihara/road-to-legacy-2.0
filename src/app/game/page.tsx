@@ -54,6 +54,7 @@ const GamePage: React.FC = () => {
   const [gameResults, setGameResults] = useState<GameResult[]>([]);
   const [, setAllGamesCompleted] = useState<boolean>(false);
   const [teamName, setTeamName] = useState<string | null>(null);
+  const [isEditable, setIsEditable] = useState<boolean>(false);
 
   // Add game win states tracking
   const [gameWinStates, setGameWinStates] = useState<Record<string, boolean>>({
@@ -73,6 +74,7 @@ const GamePage: React.FC = () => {
       router.push("/");
     }
     setTeamName(params.get("team") || "");
+    setIsEditable(params.get("editable") === "true");
   }, [router, teamName]);
 
   useEffect(() => {
@@ -406,16 +408,18 @@ const GamePage: React.FC = () => {
                 </div>
                 <button
                   onClick={handleGameComplete}
-                  disabled={!isCurrentGameWon()}
+                  disabled={!isCurrentGameWon() || !isEditable}
                   className={`${
-                    isCurrentGameWon()
-                      ? "bg-[#191b1f] text-[#f2f2f7] hover:bg-opacity-90"
+                    isCurrentGameWon() && isEditable
+                      ? "bg-[#191b1f] text-[#f2f7] hover:bg-opacity-90"
                       : "bg-gray-500 text-gray-300 cursor-not-allowed"
                   } px-2 sm:px-4 text-sm sm:text-base py-2 rounded-md transition`}
                 >
-                  {isCurrentGameWon()
-                    ? "Finish Game"
-                    : "Complete the game to continue"}
+                  {!isCurrentGameWon()
+                    ? "Complete the game to finish"
+                    : isEditable
+                      ? "Finish Game"
+                      : "Only leader can finish"}
                 </button>
               </div>
               <div className="game-container">
