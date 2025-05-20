@@ -1,4 +1,11 @@
-import { motion } from "framer-motion";
+"use client";
+
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
@@ -41,6 +48,15 @@ const sponsors = [
     partnerType: "Supported By",
     // website: "https://fortude.co",
   },
+  {
+    id: 5,
+    name: "WSO2",
+    image: "/images/sponsers/wso2-logo.png",
+    width: 200,
+    height: 50,
+    partnerType: "Official Knowledge Partner",
+    // website: "https://fortude.co",
+  },
 ];
 
 // Register the ScrollTrigger plugin
@@ -50,6 +66,8 @@ if (typeof window !== "undefined") {
 
 const SponsorsSection = () => {
   const [hoveredSponsor, setHoveredSponsor] = useState<number | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [api, setApi] = useState<CarouselApi | null>(null);
 
   // Refs for animated elements
   const sectionRef = useRef<HTMLElement>(null);
@@ -59,6 +77,16 @@ const SponsorsSection = () => {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const sponsorsRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const onApiReady = (api: CarouselApi) => {
+    if (!api) return;
+
+    setApi(api);
+    const onSelect = () => setCurrentIndex(api.selectedScrollSnap());
+    onSelect();
+    api.on("select", onSelect);
+    return () => api.off("select", onSelect);
+  };
 
   // Animation setup
   useEffect(() => {
@@ -153,15 +181,15 @@ const SponsorsSection = () => {
   }, []);
 
   // Container variants for staggered appearance
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
+  // const containerVariants = {
+  //   hidden: { opacity: 0 },
+  //   visible: {
+  //     opacity: 1,
+  //     transition: {
+  //       staggerChildren: 0.15,
+  //     },
+  //   },
+  // };
 
   const handlePartnershipAction = () => {
     // Email option - mailto link
@@ -230,30 +258,64 @@ const SponsorsSection = () => {
           </p>
         </div>
 
-        {/* Partners grid with staggered animations */}
-        <motion.div
-          ref={sponsorsRef}
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="gap-8 mb-16 flex flex-col sm:flex-row items-center justify-center"
-        >
-          {sponsors.map((sponsor) => (
-            <div key={sponsor.id} className="sponsor-card-wrapper">
-              <SponsorCard
-                image={sponsor.image}
-                width={sponsor.width}
-                height={sponsor.height}
-                partnerType={sponsor.partnerType}
-                name={sponsor.name}
-                // website={sponsor.website}
-                isHovered={hoveredSponsor === sponsor.id}
-                onHover={() => setHoveredSponsor(sponsor.id)}
-                onLeave={() => setHoveredSponsor(null)}
-              />
-            </div>
-          ))}
-        </motion.div>
+        {/* Responsive Carousel */}
+        <div ref={sponsorsRef} className="mb-16">
+          <Carousel
+            opts={{
+              align: "center",
+              loop: true,
+            }}
+            className="w-full"
+            setApi={onApiReady}
+          >
+            <CarouselContent>
+              {sponsors.map((sponsor) => (
+                <CarouselItem
+                  key={sponsor.id}
+                  className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+                >
+                  <div className="flex justify-center p-4">
+                    <div className="w-full max-w-xs">
+                      <SponsorCard
+                        image={sponsor.image}
+                        width={sponsor.width}
+                        height={sponsor.height}
+                        partnerType={sponsor.partnerType}
+                        name={sponsor.name}
+                        // website={sponsor.website}
+                        isHovered={hoveredSponsor === sponsor.id}
+                        onHover={() => setHoveredSponsor(sponsor.id)}
+                        onLeave={() => setHoveredSponsor(null)}
+                      />
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+
+          {/* Carousel indicators */}
+          <div className="flex justify-center mt-6">
+            {sponsors.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => api?.scrollTo(index)}
+                className="relative w-8 h-2 mx-1 focus:outline-none"
+                aria-label={`Go to slide ${index + 1}`}
+              >
+                <span
+                  className="absolute inset-0 rounded-full transition-all duration-300"
+                  style={{
+                    backgroundColor:
+                      currentIndex === index ? "#FFD700" : "#262930",
+                    transform:
+                      currentIndex === index ? "scaleX(1.2)" : "scaleX(1)",
+                  }}
+                />
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Become a partner button */}
         <div className="text-center">
