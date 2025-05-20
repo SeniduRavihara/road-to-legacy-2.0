@@ -21,7 +21,10 @@ export const createEmailHTML = (name: string, confirmationUrl: string) => {
       <div style="padding: 30px 35px;">
         <h2 style="margin: 0 0 15px; color: #ffffff; font-size: 22px;">Hello ${name},</h2>
         <p style="margin: 0 0 20px; line-height: 1.6; color: #cccccc;">Thank you for registering for <strong style="color: #ffffff;">Road To Legacy 2.0</strong>. We're excited to have you join us for this special event!</p>
-        <p style="margin: 0 0 25px; line-height: 1.6; color: #cccccc;">Please confirm your attendance by clicking the button below:</p>
+        <p style="margin: 0 0 25px; line-height: 1.6; color: #cccccc;">
+          Please confirm your attendance by clicking the button below.<br/>
+          <strong style="color: #ffffff;">Please confirm before May 26, 2025.</strong>
+        </p>
         
         <!-- Button -->
         <div style="text-align: center; margin: 30px 0;">
