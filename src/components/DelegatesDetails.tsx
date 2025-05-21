@@ -23,6 +23,46 @@ const DelegatesDetails = () => {
   const [delegatesData, setDelegatesData] = useState<
     DelegatesExportType[] | null
   >([]);
+  const [counts, setCounts] = useState({
+    total: 0,
+    arrivedCount: 0,
+    selectedCount: 0,
+    emailSendCount: 0,
+  });
+
+  useEffect(() => {
+    const collectionRef = collection(db, "delegates");
+
+    const q = query(collectionRef, orderBy("createdAt", "asc"));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const usersDataArr = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      })) as DelegatesExportType[];
+
+      console.log(usersDataArr);
+
+      setDelegatesData(usersDataArr);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    setCounts({
+      total: delegatesData?.length || 0,
+      arrivedCount:
+        delegatesData?.filter((delegate) => delegate.arrived).length || 0,
+      selectedCount:
+        delegatesData?.filter((delegate) => delegate.selected).length || 0,
+      emailSendCount:
+        delegatesData?.filter((delegate) => delegate.confirmationEmailSended)
+          .length || 0,
+    });
+  }, [delegatesData]);
+
+  console.log(counts);
 
   const toggleArrived = async (selectedDelegate: DelegatesType | null) => {
     // console.log("Arrived:", selectedDelegate);
@@ -65,9 +105,7 @@ const DelegatesDetails = () => {
 
     // Check if delegate is not selected
     if (!selectedDelegate.selected) {
-      alert(
-        `Delegate ${selectedDelegate.email} is not selected`
-      );
+      alert(`Delegate ${selectedDelegate.email} is not selected`);
       return;
     }
 
@@ -149,25 +187,6 @@ const DelegatesDetails = () => {
     XLSX.writeFile(workbook, "Delegates_List.xlsx");
   };
 
-  useEffect(() => {
-    const collectionRef = collection(db, "delegates");
-
-    const q = query(collectionRef, orderBy("createdAt", "asc"));
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const usersDataArr = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      })) as DelegatesExportType[];
-
-      console.log(usersDataArr);
-
-      setDelegatesData(usersDataArr);
-    });
-
-    return unsubscribe;
-  }, []);
-
   return (
     <div className="mb-20">
       <Card>
@@ -188,6 +207,7 @@ const DelegatesDetails = () => {
                 confirmArrival: delegate.confirmArrival,
                 selected: delegate.selected,
               }))}
+              counts={counts}
             />
           )}
         </CardContent>

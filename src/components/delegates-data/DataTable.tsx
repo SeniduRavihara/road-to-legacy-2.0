@@ -34,11 +34,18 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  counts: {
+    total: number;
+    arrivedCount: number;
+    selectedCount: number;
+    emailSendCount: number;
+  };
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  counts,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -54,7 +61,7 @@ export function DataTable<TData, TValue>({
     // Hide specific columns on mobile
     setColumnVisibility({
       email: !isMobile,
-      selected: !isMobile
+      selected: !isMobile,
     });
   }, [isMobile]);
 
@@ -119,16 +126,35 @@ export function DataTable<TData, TValue>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  // Define the count based on header column id
+                  let countDisplay = "";
+                  if (header.id === "email") {
+                    countDisplay = ` (${counts.total})`;
+                  } else if (header.id === "arrived") {
+                    countDisplay = ` (${counts.arrivedCount})`;
+                  } else if (header.id === "selected") {
+                    countDisplay = ` (${counts.selectedCount})`;
+                  } else if (header.id === "sendEmail") {
+                    countDisplay = ` (${counts.emailSendCount})`;
+                  }
+
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder ? null : (
+                        <div className="flex items-center">
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                          <span className="ml-1 text-sm font-normal">
+                            {countDisplay}
+                          </span>
+                        </div>
+                      )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
             ))}
           </TableHeader>
