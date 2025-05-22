@@ -54,6 +54,16 @@ const SponsorCard = ({
       borderColor: "border-[#FF9E00]",
       glowColor: "shadow-[#FF9E00]/20",
     },
+    "Platinum Sponsor": {
+      accentColor: "#7F7F7F", // Medium platinum/gray for better contrast
+      borderColor: "border-[#7F7F7F]",
+      glowColor: "shadow-[#7F7F7F]/20",
+    },
+    "Platinum sponsor and Knowledge  Partner": {
+      accentColor: "#7F7F7F", // Medium platinum/gray for better contrast
+      borderColor: "border-[#7F7F7F]",
+      glowColor: "shadow-[#7F7F7F]/20",
+    },
   };
 
   const style = partnerStyles[partnerType as keyof typeof partnerStyles] || {

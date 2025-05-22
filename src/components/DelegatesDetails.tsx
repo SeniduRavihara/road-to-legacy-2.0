@@ -30,6 +30,9 @@ const DelegatesDetails = () => {
     emailSendCount: 0,
   });
 
+  console.log(delegatesData?.filter((delegate) => !delegate.confirmationEmailSended && delegate.selected));
+  
+
   useEffect(() => {
     const collectionRef = collection(db, "delegates");
 

@@ -13,6 +13,15 @@ import SponsorCard from "../SponserCard";
 
 const sponsors = [
   {
+    id: 6,
+    name: "TIQRI",
+    image: "/images/sponsers/tiqri.png",
+    width: 200,
+    height: 50,
+    partnerType: "Platinum sponsor and Knowledge  Partner",
+    // website: "https://fortude.co",
+  },
+  {
     id: 1,
     name: "HackSL",
     image: "/images/sponsers/hacksl-logo.png",
