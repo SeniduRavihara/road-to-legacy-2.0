@@ -66,6 +66,15 @@ const sponsors = [
     partnerType: "Official Knowledge Partner",
     // website: "https://fortude.co",
   },
+  {
+    id: 7,
+    name: "Mogo Games",
+    image: "/images/sponsers/mogo.png",
+    width: 200,
+    height: 50,
+    partnerType: "Official Knowledge Partner",
+    // website: "https://fortude.co",
+  },
 ];
 
 // Register the ScrollTrigger plugin

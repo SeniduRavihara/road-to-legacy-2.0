@@ -54,8 +54,8 @@ export default function Home() {
       </div> */}
 
       <FAQ />
-      <ContactSection />
       <SponsersSection />
+      <ContactSection />
       <Footer />
 
       {/* <AiChatIcon /> */}

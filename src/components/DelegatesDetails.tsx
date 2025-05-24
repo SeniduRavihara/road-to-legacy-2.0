@@ -30,8 +30,11 @@ const DelegatesDetails = () => {
     emailSendCount: 0,
   });
 
-  console.log(delegatesData?.filter((delegate) => !delegate.confirmationEmailSended && delegate.selected));
-  
+  console.log(
+    delegatesData?.filter(
+      (delegate) => !delegate.confirmationEmailSended && delegate.selected
+    )
+  );
 
   useEffect(() => {
     const collectionRef = collection(db, "delegates");
@@ -181,6 +184,7 @@ const DelegatesDetails = () => {
       "Confirmation Email Sent": delegate.confirmationEmailSended
         ? "Yes"
         : "No",
+      "Confirmation URL": delegate.confirmationUrl,
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(worksheetData);
