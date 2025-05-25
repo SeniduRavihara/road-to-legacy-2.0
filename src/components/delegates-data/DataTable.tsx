@@ -39,6 +39,7 @@ interface DataTableProps<TData, TValue> {
     arrivedCount: number;
     selectedCount: number;
     emailSendCount: number;
+    confirmedCount: number;
   };
 }
 
@@ -137,6 +138,8 @@ export function DataTable<TData, TValue>({
                     countDisplay = ` (${counts.selectedCount})`;
                   } else if (header.id === "sendEmail") {
                     countDisplay = ` (${counts.emailSendCount})`;
+                  } else if (header.id === "confirmed") {
+                    countDisplay = ` (${counts.confirmedCount})`;
                   }
 
                   return (

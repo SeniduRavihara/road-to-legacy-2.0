@@ -28,12 +28,11 @@ const DelegatesDetails = () => {
     arrivedCount: 0,
     selectedCount: 0,
     emailSendCount: 0,
+    confirmedCount: 0,
   });
 
   console.log(
-    delegatesData?.filter(
-      (delegate) => !delegate.confirmationEmailSended && delegate.selected
-    )
+    delegatesData?.filter((delegate) => delegate.confirmArrival).length || 0
   );
 
   useEffect(() => {
@@ -65,6 +64,9 @@ const DelegatesDetails = () => {
       emailSendCount:
         delegatesData?.filter((delegate) => delegate.confirmationEmailSended)
           .length || 0,
+      confirmedCount:
+        delegatesData?.filter((delegate) => delegate.confirmArrival).length ||
+        0,
     });
   }, [delegatesData]);
 

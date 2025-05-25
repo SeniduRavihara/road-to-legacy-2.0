@@ -189,6 +189,16 @@ export const columns: (
         </Button>
       );
     },
+  },{
+    accessorKey: "confirmed",
+    header: "Confirmed",
+    cell: ({ row }) => {
+      const delegateInRow = row.original;
+
+      return (
+       <div className="capitalize">{delegateInRow.confirmArrival? "YES": "NO"}</div>
+      );
+    },
   },
 ];
 
