@@ -24,8 +24,8 @@ const ProfileImage = ({ speaker, size = "w-8 h-8 sm:w-10 sm:h-10" }: { speaker: 
         src={speaker.profileImage}
         alt={speaker.name}
         className="object-cover w-full h-full"
-        width={40}
-        height={40}
+        width={30}
+        height={30}
         // onError={() => setImageError(true)}
       />
     </div>
@@ -79,136 +79,149 @@ const EventSpeakerSessions = () => {
   }, []);
 
   // Updated sessions data with real information
-  const sessions = [
-    {
-      id: 1,
-      title: "Software Engineering Session",
-      company: "WSO2",
-      speakers: [
-        {
-          name: "Omal Wijegunawardana",
-          role: "Software Engineer at WSO2",
-          linkedin: "https://www.linkedin.com/in/omalvindula/",
-          profileImage: "/images/speakers/omal.png",
-        },
-        {
-          name: "Nipuni Paaris",
-          role: "Software Engineer",
-          linkedin: "https://www.linkedin.com/in/nipuni-paaris-a0a284135/",
-          profileImage: "",
-        },
-      ],
-      image: "/images/speakers/se-domain.png",
-      description:
-        "Exploring modern development practices and the future of software engineering with hands-on examples and case studies from industry experts at WSO2.",
-      location: "Main Hall",
-    },
-    {
-      id: 2,
-      title: "AI & Cybersecurity Session",
-      company: "TIQRI",
-      speakers: [
-        {
-          name: "Nipuna Ruhunage",
-          role: "AI & Cybersecurity Expert",
-          linkedin: "https://www.linkedin.com/in/nipuna-ruhunage/",
-          profileImage: "",
-        },
-        {
-          name: "Shamali Weerasinghe",
-          role: "Cybersecurity Specialist",
-          linkedin: "https://www.linkedin.com/in/shamali-weerasinghe-05352173/",
-          profileImage: "",
-        },
-      ],
-      image: "/images/speakers/cyber-domain.png",
-      description:
-        "Uncovering the intersection between artificial intelligence and cybersecurity challenges in today's digital landscape with insights from TIQRI experts.",
-      location: "Workshop Room A",
-    },
-    {
-      id: 3,
-      title: "Project Management & Business Analysis",
-      company: "Glass Software",
-      speakers: [
-        {
-          name: "Hashini Perera",
-          role: "Project Manager",
-          linkedin:
-            "https://www.linkedin.com/in/hashy-perera?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
-          profileImage: "",
-        },
-      ],
-      image: "/images/speakers/business-domain.png",
-      description:
-        "Strategic approaches to project execution and effective business analysis techniques for modern organizations with industry best practices.",
-      location: "Conference Room B",
-    },
-    {
-      id: 4,
-      title: "Game Development Session",
-      company: "Mogo",
-      speakers: [
-        {
-          name: "Dakshina Wijayakulathilaka",
-          role: "Lead Game Developer at Mogo",
-          linkedin: "#",
-        },
-      ],
-      image: "/images/speakers/game-domain.png",
-      description:
-        "Building immersive gaming experiences: from concept to deployment with the latest tools and technologies in the gaming industry.",
-      location: "Innovation Lab",
-    },
-    {
-      id: 5,
-      title: "Panel Discussion",
-      company: "Industry Leaders",
-      speakers: [
-        {
-          name: "Dulaj Prabasha",
-          role: "Software Engineer at WSO2",
-          linkedin: "https://lk.linkedin.com/in/dulaj-prabasha-007",
-          profileImage: "/images/speakers/dulaj.jpg",
-        },
-        {
-          name: "Rukshan Senanayake",
-          role: "Software Engineer at Enzi LLC",
-          linkedin:
-            "https://www.linkedin.com/in/rukshanjs?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-          profileImage: "/images/speakers/rukshan.jpg",
-        },
-        {
-          name: "Vishwajith Weerasinghe",
-          role: "Senior Software Engineer at EchonLabs Private Limited",
-          linkedin:
-            "https://www.linkedin.com/in/vishwajith-weerasinghe-8a0225192/",
-        },
-      ],
-      image: "/images/speakers/discussion.png",
-      description:
-        "An interactive panel discussion with industry professionals sharing insights about career growth, technology trends, and professional development.",
-      location: "Main Hall",
-    },
-    {
-      id: 6,
-      title: "Motivational Speech",
-      company: "Popcorn Teams",
-      speakers: [
-        {
-          name: "Fahad Farook",
-          role: "International Trainer & Certified Transformative Coach | Co-Founder of Popcorn Teams",
-          linkedin: "http://linkedin.com/in/ffarook",
-          profileImage: "",
-        },
-      ],
-      image: "/images/speakers/motivational-speech.png",
-      description:
-        "An inspiring session on personal and professional transformation, leadership, and achieving excellence in your career journey.",
-      location: "Main Hall",
-    },
-  ];
-
+const sessions = [
+  {
+    id: 1,
+    title: "Software Engineering Session",
+    company: "WSO2",
+    speakers: [
+      {
+        name: "Omal Wijegunawardana",
+        role: "Senior Software Engineer at WSO2",
+        linkedin: "https://www.linkedin.com/in/omalvindula/",
+        profileImage: "/images/speakers/omal.png",
+      },
+      {
+        name: "Nipuni Paaris",
+        role: "Associate Technical Lead at WSO2",
+        linkedin: "https://www.linkedin.com/in/nipuni-paaris-a0a284135/",
+        profileImage: "/images/speakers/Nipuni-SE.jpg",
+      },
+    ],
+    companyLogo: "https://drive.google.com/file/d/1ambx3wfrHqDSqXXlXGQJAqx91tz7z3EY/view?usp=drive_link",
+    image: "/images/speakers/se-domain.png",
+    description:
+      "Exploring modern development practices and the future of software engineering with hands-on examples and case studies from industry experts at WSO2.",
+    location: "Main Hall",
+  },
+  {
+    id: 2,
+    title: "AI & Cybersecurity Session",
+    company: "TIQRI",
+    speakers: [
+      {
+        name: "Nipuna Ruhunage",
+        role: "CISA | Security Architect | Cloud Architect | Azure Solutions Architect | Cloud technology enthusiast",
+        linkedin: "https://www.linkedin.com/in/nipuna-ruhunage/",
+        profileImage: "/images/speakers/Nipuna.jpg",
+      },
+      {
+        name: "Shamali Weerasinghe",
+        role: "Associate Tech Lead at TIQRI | AI/BI Practice Lead at TIQRI | Data Engineer | AI Enthusiast | BI Specialist | Data Analyst | Power BI Developer",
+        linkedin: "https://www.linkedin.com/in/shamali-weerasinghe-05352173/",
+        profileImage: "/images/speakers/shamali.jpg",
+      },
+    ],
+    companyLogo: "https://drive.google.com/file/d/18TGPrz_nNTUXjK3b4dHDC4su_MNAxObH/view?usp=drive_link",
+    image: "/images/speakers/cyber-domain.png",
+    description:
+      "Uncovering the intersection between artificial intelligence and cybersecurity challenges in today's digital landscape with insights from TIQRI experts.",
+    location: "Workshop Room A",
+  },
+  {
+    id: 3,
+    title: "Project Management & Business Analysis",
+    company: "SPIL Glass Software",
+    speakers: [
+      {
+        name: "Hashy Perera",
+        role: "Deputy Head of Operations | Agile & Scrum Leader | Digital Transformation Specialist | Malaysia | Sri Lanka | MBA | MBCS | CSP-SM | ACSM | CSM | CAPM",
+        linkedin:
+          "https://www.linkedin.com/in/hashy-perera?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+        profileImage: "/images/speakers/Hashini.jpg",
+      },
+    ],
+    companyLogo: "https://drive.google.com/file/d/1U5YjB14PaUx5lLaW5fuuj_X-9jreP_yD/view?usp=drive_link",
+    image: "/images/speakers/business-domain.png",
+    description:
+      "Strategic approaches to project execution and effective business analysis techniques for modern organizations with industry best practices.",
+    location: "Conference Room B",
+  },
+  {
+    id: 4,
+    title: "Game Development Session",
+    company: "Mogo Games",
+    speakers: [
+      {
+        name: "Dakshina Wijayakulathilaka",
+        role: "Lead Game Developer",
+        linkedin: "https://www.linkedin.com/in/dakshina-wijayakulathilaka-036477185?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+        profileImage: "/images/speakers/dakshina.jpg",
+      },
+      {
+        name: "Dimuth Jayawardena",
+        role: "Senior Game Developer",
+        linkedin: "https://www.linkedin.com/in/dimuth-jayawardena-168727186?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+        profileImage: "/images/speakers/Dimuthu.jpg",
+      },
+    ],
+    companyLogo: "https://drive.google.com/file/d/15RCzxUeoo0ldcFZCIH-34wBf1KEk_Mwv/view?usp=drive_link",
+    image: "/images/speakers/game-domain.png",
+    description:
+      "Building immersive gaming experiences: from concept to deployment with the latest tools and technologies in the gaming industry.",
+    location: "Innovation Lab",
+  },
+  {
+    id: 5,
+    title: "Panel Discussion",
+    company: "Industry Leaders",
+    speakers: [
+      {
+        name: "Dulaj Prabasha",
+        role: "Software Engineer at WSO2",
+        linkedin: "https://lk.linkedin.com/in/dulaj-prabasha-007",
+        profileImage: "/images/speakers/dulaj.jpg",
+      },
+      {
+        name: "Rukshan Senanayake",
+        role: "Software Engineer at Enzi LLC",
+        linkedin:
+          "https://www.linkedin.com/in/rukshanjs?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+        profileImage: "/images/speakers/rukshan.jpg",
+      },
+      {
+        name: "Vishwajith Weerasinghe",
+        role: "Senior Software Engineer, Co-founder of DevX Technologies",
+        linkedin:
+          "https://www.linkedin.com/in/vishwajith-weerasinghe-8a0225192/",
+        profileImage: "/images/speakers/vihvajith.png",
+      },
+    ],
+    companyLogo: "",
+    image: "/images/speakers/discussion.png",
+    description:
+      "An interactive panel discussion with industry professionals sharing insights about career growth, technology trends, and professional development.",
+    location: "Main Hall",
+  },
+  {
+    id: 6,
+    title: "Motivational Speech",
+    company: "Popcorn Teams",
+    speakers: [
+      {
+        name: "Fahad Farook",
+        role: "International Trainer & Certified Transformative Coach | Co-Founder of Popcorn Teams",
+        linkedin: "http://linkedin.com/in/ffarook",
+        profileImage: "/images/speakers/farook.jpg",
+      },
+    ],
+    companyLogo: "",
+    image: "/images/speakers/motivational-speech.png",
+    description:
+      "An inspiring session on personal and professional transformation, leadership, and achieving excellence in your career journey.",
+    location: "Main Hall",
+  },
+];
   // Loading animation variants
   const containerVariants = {
     hidden: { opacity: 0 },

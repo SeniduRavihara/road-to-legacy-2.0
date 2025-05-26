@@ -75,6 +75,15 @@ const sponsors = [
     partnerType: "Official Knowledge Partner",
     // website: "https://fortude.co",
   },
+  {
+    id: 8,
+    name: "DALUGAMA Second Hand Stores",
+    image: "/images/sponsers/DalugamaSHS.png",
+    width: 200,
+    height: 50,
+    partnerType: "Official Supporting  Partner",
+    // website: "https://fortude.co",
+  },
 ];
 
 // Register the ScrollTrigger plugin
