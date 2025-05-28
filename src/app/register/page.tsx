@@ -1,5 +1,4 @@
 import NetworkBackground from "@/components/backgrounds/NetworkBackground";
-import RegistrationForm from "@/components/registrationForm/RegistrationForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -46,9 +45,26 @@ export const metadata: Metadata = {
 
 const RegisterPage = () => {
   return (
-    <div>
-      <RegistrationForm />
+    <div
+      className="flex flex-col items-center justify-center min-h-screen"
+      style={{ backgroundColor: "#191b1f" }}
+    >
       <NetworkBackground />
+      <div
+        className="relative z-10 mt-10 rounded-lg shadow-lg p-8 max-w-md text-center"
+        style={{
+          backgroundColor: "rgba(31,34,39,0.95)",
+          color: "#f3f4f6",
+        }}
+      >
+        <h1 className="text-3xl font-bold mb-4" style={{ color: "#ff3b3b" }}>
+          Registration Closed
+        </h1>
+        <p className="text-gray-300">
+          Thank you for your interest! Registration for Road to Legacy 2.0 is
+          now closed.
+        </p>
+      </div>
     </div>
   );
 };
