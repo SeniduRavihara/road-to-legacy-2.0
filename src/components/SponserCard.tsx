@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import ExportedImage from "next-image-export-optimizer";
 
@@ -7,6 +8,7 @@ const SponsorCard = ({
   height,
   partnerType,
   name,
+  styles,
   // website,
   isHovered,
   onHover,
@@ -17,6 +19,7 @@ const SponsorCard = ({
   height: number;
   partnerType?: string;
   name: string;
+  styles?: string;
   website?: string;
   isHovered: boolean;
   onHover: () => void;
@@ -72,6 +75,9 @@ const SponsorCard = ({
     glowColor: "shadow-[#FFD700]/20",
   };
 
+  console.log(styles);
+  
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -97,13 +103,13 @@ const SponsorCard = ({
             }}
           >
             {/* White circular background for logo */}
-            <div className="w-full h-full rounded-full bg-white flex items-center justify-center p-2">
+            <div className={cn(`w-full h-full rounded-full bg-white flex items-center justify-center p-2`, styles) }>
               <ExportedImage
                 src={image}
                 alt={name}
                 width={width}
                 height={height}
-                className="object-contain max-h-full max-w-full"
+                className={cn(`object-contain max-h-full max-w-full`, styles)}
               />
             </div>
           </div>

@@ -84,6 +84,16 @@ const sponsors = [
     partnerType: "Official Supporting  Partner",
     // website: "https://fortude.co",
   },
+  {
+    id: 9,
+    name: "T SHIRT GEEK BY STB",
+    image: "/images/sponsers/T-SHIRT.png",
+    width: 200,
+    height: 50,
+    partnerType: "Supported By",
+    style: "w-16 h-16 bg-black"
+    // website: "https://fortude.co",
+  },
 ];
 
 // Register the ScrollTrigger plugin
@@ -309,6 +319,7 @@ const SponsorsSection = () => {
                         height={sponsor.height}
                         partnerType={sponsor.partnerType}
                         name={sponsor.name}
+                        styles={sponsor.style}
                         // website={sponsor.website}
                         isHovered={hoveredSponsor === sponsor.id}
                         onHover={() => setHoveredSponsor(sponsor.id)}
