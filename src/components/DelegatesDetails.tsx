@@ -2,7 +2,7 @@
 
 import { sendEmail } from "@/firebase/api";
 import { db } from "@/firebase/config";
-import { createEmailHTML } from "@/lib/utils";
+import { convertTimestampToDate, createEmailHTML } from "@/lib/utils";
 import { DelegatesExportType, DelegatesType } from "@/types";
 import {
   collection,
@@ -31,9 +31,9 @@ const DelegatesDetails = () => {
     confirmedCount: 0,
   });
 
-  console.log(
-    delegatesData?.filter((delegate) => delegate.confirmArrival).length || 0
-  );
+  // console.log(
+  //   delegatesData?.filter((delegate) => delegate.confirmArrival).length || 0
+  // );
 
   useEffect(() => {
     const collectionRef = collection(db, "delegates");
@@ -182,6 +182,9 @@ const DelegatesDetails = () => {
       Suggestions: delegate.suggestions,
       Arrived: delegate.arrived ? "Yes" : "No",
       "Confirm Arrival": delegate.confirmArrival ? "Yes" : "No",
+      "Confirmed Date Time": delegate.confirmedDateTime
+        ? convertTimestampToDate(delegate.confirmedDateTime).toLocaleString()
+        : "",
       Selected: delegate.selected ? "Yes" : "No",
       "Confirmation Email Sent": delegate.confirmationEmailSended
         ? "Yes"

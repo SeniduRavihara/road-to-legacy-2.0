@@ -159,6 +159,7 @@ export const ArrivalConfirmationToggle = async (
       const delegateDocRef = doc(db, "delegates", id);
       await updateDoc(delegateDocRef, {
         confirmArrival: confirmArrival, // ✅ just set it directly
+        confirmedDateTime: confirmArrival ? new Date() : null, // ✅ set the date and time
       });
       console.log("Arrival confirmation updated successfully.");
     } else {
@@ -288,7 +289,6 @@ export const registerTeam = async (teamData: {
     console.error("Error creating document: ", e);
     return { success: false, message: "Failed to register team" };
   }
-  
 };
 
 // ------------------------------------------------------------------------

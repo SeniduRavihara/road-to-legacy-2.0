@@ -1,12 +1,19 @@
 import { clsx, type ClassValue } from "clsx";
+import { Timestamp } from "firebase/firestore";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export const delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
+export function convertTimestampToDate(timestamp: Timestamp | Date): Date {
+  return timestamp instanceof Timestamp
+    ? new Timestamp(timestamp.seconds, timestamp.nanoseconds).toDate()
+    : timestamp;
+}
 
 export const createEmailHTML = (name: string, confirmationUrl: string) => {
   return `

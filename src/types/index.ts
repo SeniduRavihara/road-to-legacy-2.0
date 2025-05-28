@@ -113,4 +113,5 @@ export type DelegatesExportType = {
   hearAbout: string;
   hearAboutOther: string;
   suggestions: string;
+  confirmedDateTime?: Timestamp | Date | null;
 };
