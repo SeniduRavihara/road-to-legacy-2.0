@@ -61,6 +61,16 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [complete]);
 
+  useEffect(() => {
+    // Only update localStorage if there is at least one non-empty value
+    if (
+      userInputs.length > 0 &&
+      userInputs.some((row) => row.some((cell) => cell && cell !== " "))
+    ) {
+      localStorage.setItem("userInputs", JSON.stringify(userInputs));
+    }
+  }, [userInputs]);
+
   // Check if on mobile device
   useEffect(() => {
     const checkMobile = () => {
@@ -82,10 +92,36 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
 
   // Initialize the user inputs grid
   useEffect(() => {
-    const initialInputs: string[][] = puzzle.grid.map((row) =>
-      row.map((cell) => (cell === " " ? " " : ""))
-    );
-    setUserInputs(initialInputs);
+    // Try to load from localStorage, otherwise initialize empty grid
+    const savedInputs = localStorage.getItem("userInputs");
+    if (savedInputs) {
+      try {
+        const parsed = JSON.parse(savedInputs);
+        if (
+          Array.isArray(parsed) &&
+          parsed.length === puzzle.grid.length &&
+          parsed[0].length === puzzle.grid[0].length
+        ) {
+          setUserInputs(parsed);
+        } else {
+          setUserInputs(
+            puzzle.grid.map((row) =>
+              row.map((cell) => (cell === " " ? " " : ""))
+            )
+          );
+        }
+      } catch {
+        // ignore parse errors, fall back to default
+      }
+    } else {
+      setUserInputs(
+        puzzle.grid.map((row) => row.map((cell) => (cell === " " ? " " : "")))
+      );
+    }
+    // const initialInputs: string[][] = puzzle.grid.map((row) =>
+    //   row.map((cell) => (cell === " " ? " " : ""))
+    // );
+    // setUserInputs(initialInputs);
 
     // Set viewport size
     const handleResize = () => {
