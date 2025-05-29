@@ -30,7 +30,7 @@ export const createEmailHTML = (name: string, confirmationUrl: string) => {
         <p style="margin: 0 0 20px; line-height: 1.6; color: #cccccc;">Thank you for registering for <strong style="color: #ffffff;">Road To Legacy 2.0</strong>. We're excited to have you join us for this special event!</p>
         <p style="margin: 0 0 25px; line-height: 1.6; color: #cccccc;">
           Please confirm your attendance by clicking the button below.<br/>
-          <strong style="color: #ffffff;">Please confirm before May 26, 2025.</strong>
+          <strong style="color: #ffffff;">Please confirm before May 29, 2025.</strong>
         </p>
         
         <!-- Button -->
