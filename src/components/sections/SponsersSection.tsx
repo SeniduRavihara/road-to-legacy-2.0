@@ -13,6 +13,15 @@ import SponsorCard from "../SponserCard";
 
 const sponsors = [
   {
+    id: 10,
+    name: "SLT Mobitel",
+    image: "/images/sponsers/SLT.png",
+    width: 200,
+    height: 50,
+    partnerType: "Gold Sponsor",
+    // website: "https://fortude.co",
+  },
+  {
     id: 6,
     name: "TIQRI",
     image: "/images/sponsers/tiqri.png",
