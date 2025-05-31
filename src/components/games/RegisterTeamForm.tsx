@@ -105,17 +105,39 @@ const RegisterTeamForm = () => {
     const validMembers = teamData.members.filter(
       (email) => email.trim() !== ""
     );
-    if (validMembers.length < 1) {
-      setError("Please add at least 3 team member");
+
+    if (validMembers.length < 3) {
+      setError("Please add at least 3 team members");
       return false;
     } else if (validMembers.length > 5) {
-      setError("Please add at most 5 team member");
+      setError("Please add at most 5 team members");
       return false;
     }
 
+    // Check for valid email format for all members
     for (const email of validMembers) {
       if (!emailRegex.test(email)) {
         setError("Please enter valid email addresses for all members");
+        return false;
+      }
+    }
+
+    // Check for duplicate emails among members
+    const emailSet = new Set();
+    for (const email of validMembers) {
+      const normalizedEmail = email.toLowerCase().trim();
+      if (emailSet.has(normalizedEmail)) {
+        setError("Duplicate email addresses are not allowed");
+        return false;
+      }
+      emailSet.add(normalizedEmail);
+    }
+
+    // Check if any member email matches the leader email
+    const normalizedLeaderEmail = teamData.leaderEmail.toLowerCase().trim();
+    for (const email of validMembers) {
+      if (email.toLowerCase().trim() === normalizedLeaderEmail) {
+        setError("Leader email cannot be the same as a member email");
         return false;
       }
     }

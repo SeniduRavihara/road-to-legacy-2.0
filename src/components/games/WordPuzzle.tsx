@@ -50,6 +50,8 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
   const gridContainerRef = useRef<HTMLDivElement | null>(null);
   const gridScrollContainerRef = useRef<HTMLDivElement | null>(null);
 
+  const [message, setMessage] = useState("");
+
   // Get gridSize
   const gridSize: GridSize = {
     rows: puzzle.grid.length,
@@ -508,10 +510,10 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
   };
 
   // Reveal solution for current puzzle
-  const revealSolution = (): void => {
-    const solution: string[][] = puzzle.grid.map((row) => [...row]);
-    setUserInputs(solution);
-  };
+  // const revealSolution = (): void => {
+  //   const solution: string[][] = puzzle.grid.map((row) => [...row]);
+  //   setUserInputs(solution);
+  // };
 
   // Zoom controls
   const zoomIn = () => {
@@ -636,6 +638,35 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
     return `${highlightedClue} ${highlightDirection}: ${clueInfo.clue}`;
   };
 
+  // Check for mistakes in the current puzzle
+  const checkMistakes = (): void => {
+    // let mistakes = false;
+
+    // for (let i = 0; i < puzzle.grid.length; i++) {
+    //   for (let j = 0; j < puzzle.grid[i].length; j++) {
+    //     if (
+    //       puzzle.grid[i][j] !== " " &&
+    //       userInputs[i][j] !== "" &&
+    //       userInputs[i][j].toUpperCase() !== puzzle.grid[i][j]
+    //     ) {
+    //       mistakes = true;
+    //       break;
+    //     }
+    //   }
+    //   if (mistakes) break;
+    // }
+
+    setMessage("There are mistakes in your puzzle.");
+
+    // Scroll to top so user can see the message immediately
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    // Clear message after 3 seconds
+    setTimeout(() => {
+      setMessage("");
+    }, 4000);
+  };
+
   // Mobile virtual keyboard for letter input
   const renderMobileKeyboard = () => {
     if (!isMobile || !highlightedCell || !isKeyboardVisible) return null;
@@ -730,6 +761,12 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
         {complete && (
           <div className="mb-2 sm:mb-4 p-2 bg-green-900 text-green-100 rounded w-full text-center">
             Congratulations! You&apos;ve completed the crossword puzzle!
+          </div>
+        )}
+
+        {!complete && message && (
+          <div className="mb-2 sm:mb-4 p-2 bg-yellow-900 text-yellow-100 rounded w-full text-center">
+            {message}
           </div>
         )}
 
@@ -982,12 +1019,21 @@ export default function WordPuzzle({ setIsWon }: GameProps) {
           >
             Clear All
           </button>
+
           <button
+            onClick={checkMistakes}
+            className="px-4 py-2 bg-indigo-700 text-gray-100 rounded hover:bg-indigo-600 shadow-md"
+            aria-label="Check for mistakes"
+          >
+            Check
+          </button>
+
+          {/* <button
             onClick={revealSolution}
             className="px-3 py-2 bg-purple-700 text-gray-100 rounded hover:bg-purple-600"
           >
             Reveal Solution
-          </button>
+          </button> */}
         </div>
 
         <div className="text-xs sm:text-sm text-gray-400 text-center">

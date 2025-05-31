@@ -36,7 +36,7 @@ export default function SlidingPuzzle({ setIsWon }: GameProps) {
 
   useEffect(() => {
     setIsWon(gameWon);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameWon]);
 
   // Check if puzzle is solved
@@ -134,7 +134,7 @@ export default function SlidingPuzzle({ setIsWon }: GameProps) {
       </div>
 
       <div className="text-sm text-gray-400">
-        <p>Slide the tiles to arrange the numbers from 1 to 15 in order.</p>
+        <p>Tap on the tiles to arrange the numbers from 1 to 15 in order.</p>
       </div>
     </div>
   );
