@@ -212,6 +212,7 @@ export const registerDelegates = async (formData: FormDataType) => {
     const documentRef = doc(collection(db, "delegates"));
 
     const confirmationUrl = `https://roadtolegacy.team/confirm?email=${encodeURIComponent(formData.email)}&name=${encodeURIComponent(formData.firstName)}&uni=${encodeURIComponent(formData.university)}`;
+    const certificateUrl = `https://roadtolegacy.team/certificate?certificateName=${encodeURIComponent(formData.certificateName)}`;
 
     await setDoc(documentRef, {
       ...formData,
@@ -220,7 +221,9 @@ export const registerDelegates = async (formData: FormDataType) => {
       selected: false,
       createdAt: new Date().toISOString(),
       confirmationUrl,
+      certificateUrl,
       confirmationEmailSended: false,
+      certificateSended: false,
     });
 
     console.log("Delegate registered successfully.");

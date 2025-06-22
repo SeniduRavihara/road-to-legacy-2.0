@@ -42,8 +42,9 @@ const LeaderBoard = ({ teamData }: { teamData: TeamDataType[] }) => {
     {}
   );
   const [isMuted, setIsMuted] = useState(false);
-  const [isBackgroundMusicPlaying, setIsBackgroundMusicPlaying] = useState(false);
-  
+  const [isBackgroundMusicPlaying, setIsBackgroundMusicPlaying] =
+    useState(false);
+
   const prevTeamDataRef = useRef<TeamDataType[]>([]);
   const backgroundMusicRef = useRef<HTMLAudioElement | null>(null);
   const rankUpSoundRef = useRef<HTMLAudioElement | null>(null);
@@ -64,29 +65,36 @@ const LeaderBoard = ({ teamData }: { teamData: TeamDataType[] }) => {
     try {
       // Only initialize audio once
       if (!backgroundMusicRef.current) {
-        backgroundMusicRef.current = new Audio('/sounds/background-music.mp3');
+        backgroundMusicRef.current = new Audio("/sounds/background-music.mp3");
         backgroundMusicRef.current.loop = true;
         backgroundMusicRef.current.volume = 0.05;
       }
 
       if (!rankUpSoundRef.current) {
-        rankUpSoundRef.current = new Audio('/sounds/rank-up.mp3');
-        rankUpSoundRef.current.volume = 0.9;
+        rankUpSoundRef.current = new Audio("/sounds/rank-up.mp3");
+        rankUpSoundRef.current.volume = 0.1;
       }
 
       if (!winSoundRef.current) {
-        winSoundRef.current = new Audio('/sounds/win.wav');
+        winSoundRef.current = new Audio("/sounds/win.wav");
         winSoundRef.current.volume = 0.5;
       }
 
       // Start background music automatically (with user interaction handling)
       const playBackgroundMusic = () => {
-        if (backgroundMusicRef.current && !isMuted && !isBackgroundMusicPlaying) {
-          backgroundMusicRef.current.play().then(() => {
-            setIsBackgroundMusicPlaying(true);
-          }).catch((error) => {
-            console.warn('Could not play background music:', error);
-          });
+        if (
+          backgroundMusicRef.current &&
+          !isMuted &&
+          !isBackgroundMusicPlaying
+        ) {
+          backgroundMusicRef.current
+            .play()
+            .then(() => {
+              setIsBackgroundMusicPlaying(true);
+            })
+            .catch((error) => {
+              console.warn("Could not play background music:", error);
+            });
         }
       };
 
@@ -94,29 +102,32 @@ const LeaderBoard = ({ teamData }: { teamData: TeamDataType[] }) => {
       if (!isMuted && !isBackgroundMusicPlaying) {
         playBackgroundMusic();
       }
-      
+
       // Fallback: play on first user interaction
       const handleFirstInteraction = () => {
         if (!isMuted && !isBackgroundMusicPlaying) {
           playBackgroundMusic();
         }
-        document.removeEventListener('click', handleFirstInteraction);
-        document.removeEventListener('keydown', handleFirstInteraction);
+        document.removeEventListener("click", handleFirstInteraction);
+        document.removeEventListener("keydown", handleFirstInteraction);
       };
-      
+
       if (!isBackgroundMusicPlaying) {
-        document.addEventListener('click', handleFirstInteraction);
-        document.addEventListener('keydown', handleFirstInteraction);
+        document.addEventListener("click", handleFirstInteraction);
+        document.addEventListener("keydown", handleFirstInteraction);
       }
 
       return () => {
-        document.removeEventListener('click', handleFirstInteraction);
-        document.removeEventListener('keydown', handleFirstInteraction);
+        document.removeEventListener("click", handleFirstInteraction);
+        document.removeEventListener("keydown", handleFirstInteraction);
       };
     } catch (error) {
-      console.warn('Audio files not found. Make sure to add audio files to /sounds folder:', error);
+      console.warn(
+        "Audio files not found. Make sure to add audio files to /sounds folder:",
+        error
+      );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Remove isMuted from dependencies to prevent re-initialization
 
   // Add effect to handle mute state changes for background music
@@ -125,16 +136,23 @@ const LeaderBoard = ({ teamData }: { teamData: TeamDataType[] }) => {
       if (isMuted && isBackgroundMusicPlaying) {
         backgroundMusicRef.current.pause();
         setIsBackgroundMusicPlaying(false);
-      } else if (!isMuted && !isBackgroundMusicPlaying && backgroundMusicRef.current.paused) {
+      } else if (
+        !isMuted &&
+        !isBackgroundMusicPlaying &&
+        backgroundMusicRef.current.paused
+      ) {
         // Only try to play if user has already interacted and audio is paused
-        backgroundMusicRef.current.play().then(() => {
-          setIsBackgroundMusicPlaying(true);
-        }).catch((error) => {
-          console.warn('Could not resume background music:', error);
-        });
+        backgroundMusicRef.current
+          .play()
+          .then(() => {
+            setIsBackgroundMusicPlaying(true);
+          })
+          .catch((error) => {
+            console.warn("Could not resume background music:", error);
+          });
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMuted]);
 
   // Cleanup audio on unmount
@@ -158,7 +176,7 @@ const LeaderBoard = ({ teamData }: { teamData: TeamDataType[] }) => {
     if (rankUpSoundRef.current && !isMuted) {
       rankUpSoundRef.current.currentTime = 0;
       rankUpSoundRef.current.play().catch((error) => {
-        console.warn('Could not play rank up sound:', error);
+        console.warn("Could not play rank up sound:", error);
       });
     }
   };
@@ -168,7 +186,7 @@ const LeaderBoard = ({ teamData }: { teamData: TeamDataType[] }) => {
     if (winSoundRef.current && !isMuted) {
       winSoundRef.current.currentTime = 0;
       winSoundRef.current.play().catch((error) => {
-        console.warn('Could not play win sound:', error);
+        console.warn("Could not play win sound:", error);
       });
     }
   };
@@ -177,7 +195,7 @@ const LeaderBoard = ({ teamData }: { teamData: TeamDataType[] }) => {
   const toggleMute = () => {
     const newMutedState = !isMuted;
     setIsMuted(newMutedState);
-    
+
     if (backgroundMusicRef.current) {
       if (newMutedState) {
         // Properly pause and reset state
@@ -186,11 +204,14 @@ const LeaderBoard = ({ teamData }: { teamData: TeamDataType[] }) => {
       } else {
         // Only play if not already playing
         if (backgroundMusicRef.current.paused) {
-          backgroundMusicRef.current.play().then(() => {
-            setIsBackgroundMusicPlaying(true);
-          }).catch((error) => {
-            console.warn('Could not resume background music:', error);
-          });
+          backgroundMusicRef.current
+            .play()
+            .then(() => {
+              setIsBackgroundMusicPlaying(true);
+            })
+            .catch((error) => {
+              console.warn("Could not resume background music:", error);
+            });
         }
       }
     }
@@ -275,13 +296,13 @@ const LeaderBoard = ({ teamData }: { teamData: TeamDataType[] }) => {
 
     // Check for new winner (team that just completed all rounds and is in first place)
     const totalRounds = 3;
-    const currentWinner = updatedTeams.find(team => 
-      team.rank === 1 && team.highestRound === totalRounds
+    const currentWinner = updatedTeams.find(
+      (team) => team.rank === 1 && team.highestRound === totalRounds
     );
-    
+
     if (currentWinner && prevWinnerRef.current !== currentWinner.name) {
       const prevSortedTeams = sortedTeams;
-      const prevWinner = prevSortedTeams.find(team => team.rank === 1);
+      const prevWinner = prevSortedTeams.find((team) => team.rank === 1);
       // Play win sound if there's a new winner or if someone just completed the game
       if (!prevWinner || prevWinner.highestRound < totalRounds) {
         setTimeout(() => playWinSound(), 200);
@@ -292,7 +313,7 @@ const LeaderBoard = ({ teamData }: { teamData: TeamDataType[] }) => {
     setSortedTeams(updatedTeams);
     setPrevRankings(currentRankings);
     prevTeamDataRef.current = teamData;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamData]); // Removed prevRankings and sortedTeams from dependency array
 
   // Get rank icon based on position
@@ -452,7 +473,9 @@ const LeaderBoard = ({ teamData }: { teamData: TeamDataType[] }) => {
           {isMuted ? (
             <VolumeX className="w-5 h-5 text-gray-400" />
           ) : (
-            <Volume2 className={`w-5 h-5 ${isBackgroundMusicPlaying ? 'text-green-400' : 'text-gray-400'}`} />
+            <Volume2
+              className={`w-5 h-5 ${isBackgroundMusicPlaying ? "text-green-400" : "text-gray-400"}`}
+            />
           )}
         </button>
 
@@ -553,7 +576,8 @@ const LeaderBoard = ({ teamData }: { teamData: TeamDataType[] }) => {
         </div> */}
       </div>
 
-      <div className="flex justify-between items-center mb-6 pr-64">{/* Increased padding to account for wider test panel */}
+      <div className="flex justify-between items-center mb-6 pr-64">
+        {/* Increased padding to account for wider test panel */}
         <h2 className="text-2xl font-bold text-white flex items-center">
           <Crown className="mr-2 text-yellow-400" /> Team Leaderboard
         </h2>

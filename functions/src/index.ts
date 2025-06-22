@@ -45,7 +45,7 @@ app.post("/send", async (req: Request, res: Response) => {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: "confirm@roadtolegacy.team",
+      from: "certificate@roadtolegacy.team",
       to,
       subject,
       html,

@@ -23,6 +23,9 @@ export type DelegatesType = {
   selected: boolean;
   confirmationUrl: string;
   confirmationEmailSended: boolean;
+  certificateSended: boolean;
+  certificateURL: string;
+  certificateName: string;
   // contactNumber: string;
   role?: "ADMIN" | "USER";
 };
@@ -97,6 +100,8 @@ export type DelegatesExportType = {
   selected: boolean;
   confirmationUrl: string;
   confirmationEmailSended: boolean;
+  certificateSended: boolean;
+  certificateURL: string;
   // contactNumber: string;
   role?: "ADMIN" | "USER";
   lastName: string;

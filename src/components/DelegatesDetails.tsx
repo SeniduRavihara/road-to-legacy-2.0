@@ -2,7 +2,7 @@
 
 import { sendEmail } from "@/firebase/api";
 import { db } from "@/firebase/config";
-import { convertTimestampToDate, createEmailHTML } from "@/lib/utils";
+import { convertTimestampToDate, createCertificateHTML } from "@/lib/utils";
 import { DelegatesExportType, DelegatesType } from "@/types";
 import {
   collection,
@@ -19,6 +19,7 @@ import { DataTable } from "./delegates-data/DataTable";
 import { Card, CardContent } from "./ui/card";
 
 const DelegatesDetails = () => {
+  const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
   const [emailSendding, setEmailSending] = useState(false);
   const [delegatesData, setDelegatesData] = useState<
     DelegatesExportType[] | null
@@ -46,9 +47,9 @@ const DelegatesDetails = () => {
         id: doc.id,
       })) as DelegatesExportType[];
 
-      console.log(usersDataArr);
+      // console.log(usersDataArr);
 
-      setDelegatesData(usersDataArr);
+      setDelegatesData(usersDataArr.filter((delegate) => delegate.arrived));
     });
 
     return unsubscribe;
@@ -70,7 +71,7 @@ const DelegatesDetails = () => {
     });
   }, [delegatesData]);
 
-  console.log(counts);
+  // console.log(counts);
 
   const toggleArrived = async (selectedDelegate: DelegatesType | null) => {
     // console.log("Arrived:", selectedDelegate);
@@ -112,15 +113,15 @@ const DelegatesDetails = () => {
     }
 
     // Check if delegate is not selected
-    if (!selectedDelegate.selected) {
-      alert(`Delegate ${selectedDelegate.email} is not selected`);
-      return;
-    }
+    // if (!selectedDelegate.selected) {
+    //   alert(`Delegate ${selectedDelegate.email} is not selected`);
+    //   return;
+    // }
 
     // Check if confirmation email was already sent
-    if (selectedDelegate.confirmationEmailSended) {
+    if (selectedDelegate.certificateSended) {
       alert(
-        `Confirmation email already sent to ${selectedDelegate.email}  || ""}`
+        `Certificate email already sent to ${selectedDelegate.email || ""}`
       );
       return;
     }
@@ -134,17 +135,19 @@ const DelegatesDetails = () => {
       // Send the email (assuming sendEmail is a function you've defined)
       await sendEmail(
         selectedDelegate.email,
-        "Event Arrival Confirmation - RTL 2.0",
-        createEmailHTML(
+        "Certificate of Participation - Road To Legacy 2.0",
+        createCertificateHTML(
           selectedDelegate.firstName,
-          selectedDelegate.confirmationUrl
+          "Road To Legacy 2.0",
+          "May 31, 2025",
+          `https://roadtolegacy.team/certificate?id=${encodeURIComponent(selectedDelegate.id)}`
         )
       );
 
       // Update Firestore after sending the email
-      const delegateDocRef = doc(db, "delegates", selectedDelegate.id); // Use the correct reference to the document
+      const delegateDocRef = doc(db, "delegates", selectedDelegate.id);
       await updateDoc(delegateDocRef, {
-        confirmationEmailSended: true, // Update the confirmationEmailSended field to true
+        certificateSended: true,
       });
 
       console.log(`Confirmation email sent to ${selectedDelegate.email}`);
@@ -157,6 +160,91 @@ const DelegatesDetails = () => {
     }
   };
 
+  const sendNext10 = async () => {
+    if (!delegatesData) {
+      alert("No delegates data available");
+      return;
+    }
+
+    // Filter delegates who are selected and haven't received certificates yet
+    const pendingDelegates = delegatesData.filter(
+      (delegate) => !delegate.certificateSended
+    );
+
+    console.log("Pending Delegates:", pendingDelegates);
+
+    if (pendingDelegates.length === 0) {
+      alert("No pending emails to send or no delegates selected");
+      return;
+    }
+
+    const BATCH_SIZE = 10;
+    const startIndex = currentBatchIndex * BATCH_SIZE;
+    const endIndex = startIndex + BATCH_SIZE;
+
+    // Get the next 10 delegates
+    const nextBatch = pendingDelegates.slice(startIndex, endIndex);
+
+    if (nextBatch.length === 0) {
+      alert("All emails have been sent! Resetting to start from beginning.");
+      setCurrentBatchIndex(0);
+      return;
+    }
+
+    const confirmation = window.confirm(
+      `Send emails to next ${nextBatch.length} delegates? (Batch ${currentBatchIndex + 1})\nRemaining: ${pendingDelegates.length - startIndex} delegates`
+    );
+
+    if (!confirmation) return;
+
+    console.log(
+      `Sending batch ${currentBatchIndex + 1}: emails ${startIndex + 1} to ${Math.min(endIndex, pendingDelegates.length)}`
+    );
+
+    // Send emails to this batch using your existing sendConfirmationEmail function
+    for (let i = 0; i < nextBatch.length; i++) {
+      const delegate = nextBatch[i];
+      const globalIndex = startIndex + i + 1;
+
+      console.log(
+        `Sending email ${globalIndex}/${pendingDelegates.length} to ${delegate.email}`
+      );
+
+      try {
+        await sendConfirmationEmail(delegate);
+        console.log(
+          `✅ Email ${globalIndex} sent successfully to ${delegate.email}`
+        );
+
+        // Add a small delay between emails (optional)
+        if (i < nextBatch.length - 1) {
+          await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 second delay
+        }
+      } catch (error) {
+        console.error(
+          `❌ Failed to send email ${globalIndex} to ${delegate.email}:`,
+          error
+        );
+        // Continue with next email even if one fails
+      }
+    }
+
+    // Move to next batch
+    setCurrentBatchIndex(currentBatchIndex + 1);
+
+    const remaining = pendingDelegates.length - endIndex;
+    if (remaining > 0) {
+      alert(
+        `Batch ${currentBatchIndex + 1} completed! ${nextBatch.length} emails sent. ${remaining} emails remaining.`
+      );
+    } else {
+      alert(
+        `All emails sent! Total: ${pendingDelegates.length} emails completed. Resetting for next time.`
+      );
+      setCurrentBatchIndex(0); // Reset for next time
+    }
+  };
+
   const exportToExcel = (data: DelegatesExportType[]) => {
     if (!data || data.length === 0) {
       alert("No data to export");
@@ -164,6 +252,7 @@ const DelegatesDetails = () => {
     }
 
     const worksheetData = data.map((delegate) => ({
+      "Delegate ID": delegate.id,
       "First Name": delegate.firstName,
       "Last Name": delegate.lastName,
       "Certificate Name": delegate.certificateName,
@@ -225,12 +314,20 @@ const DelegatesDetails = () => {
         </CardContent>
       </Card>
 
-      <button
-        onClick={() => exportToExcel(delegatesData || [])}
-        className="absolute bottom-5 right-5 mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      >
-        Download as Excel
-      </button>
+      <div className="w-full flex justify-center items-center">
+        <button
+          onClick={() => exportToExcel(delegatesData || [])}
+          className="absolute bottom-5 right-5 mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Download as Excel
+        </button>
+        <button
+          onClick={() => sendNext10()}
+          className="absolute bottom-5 right-56 mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Send 10 By 10
+        </button>
+      </div>
     </div>
   );
 };

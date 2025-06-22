@@ -63,6 +63,11 @@ export default function SudokuGame({ setIsWon }: GameProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameWon]);
 
+  useEffect(()=>{
+    checkMistakesLive()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[puzzle])
+
   // Update screen size detection
   useEffect(() => {
     const checkIsMobile = (): void => {
@@ -263,6 +268,85 @@ export default function SudokuGame({ setIsWon }: GameProps) {
     );
   };
 
+  const checkMistakesLive = (): void => {
+    // Create a copy of the puzzle
+    const tempPuzzle: SudokuGrid = puzzle.map((row) => [...row]) as SudokuGrid;
+
+    // Check if any filled cell violates Sudoku rules
+    let mistakes = false;
+
+    // Check rows
+    for (let i = 0; i < 4; i++) {
+      const rowValues: Record<number, boolean> = {};
+      for (let j = 0; j < 4; j++) {
+        if (tempPuzzle[i][j] !== 0) {
+          if (rowValues[tempPuzzle[i][j]]) {
+            mistakes = true;
+            break;
+          }
+          rowValues[tempPuzzle[i][j]] = true;
+        }
+      }
+      if (mistakes) break;
+    }
+
+    // Check columns
+    if (!mistakes) {
+      for (let j = 0; j < 4; j++) {
+        const colValues: Record<number, boolean> = {};
+        for (let i = 0; i < 4; i++) {
+          if (tempPuzzle[i][j] !== 0) {
+            if (colValues[tempPuzzle[i][j]]) {
+              mistakes = true;
+              break;
+            }
+            colValues[tempPuzzle[i][j]] = true;
+          }
+        }
+        if (mistakes) break;
+      }
+    }
+
+    // Check 2x2 blocks
+    if (!mistakes) {
+      for (let blockRow = 0; blockRow < 2; blockRow++) {
+        for (let blockCol = 0; blockCol < 2; blockCol++) {
+          const blockValues: Record<number, boolean> = {};
+          for (let i = 0; i < 2; i++) {
+            for (let j = 0; j < 2; j++) {
+              const row = blockRow * 2 + i;
+              const col = blockCol * 2 + j;
+              if (tempPuzzle[row][col] !== 0) {
+                if (blockValues[tempPuzzle[row][col]]) {
+                  mistakes = true;
+                  break;
+                }
+                blockValues[tempPuzzle[row][col]] = true;
+              }
+            }
+            if (mistakes) break;
+          }
+          if (mistakes) break;
+        }
+        if (mistakes) break;
+      }
+    }
+
+    // Check if all cells are filled and no mistakes
+    if (!mistakes) {
+      const allFilled = tempPuzzle.every((row) =>
+        row.every((cell) => cell !== 0)
+      );
+      if (allFilled && checkSolution()) {
+        setGameWon(true);
+        setMessage("Congratulations! You solved the puzzle!");
+        return;
+      }
+    }
+
+    // setMessage(mistakes ? "" : "No mistakes found so far.");
+  };
+
   // Clear all unlocked cells
   const clearCells = (): void => {
     const newPuzzle: SudokuGrid = puzzle.map((row, i) =>
@@ -387,7 +471,6 @@ export default function SudokuGame({ setIsWon }: GameProps) {
         >
           Clear
         </button>
-        
       </div>
 
       <div className="text-sm text-gray-400 text-center">

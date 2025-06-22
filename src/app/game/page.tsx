@@ -411,7 +411,7 @@ const GamePage: React.FC = () => {
                   disabled={!isCurrentGameWon() || !isEditable}
                   className={`${
                     isCurrentGameWon() && isEditable
-                      ? "bg-[#191b1f] text-[#f2f7] hover:bg-opacity-90"
+                      ? "bg-[#191b1f] text-gray-300 font-bold hover:bg-opacity-90"
                       : "bg-gray-500 text-gray-300 cursor-not-allowed"
                   } px-2 sm:px-4 text-sm sm:text-base py-2 rounded-md transition`}
                 >

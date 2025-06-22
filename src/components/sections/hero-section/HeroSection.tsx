@@ -15,7 +15,7 @@ const HeroSection = () => {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const { loading } = useLoading();
   const [animationEnabled, setAnimationEnabled] = useState<boolean>(false);
-  const [gameOpen, ] = useState(true);
+  const [gameOpen, ] = useState(false);
 
   // useEffect(() => {
   //   const targetDateTime = new Date("2025-05-31T00:55:00");

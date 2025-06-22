@@ -128,22 +128,22 @@ export const columns: (
               return;
             }
 
-            if (!selectedDelegate.selected) {
-              alert(
-                `${selectedDelegate.email} is not selected. Please select the delegate first.`
-              );
-              return;
-            }
+            // if (!selectedDelegate.selected) {
+            //   alert(
+            //     `${selectedDelegate.email} is not selected. Please select the delegate first.`
+            //   );
+            //   return;
+            // }
 
-            if (selectedDelegate.confirmationEmailSended) {
+            if (selectedDelegate.certificateSended) {
               alert(
-                `${selectedDelegate.email} has already been sent the confirmation email.`
+                `${selectedDelegate.email} has already been sent the certificate email.`
               );
               return;
             }
 
             const confirmSend = window.confirm(
-              `Are you sure you want to send a confirmation email to ${selectedDelegate.email}?`
+              `Are you sure you want to send a Certificate email to ${selectedDelegate.email}?`
             );
 
             if (confirmSend) {
