@@ -67,7 +67,7 @@ const Step3: React.FC<Step3Props> = ({
           </label>
         </div>
       </div>
-      <div className={styles.formGroup}>
+      {/* <div className={styles.formGroup}>
         <label className={styles.formLabel}>
           Would you like to buy the event T-shirt?
         </label>
@@ -80,17 +80,8 @@ const Step3: React.FC<Step3Props> = ({
           />
           Yes
         </label>
-        {formData.tShirt && (
-          <div>
-            {/* <Image
-                    src={tShirtImage}
-                    alt="T-shirt Design"
-                    width={200}
-                    height={200}
-                  /> */}
-          </div>
-        )}
-      </div>
+       
+      </div> */}
       <div className={styles.formGroup}>
         <label className={styles.formLabel}>
           How did you hear about this event?

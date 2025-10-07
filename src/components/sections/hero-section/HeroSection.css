@@ -1,0 +1,72 @@
+/* Button animation */
+.register-button-container {
+  opacity: 0;
+  transform: scale(0.8);
+  animation: fadeScaleIn 0.6s ease-out 0.7s forwards;
+}
+
+@keyframes fadeScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Word-by-word animation for text reveal */
+.word-span {
+  opacity: 0;
+}
+
+.animated-word {
+  animation: wordReveal 0.5s ease-out forwards;
+}
+
+@keyframes wordReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Parallax effect will be handled with JavaScript via inline style */
+.parallax-background {
+  will-change: transform;
+  transition: transform 0.1s ease-out;
+}
+
+/* Hide element until animations should start */
+.invisible {
+  opacity: 0;
+}
+
+
+/* Background subtle zoom animation */
+.background-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.background-image {
+  animation: subtleZoom 15s ease-in-out infinite alternate;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+@keyframes subtleZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}

@@ -1,10 +1,12 @@
 import { User } from "firebase/auth";
+import { Timestamp } from "firebase/firestore";
 
 export type DataContextType = {
   currentUserData: AdminDataType | null;
   setCurrentUserData: React.Dispatch<
     React.SetStateAction<AdminDataType | null>
   >;
+  options: OptionsType | null;
 };
 
 export type AuthContextType = {
@@ -14,16 +16,26 @@ export type AuthContextType = {
 
 export type DelegatesType = {
   id: string;
-  name: string;
+  firstName: string;
   email: string;
   arrived: boolean;
+  confirmArrival: boolean;
+  selected: boolean;
+  confirmationUrl: string;
+  confirmationEmailSended: boolean;
+  certificateSended: boolean;
+  certificateURL: string;
+  certificateName: string;
+  // contactNumber: string;
   role?: "ADMIN" | "USER";
 };
 
 export type DelegatesTableType = {
-  name: string;
+  firstName: string;
   email: string;
-  arrived: boolean
+  arrived: boolean;
+  confirmArrival: boolean;
+  selected: boolean;
 };
 
 export type AdminDataType = {
@@ -31,12 +43,12 @@ export type AdminDataType = {
   name: string;
   email: string;
   isAdmin: boolean;
-}
+};
 
 export type AdminTableType = {
   name: string;
   email: string;
-  isAdmin: boolean
+  isAdmin: boolean;
 };
 
 export type FormDataType = {
@@ -53,8 +65,58 @@ export type FormDataType = {
   email: string;
   emergencyContact: string;
   mealPreference: string;
-  tShirt: boolean;
+  // tShirt: boolean;
   hearAbout: string;
   hearAboutOther: string;
   suggestions: string;
+};
+
+export type OptionsType = {
+  gameStartTime: Timestamp | Date;
+};
+
+export interface GameResult {
+  gameId: string;
+  gameName: string;
+  timeInMs: number;
+  formattedTime: string;
+}
+
+export type TeamDataType = {
+  name: string;
+  leaderEmail: string;
+  members: string[];
+  createdAt: Timestamp | Date;
+  gameResults: GameResult[];
+  totalTimeTaken: number;
+};
+
+export type DelegatesExportType = {
+  id: string;
+  firstName: string;
+  email: string;
+  arrived: boolean;
+  confirmArrival: boolean;
+  selected: boolean;
+  confirmationUrl: string;
+  confirmationEmailSended: boolean;
+  certificateSended: boolean;
+  certificateURL: string;
+  // contactNumber: string;
+  role?: "ADMIN" | "USER";
+  lastName: string;
+  certificateName: string;
+  nic: string;
+  university: string;
+  faculty: string;
+  department: string;
+  universityRegNo: string;
+  alYear: string;
+  contactNumber: string;
+  emergencyContact: string;
+  mealPreference: string;
+  hearAbout: string;
+  hearAboutOther: string;
+  suggestions: string;
+  confirmedDateTime?: Timestamp | Date | null;
 };

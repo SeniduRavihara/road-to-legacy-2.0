@@ -49,7 +49,9 @@ const Step1: React.FC<Step1Props> = ({
         {errors.lastName && <p className={styles.error}>{errors.lastName}</p>}
       </div>
       <div className={styles.formGroup}>
-        <label className={styles.formLabel}>Certificate Name</label>
+        <label className={styles.formLabel}>
+          Certificate Name (Name for the E-Certificate)
+        </label>
         <input
           type="text"
           name="certificateName"

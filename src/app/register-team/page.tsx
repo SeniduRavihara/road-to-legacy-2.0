@@ -1,11 +1,21 @@
-import Agenda from "@/components/agenda/Agenda";
+"use client";
+
+import GameGuidelines from "@/components/games/GameGuidelines";
+import RegisterTeamForm from "@/components/games/RegisterTeamForm";
+import { useState } from "react";
 
 const RegisterTeam = () => {
+  const [showRegistration, setShowRegistration] = useState(false);
+
+  if (!showRegistration) {
+    return <GameGuidelines onProceed={() => setShowRegistration(true)} />;
+  }
+
   return (
     <div>
-      {/* <VantaBackgroundProvider>Hi</VantaBackgroundProvider> */}
-      <Agenda />
+      <RegisterTeamForm />
     </div>
   );
 };
+
 export default RegisterTeam;

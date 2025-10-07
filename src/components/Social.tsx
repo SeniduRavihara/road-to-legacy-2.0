@@ -13,7 +13,7 @@ const Social = () => {
       const user = await googleSignIn();
       if (!user) return;
 
-      console.log("SENU");
+      // console.log("SENU");
 
       const isAdmin = await getIsAdmin(user.uid);
 

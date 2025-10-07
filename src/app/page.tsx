@@ -1,21 +1,38 @@
 "use client";
 
-import AgendaSheet from "@/components/agenda/AgendaSheet";
-import FAQ from "@/components/FAQ/FAQ";
 import Navbar from "@/components/navbar/Navbar";
-import ContactSection from "@/components/sections/ContactSection";
-import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/header/Header";
-import HeroSection from "@/components/sections/HeroSection";
-import MemorisSection from "@/components/sections/MemorisSection";
-import MissionSection from "@/components/sections/MissionSection";
-import RoadToLegacy from "@/components/sections/RoadToLegacy";
-import VerticalTimeLine from "@/components/sections/VerticalTimeLine";
+import HeroSection from "@/components/sections/hero-section/HeroSection";
+import dynamic from "next/dynamic";
+
+// 🧠 Lazy (dynamic) imports for other sections
+const RoadToLegacy = dynamic(
+  () => import("@/components/sections/road-to-legacy/RoadToLegacy")
+);
+const MissionSection = dynamic(
+  () => import("@/components/sections/mission-section/MissionSection")
+);
+const MemorisSection = dynamic(
+  () => import("@/components/sections/MemorisSection")
+);
+const VerticalTimeLine = dynamic(
+  () => import("@/components/sections/VerticalTimeLine")
+);
+// const AgendaSheet = dynamic(() => import("@/components/agenda/AgendaSheet"));
+const FAQ = dynamic(() => import("@/components/sections/FAQ/FAQ"));
+const ContactSection = dynamic(
+  () => import("@/components/sections/contact-section/ContactSection")
+);
+const SponsersSection = dynamic(
+  () => import("@/components/sections/SponsersSection")
+);
+const Footer = dynamic(() => import("@/components/sections/Footer"));
+const ChatbotUI = dynamic(() => import("@/components/chatbot/ChatbotUI"));
 
 export default function Home() {
   return (
     <div className="bg-[#191b1f] text-white">
-      <div className="">
+      <div>
         <Header />
         <HeroSection />
       </div>
@@ -24,38 +41,27 @@ export default function Home() {
         <RoadToLegacy />
       </div>
 
-      {/* <div className="relative " id="about">
-        <Uni3Section />
-      </div> */}
-
       <MissionSection />
 
-      {/* <RTLBanner /> */}
-
-      <div className="md:h-[450px] h-[400px]">
+      <div className="md:h-[450px] h-[500px] xsm:h-[400px] mt-20 mb-20">
         <MemorisSection />
       </div>
 
-     
-        <VerticalTimeLine />
-     
+      <VerticalTimeLine />
 
-      <AgendaSheet>
-        <h1>Full Agenda</h1>
-      </AgendaSheet>
-      {/* <SessionsStack /> */}
-
-      {/* <SpeakerSection /> */}
+      {/* <div className="flex items-center justify-center w-full relative -top-6">
+        <AgendaSheet />
+      </div> */}
 
       <FAQ />
-
-      {/* <TestaimonialSection /> */}
-
+      <SponsersSection />
       <ContactSection />
-
       <Footer />
 
-      <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-[1000]">
+      {/* <AiChatIcon /> */}
+      <ChatbotUI />
+
+      <div className="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-[999]">
         <Navbar />
       </div>
     </div>

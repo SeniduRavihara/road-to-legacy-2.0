@@ -1,4 +1,4 @@
-import { AdminDataType, FormDataType } from "@/types";
+import { AdminDataType, FormDataType, GameResult } from "@/types";
 import { signInWithPopup, signOut, User } from "firebase/auth";
 import {
   collection,
@@ -146,6 +146,56 @@ export const AdminToggle = async (id: string, isAdmin: boolean) => {
 
 // --------------------------------------------------------------------
 
+export const ArrivalConfirmationToggle = async (
+  email: string,
+  confirmArrival: boolean
+) => {
+  try {
+    const id = await getIdfromEmail(email);
+
+    // console.log("Delegate ID:", id);
+
+    if (id) {
+      const delegateDocRef = doc(db, "delegates", id);
+      await updateDoc(delegateDocRef, {
+        confirmArrival: confirmArrival, // ✅ just set it directly
+        confirmedDateTime: confirmArrival ? new Date() : null, // ✅ set the date and time
+      });
+      console.log("Arrival confirmation updated successfully.");
+    } else {
+      console.log("No delegate found with this email.");
+    }
+  } catch (error) {
+    console.error("Error updating arrival confirmation:", error);
+  }
+};
+
+// --------------------------------------------------------------------
+
+export const getIdfromEmail = async (email: string) => {
+  try {
+    const q = query(
+      collection(db, "delegates"), // 👈 your collection name here
+      where("email", "==", email)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return null; // not found
+    }
+
+    // Assuming you want the first matching document's ID
+    const docSnap = querySnapshot.docs[0];
+    return docSnap.id; // 🔥 Return document ID
+  } catch (error) {
+    console.error("Error getting ID from email:", error);
+    return null;
+  }
+};
+
+// --------------------------------------------------------------------
+
 export const registerDelegates = async (formData: FormDataType) => {
   try {
     const delegatesQuery = query(
@@ -161,10 +211,19 @@ export const registerDelegates = async (formData: FormDataType) => {
 
     const documentRef = doc(collection(db, "delegates"));
 
+    const confirmationUrl = `https://roadtolegacy.team/confirm?email=${encodeURIComponent(formData.email)}&name=${encodeURIComponent(formData.firstName)}&uni=${encodeURIComponent(formData.university)}`;
+    const certificateUrl = `https://roadtolegacy.team/certificate?certificateName=${encodeURIComponent(formData.certificateName)}`;
+
     await setDoc(documentRef, {
       ...formData,
       arrived: false,
+      confirmArrival: false,
+      selected: false,
       createdAt: new Date().toISOString(),
+      confirmationUrl,
+      certificateUrl,
+      confirmationEmailSended: false,
+      certificateSended: false,
     });
 
     console.log("Delegate registered successfully.");
@@ -200,5 +259,99 @@ export const sendEmail = async (to: string, subject: string, html: string) => {
     console.error("Error sending email:", data);
   } else {
     console.log("Email sent successfully:", data);
+  }
+};
+
+// -----------------------------  GAME APIS  ---------------------------------
+// ---------------------------------------------------------------------------
+
+export const registerTeam = async (teamData: {
+  teamName: string;
+  leaderEmail: string;
+  members: string[];
+}) => {
+  try {
+    const teamRef = doc(db, "teams", teamData.teamName);
+
+    const existingTeam = await getDoc(teamRef);
+
+    if (existingTeam.exists()) {
+      return { success: false, message: "Team already registered" };
+    }
+
+    await setDoc(teamRef, {
+      name: teamData.teamName,
+      leaderEmail: teamData.leaderEmail,
+      members: teamData.members.filter((email) => email !== ""),
+      createdAt: new Date().toISOString(),
+    });
+    console.log("Team registered with ID: ", teamRef.id);
+
+    return { success: true };
+  } catch (e) {
+    console.error("Error creating document: ", e);
+    return { success: false, message: "Failed to register team" };
+  }
+};
+
+// ------------------------------------------------------------------------
+
+export const loginTeam = async (loginData: {
+  teamName: string;
+  email: string;
+}) => {
+  try {
+    const team = await getTeamData(loginData.teamName);
+    if (!team) {
+      return { success: false, message: "Team not found" };
+    }
+
+    if (team.leaderEmail === loginData.email) {
+      return { success: true, leader: true };
+    } else if (team.members.includes(loginData.email)) {
+      return { success: true, leader: false };
+    } else {
+      return { success: false, message: "You are not a member of this team" };
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    return { success: false, message: "An error occurred during login" };
+  }
+};
+
+// ------------------------------------------------------------------------
+
+export const getTeamData = async (teamName: string) => {
+  try {
+    const teamRef = doc(db, "teams", teamName);
+    const teamDoc = await getDoc(teamRef);
+    if (teamDoc.exists()) {
+      return teamDoc.data();
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  } catch (e) {
+    console.error("Error getting document: ", e);
+    return null;
+  }
+};
+
+// ------------------------------------------------------------------------
+
+export const setGameResultsApi = async (
+  teamName: string,
+  result: GameResult[],
+  totalTimeTaken: number
+) => {
+  try {
+    const gameResultsRef = doc(db, "teams", teamName);
+
+    console.log("Game Results:", result);
+
+    await updateDoc(gameResultsRef, { gameResults: result, totalTimeTaken });
+    console.log("Game results updated successfully.");
+  } catch (error) {
+    console.error("Error updating game results:", error);
   }
 };
