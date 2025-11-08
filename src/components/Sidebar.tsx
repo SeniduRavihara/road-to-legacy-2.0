@@ -1,9 +1,9 @@
 "use client";
 
 import { logout } from "@/firebase/api";
-import { Dices, Home, LogOut, ScanQrCode, User } from "lucide-react";
+import { BarChart2, Dices, Home, LogOut, ScanQrCode, User } from "lucide-react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FaUserShield } from "react-icons/fa";
 import ScanTicket from "./ScanTicket";
 
@@ -35,6 +35,16 @@ const Sidebar = () => {
         <User
           className={`w-8 h-8 sm:w-12 sm:h-12 sm:p-2 p-1  rounded-2xl cursor-pointer duration-300 flex items-center justify-center${
             isActive("/admin")
+              ? "text-white bg-blue-600"
+              : "text-[#c7c7c7] sm:hover:bg-blue-600"
+          }`}
+        />
+      </Link>
+
+      <Link href="/admin/analytics">
+        <BarChart2
+          className={`w-8 h-8 sm:w-12 sm:h-12 sm:p-2 p-1  rounded-2xl cursor-pointer duration-300 flex items-center justify-center${
+            isActive("/admin/analytics")
               ? "text-white bg-blue-600"
               : "text-[#c7c7c7] sm:hover:bg-blue-600"
           }`}

@@ -92,6 +92,7 @@ export type TeamDataType = {
 };
 
 export type DelegatesExportType = {
+  createdAt: string | number | Date;
   id: string;
   firstName: string;
   email: string;

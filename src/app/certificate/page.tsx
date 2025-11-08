@@ -27,6 +27,7 @@ export default function ConfirmPage() {
 
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id");
+      const isOCMember = params.get("oc");
 
       if (!id) {
         setStatus("error");
@@ -34,6 +35,34 @@ export default function ConfirmPage() {
       }
 
       setCertificateId(id);
+
+      if (isOCMember && isOCMember === "true") {
+        try {
+          // Fetch document from Firebase using the ID
+          const docRef = doc(db, "ocmembers", id); // Adjust collection name as needed
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data() as CertificateData;
+
+            console.log(data);
+
+            if (data.certificateURL) {
+              setCertificateData(data);
+              setStatus("success");
+            } else {
+              setStatus("error");
+            }
+          } else {
+            setStatus("error");
+          }
+        } catch (error) {
+          console.error("Error fetching certificate:", error);
+          setStatus("error");
+        }finally{
+          return
+        }
+      }
 
       try {
         // Fetch document from Firebase using the ID

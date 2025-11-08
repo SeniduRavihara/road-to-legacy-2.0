@@ -12,7 +12,7 @@ module.exports = {
     policies: [
       {
         userAgent: "*",
-        disallow: ["/admin", "/register-team", "/confirm", "/game"],
+        disallow: ["/admin", "/register-team", "/confirm", "/game", "/analytics"],
         allow: ["/", "/register"],
       },
     ],

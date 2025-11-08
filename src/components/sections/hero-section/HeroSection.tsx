@@ -3,19 +3,17 @@
 import FlipCounter from "@/components/flip-count/FlipCounter";
 import Animated2 from "@/components/home/animated-road-to-legacy/Animated2";
 import AnimatedRoadToLegacy from "@/components/home/animated-road-to-legacy/AnimatedRoadToLegacy";
-import RegisterButton from "@/components/home/register-button/RegisterButton";
 import { useLoading } from "@/context/LoadingContext";
 import ExportedImage from "next-image-export-optimizer";
 import { useEffect, useRef, useState } from "react";
 import "./HeroSection.css";
-import GameRegisterButton from "@/components/home/register-button/GameRegisterButton";
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const { loading } = useLoading();
   const [animationEnabled, setAnimationEnabled] = useState<boolean>(false);
-  const [gameOpen, ] = useState(false);
+  // const [gameOpen] = useState(false);
 
   // useEffect(() => {
   //   const targetDateTime = new Date("2025-05-31T00:55:00");
@@ -101,11 +99,27 @@ const HeroSection = () => {
         ))}
       </p>
 
-      <div
+      {/* Event Success Video */}
+      <div className="z-10 mt-8 flex justify-center w-full">
+        <video
+          src="/videos/video.mp4"
+          autoPlay
+          loop
+          muted
+          controls
+          // poster="/images/herobackground.png"
+          className="rounded-2xl shadow-lg border border-[#23272f] max-w-full w-[90vw] md:w-[600px] h-auto bg-black"
+          style={{ background: "rgba(25,27,31,0.7)" }}
+        >
+          Sorry, your browser does not support embedded videos.
+        </video>
+      </div>
+
+      {/* <div
         className={`z-10 mt-4 md:mt-8 ${animationEnabled ? "register-button-container" : "invisible"}`}
       >
         {gameOpen ? <GameRegisterButton /> : <RegisterButton />}
-      </div>
+      </div> */}
 
       <FlipCounter />
 

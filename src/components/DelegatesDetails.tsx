@@ -2,14 +2,12 @@
 
 import { sendEmail } from "@/firebase/api";
 import { db } from "@/firebase/config";
-import { convertTimestampToDate, createCertificateHTML } from "@/lib/utils";
+import { convertTimestampToDate, createOCCertificateHTML } from "@/lib/utils";
 import { DelegatesExportType, DelegatesType } from "@/types";
 import {
   collection,
   doc,
   onSnapshot,
-  orderBy,
-  query,
   updateDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -39,17 +37,17 @@ const DelegatesDetails = () => {
   useEffect(() => {
     const collectionRef = collection(db, "delegates");
 
-    const q = query(collectionRef, orderBy("createdAt", "asc"));
+    // const q = query(collectionRef, orderBy("createdAt", "asc"));
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const unsubscribe = onSnapshot(collectionRef, (querySnapshot) => {
       const usersDataArr = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       })) as DelegatesExportType[];
 
-      // console.log(usersDataArr);
+      console.log(usersDataArr.filter(user=> user.confirmArrival));
 
-      setDelegatesData(usersDataArr.filter((delegate) => delegate.arrived));
+      setDelegatesData(usersDataArr);
     });
 
     return unsubscribe;
@@ -136,16 +134,15 @@ const DelegatesDetails = () => {
       await sendEmail(
         selectedDelegate.email,
         "Certificate of Participation - Road To Legacy 2.0",
-        createCertificateHTML(
-          selectedDelegate.firstName,
-          "Road To Legacy 2.0",
-          "May 31, 2025",
-          `https://roadtolegacy.team/certificate?id=${encodeURIComponent(selectedDelegate.id)}`
+        createOCCertificateHTML(
+          selectedDelegate.certificateName,
+          selectedDelegate.role || "",
+          `https://roadtolegacy.team/certificate?id=${encodeURIComponent(selectedDelegate.id)}&oc=true`
         )
       );
 
       // Update Firestore after sending the email
-      const delegateDocRef = doc(db, "delegates", selectedDelegate.id);
+      const delegateDocRef = doc(db, "ocmembers", selectedDelegate.id);
       await updateDoc(delegateDocRef, {
         certificateSended: true,
       });

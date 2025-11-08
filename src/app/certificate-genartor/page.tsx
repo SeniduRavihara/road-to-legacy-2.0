@@ -1,39 +1,26 @@
 "use client";
 
 import { Cloud, ExternalLink, Pause, Settings } from "lucide-react";
-import { useRef, useState, ChangeEvent } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
 // We need to import XLSX library at the top
 import { db, storage } from "@/firebase/config";
-import { getDownloadURL, ref, uploadString, StorageReference } from "firebase/storage";
+import { collection, getDocs, query, updateDoc, where } from "firebase/firestore";
+import {
+  getDownloadURL,
+  ref,
+  StorageReference,
+  uploadString,
+} from "firebase/storage";
 import * as XLSX from "xlsx";
-import { doc, updateDoc } from "firebase/firestore";
 
 // Type Definitions
 interface Delegate {
   id: string;
-  firstName: string;
-  lastName: string;
   certificateName: string;
   email: string;
   contactNumber: string;
-  emergencyContact: string;
-  nic: string;
-  university: string;
-  faculty: string;
-  department: string;
-  universityRegNo: string;
-  alYear: string;
-  mealPreference: string;
-  hearAbout: string;
-  hearAboutOther: string;
-  suggestions: string;
-  arrived: boolean;
-  confirmArrival: boolean;
   confirmedDateTime: string;
-  selected: boolean;
-  confirmationEmailSended: boolean;
-  confirmationUrl: string;
 }
 
 interface CertificateConfig {
@@ -74,115 +61,68 @@ const CertificateGenerator: React.FC = () => {
   const [delegates, setDelegates] = useState<Delegate[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
-  const [uploadedCertificates, setUploadedCertificates] = useState<UploadResult[]>([]);
+  const [uploadedCertificates, setUploadedCertificates] = useState<
+    UploadResult[]
+  >([]);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [certificateConfig, setCertificateConfig] = useState<CertificateConfig>({
-    width: 1200,
-    height: 800,
-    nameX: 650, // This will be the center X position
-    nameY: 490,
-    fontSize: 48,
-    fontFamily: "serif",
-    textColor: "#000000",
-    textAlign: "center", // Always center-align the text
-    eventName: "Road To Legacy 2.0",
-    eventDate: "May 31, 2025",
-  });
-  const [backgroundImage, setBackgroundImage] = useState<HTMLImageElement | null>(null);
+  const [certificateConfig, setCertificateConfig] = useState<CertificateConfig>(
+    {
+      width: 1200,
+      height: 800,
+      nameX: 650, // This will be the center X position
+      nameY: 490,
+      fontSize: 48,
+      fontFamily: "serif",
+      textColor: "#000000",
+      textAlign: "center", // Always center-align the text
+      eventName: "Road To Legacy 2.0",
+      eventDate: "May 31, 2025",
+    }
+  );
+  const [backgroundImage, setBackgroundImage] =
+    useState<HTMLImageElement | null>(null);
   const [firebaseConfig, setFirebaseConfig] = useState<FirebaseConfig>({
     enabled: true,
     folderPath: "certificates",
     generatePublicLinks: true,
   });
   const canvasRef = useRef<HTMLCanvasElement>(null);
-//   const fileInputRef = useRef<HTMLInputElement>(null);
+  //   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Sample delegate data
   const sampleDelegates: Delegate[] = [
     {
-      id: "1",
-      firstName: "John",
-      lastName: "Doe",
+      id: "john@example.com",
       certificateName: "John Doe",
       email: "john@example.com",
-      contactNumber: "",
-      emergencyContact: "",
-      nic: "",
-      university: "",
-      faculty: "",
-      department: "",
-      universityRegNo: "",
-      alYear: "",
-      mealPreference: "",
-      hearAbout: "",
-      hearAboutOther: "",
-      suggestions: "",
-      arrived: false,
-      confirmArrival: false,
-      confirmedDateTime: "",
-      selected: false,
-      confirmationEmailSended: false,
-      confirmationUrl: "",
+      contactNumber: "+94757711901",
+      confirmedDateTime: "2025-06-22 22:22:03",
     },
     {
-      id: "2",
-      firstName: "Jane",
-      lastName: "Smith",
+      id: "jane@example.com",
       certificateName: "Jane Smith",
       email: "jane@example.com",
-      contactNumber: "",
-      emergencyContact: "",
-      nic: "",
-      university: "",
-      faculty: "",
-      department: "",
-      universityRegNo: "",
-      alYear: "",
-      mealPreference: "",
-      hearAbout: "",
-      hearAboutOther: "",
-      suggestions: "",
-      arrived: false,
-      confirmArrival: false,
-      confirmedDateTime: "",
-      selected: false,
-      confirmationEmailSended: false,
-      confirmationUrl: "",
+      contactNumber: "0704300340",
+      confirmedDateTime: "2025-06-22 22:32:24",
     },
     {
-      id: "3",
-      firstName: "Bob",
-      lastName: "Johnson",
+      id: "bob@example.com",
       certificateName: "Bob Johnson",
       email: "bob@example.com",
-      contactNumber: "",
-      emergencyContact: "",
-      nic: "",
-      university: "",
-      faculty: "",
-      department: "",
-      universityRegNo: "",
-      alYear: "",
-      mealPreference: "",
-      hearAbout: "",
-      hearAboutOther: "",
-      suggestions: "",
-      arrived: false,
-      confirmArrival: false,
-      confirmedDateTime: "",
-      selected: false,
-      confirmationEmailSended: false,
-      confirmationUrl: "",
+      contactNumber: "07797710811",
+      confirmedDateTime: "2025-06-22 22:40:30",
     },
   ];
 
-  const handleBackgroundUpload = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleBackgroundUpload = (
+    event: ChangeEvent<HTMLInputElement>
+  ): void => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
         const result = e.target?.result;
-        if (typeof result === 'string') {
+        if (typeof result === "string") {
           const img = new Image();
           img.onload = () => {
             setBackgroundImage(img);
@@ -200,7 +140,9 @@ const CertificateGenerator: React.FC = () => {
     }
   };
 
-  const handleDelegatesUpload = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleDelegatesUpload = (
+    event: ChangeEvent<HTMLInputElement>
+  ): void => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -222,32 +164,22 @@ const CertificateGenerator: React.FC = () => {
             // Map the Excel columns to delegate properties
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const parsedDelegates: Delegate[] = jsonData.map((row: any) => ({
-              id: row["Delegate ID"] || "",
-              firstName: row["First Name"] || "",
-              lastName: row["Last Name"] || "",
-              certificateName: row["Certificate Name"] || "",
-              email: row["Email"] || "",
-              contactNumber: row["Contact Number"] || "",
-              emergencyContact: row["Emergency Contact"] || "",
-              nic: row["NIC"] || "",
-              university: row["University"] || "",
-              faculty: row["Faculty"] || "",
-              department: row["Department"] || "",
-              universityRegNo: row["University Reg. No"] || "",
-              alYear: row["A/L Year"] || "",
-              mealPreference: row["Meal Preference"] || "",
-              hearAbout: row["Heard About"] || "",
-              hearAboutOther: row["Heard About (Other)"] || "",
-              suggestions: row["Suggestions"] || "",
-              arrived: row["Arrived"] === "Yes",
-              confirmArrival: row["Confirm Arrival"] === "Yes",
-              confirmedDateTime: row["Confirmed Date Time"] || "",
-              selected: row["Selected"] === "Yes",
-              confirmationEmailSended: row["Confirmation Email Sent"] === "Yes",
-              confirmationUrl: row["Confirmation URL"] || "",
+              id: (row["Email address"] || row["Email Address2"] || "")
+                .toString()
+                .trim(),
+              certificateName: (row["Certificate Name"] || "")
+                .toString()
+                .trim(),
+              email: (row["Email address"] || row["Email Address2"] || "")
+                .toString()
+                .trim(),
+              contactNumber: (row["Contact Number"] || "").toString().trim(),
+              confirmedDateTime: (row["Timestamp"] || "").toString().trim(),
             }));
 
             setDelegates(parsedDelegates);
+            console.log("parsedDelegates", parsedDelegates);
+
             setCurrentIndex(0);
             alert(
               `Successfully loaded ${parsedDelegates.length} delegates from Excel file`
@@ -262,13 +194,15 @@ const CertificateGenerator: React.FC = () => {
     }
   };
 
-  const generateSingleCertificate = async (delegate: Delegate): Promise<CertificateData> => {
+  const generateSingleCertificate = async (
+    delegate: Delegate
+  ): Promise<CertificateData> => {
     return new Promise((resolve) => {
       const canvas = canvasRef.current;
       if (!canvas) {
         throw new Error("Canvas not found");
       }
-      
+
       const ctx = canvas.getContext("2d");
       if (!ctx) {
         throw new Error("Canvas context not found");
@@ -315,9 +249,7 @@ const CertificateGenerator: React.FC = () => {
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
-      const nameText =
-        delegate.certificateName ||
-        delegate.firstName + " " + delegate.lastName;
+      const nameText = delegate.certificateName;
       ctx.fillText(nameText, certificateConfig.nameX, certificateConfig.nameY);
 
       // Get data URL for Firebase upload
@@ -326,20 +258,20 @@ const CertificateGenerator: React.FC = () => {
       resolve({
         delegate,
         dataURL,
-        filename: `${delegate.certificateName || delegate.firstName}_certificate.png`,
+        filename: `${delegate.certificateName}_certificate.png`,
       });
     });
   };
 
   // Firebase upload function
-  const uploadToFirebase = async (certificateData: CertificateData): Promise<UploadResult> => {
+  const uploadToFirebase = async (
+    certificateData: CertificateData
+  ): Promise<UploadResult> => {
     try {
       // For demo purposes, we'll simulate the Firebase upload
       // In real implementation, uncomment and use the actual Firebase code:
 
-      const certificateName =
-        certificateData.delegate.certificateName ||
-        `${certificateData.delegate.firstName}_${certificateData.delegate.lastName}`;
+      const certificateName = certificateData.delegate.certificateName;
 
       // Upload image to Firebase Storage
       const storageRef: StorageReference = ref(
@@ -352,10 +284,26 @@ const CertificateGenerator: React.FC = () => {
       // Get the public URL of the uploaded image
       const downloadURL = await getDownloadURL(storageRef);
 
-      const delegateDocRef = doc(db, "delegates", certificateData.delegate.id);
-      await updateDoc(delegateDocRef, {
-        certificateURL: downloadURL,
-      });
+      const delegatesRef = collection(db, "delegates");
+      const q = query(
+        delegatesRef,
+        where("email", "==", certificateData.delegate.email)
+      );
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        // Update all matching documents (should be only one)
+        for (const docSnap of querySnapshot.docs) {
+          await updateDoc(docSnap.ref, {
+            certificateURL: downloadURL,
+          });
+        }
+      } else {
+        console.warn(
+          "No delegate found with email:",
+          certificateData.delegate.email
+        );
+      }
 
       return {
         success: true,
@@ -424,7 +372,7 @@ const CertificateGenerator: React.FC = () => {
           success: false,
           error: error instanceof Error ? error.message : "Unknown error",
           delegate: delegates[i],
-          filename: `${delegates[i].firstName}_certificate.png`,
+          filename: `${delegates[i].certificateName}_certificate.png`,
         });
       }
     }
@@ -452,11 +400,11 @@ const CertificateGenerator: React.FC = () => {
 
   const downloadCertificatesList = (): void => {
     const csvContent = [
-      ["Name", "Email", "Certificate URL", "Upload Date"],
+      ["Name", "Email", "Contact Number", "Certificate URL", "Upload Date"],
       ...uploadedCertificates.map((cert) => [
-        cert.delegate.certificateName ||
-          `${cert.delegate.firstName} ${cert.delegate.lastName}`,
+        cert.delegate.certificateName,
         cert.delegate.email,
+        cert.delegate.contactNumber,
         cert.url || "",
         cert.uploadedAt || "",
       ]),
@@ -473,14 +421,20 @@ const CertificateGenerator: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
-  const handleConfigChange = (field: keyof CertificateConfig, value: string | number): void => {
+  const handleConfigChange = (
+    field: keyof CertificateConfig,
+    value: string | number
+  ): void => {
     setCertificateConfig((prev) => ({
       ...prev,
       [field]: value,
     }));
   };
 
-  const handleFirebaseConfigChange = (field: keyof FirebaseConfig, value: string | boolean): void => {
+  const handleFirebaseConfigChange = (
+    field: keyof FirebaseConfig,
+    value: string | boolean
+  ): void => {
     setFirebaseConfig((prev) => ({
       ...prev,
       [field]: value,
@@ -563,7 +517,10 @@ const CertificateGenerator: React.FC = () => {
                   type="number"
                   value={certificateConfig.fontSize}
                   onChange={(e) =>
-                    handleConfigChange("fontSize", parseInt(e.target.value) || 0)
+                    handleConfigChange(
+                      "fontSize",
+                      parseInt(e.target.value) || 0
+                    )
                   }
                   className="w-full px-2 py-1 border border-gray-300 rounded text-sm"
                 />
@@ -681,27 +638,15 @@ const CertificateGenerator: React.FC = () => {
                   <tr className="border-b border-green-200">
                     <th className="text-left py-2">Name</th>
                     <th className="text-left py-2">Email</th>
-                    <th className="text-left py-2">Firebase URL</th>
+                    <th className="text-left py-2">Contact Number</th>
                   </tr>
                 </thead>
                 <tbody>
                   {uploadedCertificates.map((cert, index) => (
                     <tr key={index} className="border-b border-green-100">
-                      <td className="py-1">
-                        {cert.delegate.certificateName ||
-                          `${cert.delegate.firstName} ${cert.delegate.lastName}`}
-                      </td>
+                      <td className="py-1">{cert.delegate.certificateName}</td>
                       <td className="py-1">{cert.delegate.email}</td>
-                      <td className="py-1">
-                        <a
-                          href={cert.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline text-xs"
-                        >
-                          View Certificate
-                        </a>
-                      </td>
+                      <td className="py-1">{cert.delegate.contactNumber}</td>
                     </tr>
                   ))}
                 </tbody>
